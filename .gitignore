@@ -1,37 +1,47 @@
-# Laravel-specific directories and files
-# /vendor/
-/node_modules/
-/public/hot/
+/node_modules
+/public/build
+/public/hot
 /public/storage
 /storage/*.key
-/storage/pail
+/vendor
 .env
 .env.backup
 .env.production
-
-# Compile files & logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Testing cache & coverage
-/.phpunit.cache/
 .phpunit.result.cache
-/tests/coverage/
-
-# IDE and Editor workspace directories
-/.idea/
-/.vscode/
-/.fleet/
-/.nova/
-/.zed/
-.phpactor.json
-
-# Operating System specific files
-.DS_Store
-Thumbs.db
 Homestead.json
 Homestead.yaml
-auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+
+# ==========================================
+# PROTECT LIVE DATA (User Uploads, Sessions, Caches, Logs)
+# ==========================================
+# Do not push local database or environment configs
+*.sqlite
+*.sqlite3
+db.sqlite3
+
+# Ignore all user-uploaded files in storage
+/storage/app/public/*
+!/storage/app/public/.gitignore
+
+# Ignore all framework generated files (sessions, cache, views)
+/storage/framework/cache/data/*
+!/storage/framework/cache/data/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+
+# Ignore all logs (so you don't overwrite live server logs)
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# If you have any custom upload folders inside public
+/public/uploads/*
+!/public/uploads/.gitignore

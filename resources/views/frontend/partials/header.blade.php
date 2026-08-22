@@ -1,7 +1,59 @@
-<!-- ===================== UNIFIED HEADER (MATCHING RANISAHAB LAYOUT) ===================== -->
 <!-- Google Fonts for Header -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
-<header class="pl-header" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 0.8rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+
+<!-- ===================== DESKTOP HEADER (d-none d-lg-block) ===================== -->
+<header class="d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 1rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+  <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
+    
+    <!-- LEFT: Logo -->
+    <a href="{{ route('home') }}" class="d-flex align-items-center text-decoration-none gap-2" style="flex: 1;">
+      <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 60px; border-radius: 6px; object-fit: contain;">
+      <div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.2rem; color: #cc5500; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap;">
+        Mahadev Tractor
+      </div>
+    </a>
+
+    <!-- CENTER: Search Bar -->
+    <div style="flex: 2; padding: 0 40px;">
+      <form action="{{ route('shop') }}" method="GET" class="position-relative">
+        <input type="text" name="search" class="form-control" placeholder="Search for tractor accessories, hoods, music systems..." style="border-radius: 30px; padding: 12px 20px; border: 1px solid #ddd; background: #f8f9fa;">
+        <button type="submit" class="btn position-absolute top-50 translate-middle-y" style="right: 10px; color: #cc5500;">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- RIGHT: Icons & Menu -->
+    <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 20px;">
+      <a href="{{ route('home') }}" class="text-dark text-decoration-none fw-bold" style="font-size: 1rem;">Home</a>
+      <a href="{{ route('shop') }}" class="text-dark text-decoration-none fw-bold" style="font-size: 1rem;">Shop</a>
+      
+      @auth
+        <a href="{{ route('dashboard') }}" class="text-dark position-relative" style="font-size: 1.3rem;"><i class="bi bi-person"></i></a>
+      @else
+        <a href="{{ route('login') }}" class="text-dark position-relative" style="font-size: 1.3rem;"><i class="bi bi-person"></i></a>
+      @endauth
+
+      <a href="{{ route('wishlist.index') }}" class="text-dark position-relative" style="font-size: 1.3rem;">
+        <i class="bi bi-heart"></i>
+        <span class="position-absolute d-flex align-items-center justify-content-center" data-wishlist-badge style="background: #f26522; color: #fff; font-size: 0.65rem; font-weight: 700; border-radius: 50%; width: 18px; height: 18px; top: -6px; right: -8px; {{ session()->has('wishlist') && count(session('wishlist')) > 0 ? 'display:flex !important;' : 'display:none !important;' }}">
+          {{ session()->has('wishlist') ? count(session('wishlist')) : 0 }}
+        </span>
+      </a>
+
+      <a href="{{ route('cart.index') }}" class="text-dark position-relative" style="font-size: 1.3rem;">
+        <i class="bi bi-bag"></i>
+        <span class="position-absolute d-flex align-items-center justify-content-center" data-cart-badge style="background: #f26522; color: #fff; font-size: 0.65rem; font-weight: 700; border-radius: 50%; width: 18px; height: 18px; top: -6px; right: -8px; {{ session()->has('cart') && array_sum(array_column(session('cart'), 'quantity')) > 0 ? 'display:flex !important;' : 'display:none !important;' }}">
+          {{ session()->has('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+        </span>
+      </a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ===================== MOBILE HEADER (d-lg-none) ===================== -->
+<header class="pl-header d-lg-none" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 0.8rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
   <div class="container-fluid px-3 px-xl-5 d-flex align-items-center justify-content-between">
     
     <!-- LEFT COLUMN: Menu Button -->

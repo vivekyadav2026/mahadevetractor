@@ -19,6 +19,23 @@
   /* Layout tweaks */
   .pl-main-container { max-width: 1500px; margin: 0 auto; }
   
+  /* HERO BANNER STYLES */
+  .pl-hero-custom {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+      border-radius: 16px;
+      padding: 3rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  }
+  .god-text { color: #f26522; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; margin-bottom: 12px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 8px; }
+  .pl-hero-text h1 { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
+  .pl-hero-text .highlight { color: #00bcd4; }
+  .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; height: 100%; max-height: 400px; }
+  .pl-hero-carousel img { width: 100%; height: 100%; object-fit: cover; }
+  
   .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; }
   .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; padding: 12px; border: 2px solid transparent; }
   .cat-circle:hover { transform: translateY(-5px); border-color: #00bcd4; }
@@ -49,6 +66,12 @@
   .pl-product-card:hover .btn-add, .btn-add:hover { background: #00bcd4; color: #fff; border-color: #00bcd4; }
 
   @media(max-width: 768px) {
+      .pl-hero-custom { flex-direction: column; text-align: center; padding: 2rem 1rem; }
+      .pl-hero-text { margin-bottom: 2rem; max-width: 100% !important; padding-right: 0 !important; }
+      .pl-hero-text h1 { font-size: 2rem; }
+      .god-text { justify-content: center; }
+      .pl-hero-carousel-wrap { max-width: 100% !important; }
+
       .pl-product-card { padding: 8px; border-radius: 8px; }
       .pl-card-img { margin-bottom: 10px; }
       .pl-card-title { font-size: 0.75rem; margin-bottom: 4px; }
@@ -61,45 +84,52 @@
 
 @include('frontend.partials.header')
 
-<!-- ===================== PREMIUM FULL-WIDTH BANNER ===================== -->
-<section class="mb-4">
-  <div id="homeCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
-      <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2"></button>
-    </div>
-    <div class="carousel-inner" style="max-height: 450px;">
-      <div class="carousel-item active">
-        <img src="{{ asset('images/indian_tractor_1.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Accessories">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('images/slider_new_1.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Modification">
-      </div>
-      <div class="carousel-item">
-        <img src="{{ asset('images/slider_new_2.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Music Systems">
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-</section>
+<main class="container-fluid px-3 px-xl-5 pl-main-container py-4">
 
-<main class="container-fluid px-3 px-xl-5 pl-main-container py-2">
-
-  <!-- ===================== GOD TEXT ===================== -->
-  <div class="text-center mb-5">
-      <div class="d-inline-flex align-items-center gap-2" style="background: #fff; padding: 10px 24px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); color: #cc5500; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; font-family: 'Cinzel', serif;">
+  <!-- ===================== PREMIUM HERO BANNER ===================== -->
+  <section class="pl-hero-custom">
+    <div class="pl-hero-text" style="flex: 1; max-width: 45%; padding-right: 20px;">
+      
+      <!-- GOD ELEMENT -->
+      <div class="god-text">
          <img src="{{ asset('images/mahadev_logo.jpg') }}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
          ॥ हर हर महादेव ॥
       </div>
-  </div>
+
+      <h1>भारत का सबसे भरोसेमंद<br><span class="highlight">वाहन एक्सेसरीज़</span> स्टोर</h1>
+      <p style="font-size: 1.1rem; color: #666; margin: 1.5rem 0; font-weight: 500;">
+        ट्रैक्टर हुड, बम्पर, साइलेंसर, और म्यूजिक सिस्टम की विशाल रेंज। बेहतरीन क्वालिटी और सबसे अच्छे दाम!
+      </p>
+      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
+    </div>
+    
+    <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">
+      <div id="homeCarousel" class="carousel slide pl-hero-carousel" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active"></button>
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner h-100">
+          <div class="carousel-item active h-100">
+            <img src="{{ asset('images/indian_tractor_1.jpg') }}" alt="Indian Decorated Tractor">
+          </div>
+          <div class="carousel-item h-100">
+            <img src="{{ asset('images/slider_new_1.jpg') }}" alt="Modern Custom Tractor">
+          </div>
+          <div class="carousel-item h-100">
+            <img src="{{ asset('images/slider_new_2.jpg') }}" alt="Tractor Audio System">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
+        </button>
+      </div>
+    </div>
+  </section>
 
   <!-- ===================== CATEGORY CIRCLES ===================== -->
   <section class="mb-5">
