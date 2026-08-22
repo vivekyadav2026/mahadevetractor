@@ -1,0 +1,9 @@
+{
+  "appId": "com.pepperlemon.app",
+  "appName": "Pepperlemon",
+  "webDir": "www",
+  "server": {
+    "url": "https://pepperlemon.co",
+    "cleartext": true
+  }
+}

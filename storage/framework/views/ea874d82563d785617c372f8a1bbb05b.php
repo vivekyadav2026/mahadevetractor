@@ -1,0 +1,141 @@
+<!-- ===================== DESKTOP NAVBAR ===================== -->
+<header class="pl-navbar d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid var(--pl-border); padding: 0.4rem 0;">
+  <div class="container d-flex align-items-center justify-content-between">
+    
+    <!-- LEFT COLUMN: Search bar -->
+    <div class="d-flex align-items-center" style="flex: 1; max-width: 320px;">
+      <form action="<?php echo e(route('shop')); ?>" method="GET" class="position-relative w-100" style="width: 100%;">
+        <input type="search" name="search" class="form-control" placeholder="Search products, categories..." value="<?php echo e(request('search')); ?>" autocomplete="off"
+               style="border-radius: 30px; border: 1px solid var(--pl-border); background: #f5faf7; color: var(--pl-ink); padding: 0.55rem 2.8rem 0.55rem 1.2rem; font-size: 0.82rem; outline: none; width: 100%; box-shadow: none;">
+        <button type="submit" class="position-absolute" style="right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--pl-muted); font-size: 1rem; cursor: pointer; padding: 0;">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- CENTER COLUMN: Centered Logo -->
+    <div class="text-center d-flex justify-content-center align-items-center" style="flex: 1;">
+      <a href="<?php echo e(route('home')); ?>" class="d-inline-block text-decoration-none">
+        <img src="<?php echo e(asset('images/mahadev_logo.jpg')); ?>" alt="Mahadev Tractor Modification Logo" style="height: 58px; width: auto; border-radius: 8px; display: block; margin: 0 auto; object-fit: contain;">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--pl-primary-dark); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 6px; display: block; line-height: 1.2;">Mahadev Tractor</span>
+      </a>
+    </div>
+
+    <!-- RIGHT COLUMN: Actions (Account, Wishlist, Bag) -->
+    <div class="d-flex align-items-center justify-content-end gap-4" style="flex: 1; max-width: 360px;">
+      
+      <!-- Account Link -->
+      <?php if(auth()->guard()->check()): ?>
+        <div class="dropdown">
+          <a href="#" class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--pl-ink); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
+            <i class="bi bi-person" style="font-size: 1.25rem; color: var(--pl-primary);"></i>
+            <span>Account</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="avatarDropdown" style="border-radius: 12px; margin-top: 10px; background: #ffffff; border: 1px solid var(--pl-border); padding: 8px 0; z-index: 1050;">
+            <li><span class="dropdown-item-text text-muted small" style="padding: 4px 16px; display: block;">Signed in as <strong><?php echo e(Auth::user()->name); ?></strong></span></li>
+            <li><hr class="dropdown-divider" style="background-color: var(--pl-border); border-color: var(--pl-border); margin: 6px 0;"></li>
+            <li><a class="dropdown-item pl-dropdown-link-light" href="<?php echo e(route('dashboard')); ?>"><i class="bi bi-speedometer2 me-2" style="color: var(--pl-primary);"></i>Dashboard</a></li>
+            <li><a class="dropdown-item pl-dropdown-link-light" href="<?php echo e(route('orders.index')); ?>"><i class="bi bi-box me-2" style="color: var(--pl-primary);"></i>My Orders</a></li>
+            <li><a class="dropdown-item pl-dropdown-link-light" href="<?php echo e(route('profile.edit')); ?>"><i class="bi bi-person me-2" style="color: var(--pl-primary);"></i>My Profile</a></li>
+            <li><hr class="dropdown-divider" style="background-color: var(--pl-border); border-color: var(--pl-border); margin: 6px 0;"></li>
+            <li>
+              <form method="POST" action="<?php echo e(route('logout')); ?>" class="m-0">
+                <?php echo csrf_field(); ?>
+                <button type="submit" class="dropdown-item text-danger cursor-pointer pl-dropdown-link-light" style="font-size: 0.75rem;"><i class="bi bi-box-arrow-right me-2"></i>Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      <?php else: ?>
+        <a href="<?php echo e(route('login')); ?>" class="d-flex align-items-center gap-2 text-decoration-none" style="color: var(--pl-ink); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
+          <i class="bi bi-person" style="font-size: 1.25rem; color: var(--pl-primary);"></i>
+          <span>Account</span>
+        </a>
+      <?php endif; ?>
+
+      <!-- Wishlist Link -->
+      <a href="<?php echo e(route('wishlist.index')); ?>" class="d-flex align-items-center gap-2 text-decoration-none position-relative" style="color: var(--pl-ink); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
+        <i class="bi bi-heart" style="font-size: 1.15rem; color: var(--pl-primary);"></i>
+        <span>Wishlist</span>
+        <span class="d-flex align-items-center justify-content-center position-absolute" data-wishlist-badge
+              style="background: var(--pl-red); color: #fff; font-size: 0.6rem; font-weight: 800; border-radius: 50%; width: 15px; height: 15px; top: -5px; right: -8px; <?php echo e(session()->has('wishlist') && count(session('wishlist')) > 0 ? 'display:flex !important;' : 'display:none !important;'); ?>">
+          <?php echo e(session()->has('wishlist') ? count(session('wishlist')) : 0); ?>
+
+        </span>
+      </a>
+
+      
+
+      <!-- Bag (Cart) Link -->
+      <a href="<?php echo e(route('cart.index')); ?>" class="d-flex align-items-center gap-2 text-decoration-none position-relative" style="color: var(--pl-ink); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">
+        <i class="bi bi-bag" style="font-size: 1.15rem; color: var(--pl-primary);"></i>
+        <span>Bag</span>
+        <span class="d-flex align-items-center justify-content-center" data-cart-badge
+              style="background: var(--pl-red); color: #fff; font-size: 0.65rem; font-weight: 800; border-radius: 50%; width: 18px; height: 18px; margin-left: 2px; text-align: center; <?php echo e(session()->has('cart') && array_sum(array_column(session('cart'), 'quantity')) > 0 ? 'display:flex !important;' : 'display:none !important;'); ?>">
+          <?php echo e(session()->has('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0); ?>
+
+        </span>
+      </a>
+
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MOBILE WELCOME HEADER ===================== -->
+<header class="pl-welcome-bar d-lg-none" style="background: #ffffff; border-bottom: 1px solid var(--pl-border); padding: 0.8rem 1rem; position: sticky; top: 0; z-index: 1020;">
+  <div class="container-fluid d-flex align-items-center justify-content-between p-0">
+    <div class="d-flex align-items-center gap-2">
+      <!-- Hamburger Menu Button -->
+      <button class="btn btn-link p-0 text-dark me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas" aria-controls="mobileMenuOffcanvas" style="font-size: 1.6rem; line-height: 1;">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a href="<?php echo e(route(''home'')); ?>" class="d-flex align-items-center gap-2 text-decoration-none">
+        <img src="<?php echo e(asset(''images/mahadev_logo.jpg'')); ?>" alt="Mahadev Tractor Modification Logo" style="height: 38px; width: auto; border-radius: 6px; object-fit: contain;">
+        <div>
+          <div class="pl-name" style="color: var(--pl-primary-dark); font-weight: 700; font-size: 1.02rem; line-height: 1.1; font-family: var(--pl-font-head);">Mahadev Tractor</div>
+          <div class="pl-hi" style="font-size: 0.62rem; color: var(--pl-muted); letter-spacing: 0.03em; text-transform: uppercase;">Fiber Hood & Accessories</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <a href="<?php echo e(route(''shop'')); ?>" class="position-relative" title="Search" style="color: var(--pl-primary-dark); font-size: 1.25rem; display: flex;">
+        <i class="bi bi-search"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Offcanvas Menu -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenuOffcanvas" aria-labelledby="mobileMenuOffcanvasLabel" style="width: 280px; z-index: 1055;">
+  <div class="offcanvas-header" style="border-bottom: 1px solid #eee;">
+    <h5 class="offcanvas-title" id="mobileMenuOffcanvasLabel" style="font-weight: 700; color: #f26522;">
+      <img src="<?php echo e(asset(''images/mahadev_logo.jpg'')); ?>" style="height:24px; border-radius:4px; margin-right:8px;">
+      Menu
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-group list-group-flush mb-4">
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''home'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-house me-2" style="color:#00bcd4;"></i> Home</a></li>
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''shop'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-shop me-2" style="color:#00bcd4;"></i> Shop Categories</a></li>
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''wishlist.index'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-heart me-2" style="color:#00bcd4;"></i> Wishlist</a></li>
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''cart.index'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-bag me-2" style="color:#00bcd4;"></i> Shopping Cart</a></li>
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''about'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-info-circle me-2" style="color:#00bcd4;"></i> About Us</a></li>
+      <li class="list-group-item px-0 border-0 mb-2"><a href="<?php echo e(route(''contact'')); ?>" class="text-dark text-decoration-none" style="font-weight:600; font-size:1.1rem;"><i class="bi bi-telephone me-2" style="color:#00bcd4;"></i> Contact Us</a></li>
+    </ul>
+
+    <?php if(auth()->guard()->check()): ?>
+      <a href="<?php echo e(route(''dashboard'')); ?>" class="btn btn-outline-dark w-100 mb-2" style="border-radius:20px;">My Account</a>
+      <form method="POST" action="<?php echo e(route(''logout'')); ?>" class="m-0">
+        <?php echo csrf_field(); ?>
+        <button type="submit" class="btn btn-danger w-100" style="border-radius:20px;">Log Out</button>
+      </form>
+    <?php else: ?>
+      <a href="<?php echo e(route(''login'')); ?>" class="btn text-white w-100 mb-2" style="background:#00bcd4; border-radius:20px; font-weight:600;">Log In / Register</a>
+    <?php endif; ?>
+  </div>
+</div>
+
+<?php /**PATH C:\xampp\htdocs\mahadevetractor\resources\views/frontend/partials/header.blade.php ENDPATH**/ ?>
