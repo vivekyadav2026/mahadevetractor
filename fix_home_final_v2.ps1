@@ -1,17 +1,19 @@
+﻿
+$html = @"
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Mahadev Tractor Modification & Accessories</title>
-<meta name="description" content="India's most trusted vehicle accessories store. Buy fiber hoods, music systems, and tractor accessories.">
-<link rel="icon" href="<?php echo e(asset('images/mahadev_logo.jpg')); ?>">
+<meta name="description" content="India`s most trusted vehicle accessories store. Buy fiber hoods, music systems, and tractor accessories.">
+<link rel="icon" href="{{ asset('images/mahadev_logo.jpg') }}">
 
 <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?php echo e(asset('css/style.css?v=13')); ?>">
+<link rel="stylesheet" href="{{ asset('css/style.css?v=13') }}">
 <style>
   /* Premium E-commerce Overrides */
   body { background-color: #f8f9fa; }
@@ -59,7 +61,7 @@
 </head>
 <body>
 
-<?php echo $__env->make('frontend.partials.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+@include('frontend.partials.header')
 
 <!-- ===================== PREMIUM FULL-WIDTH BANNER ===================== -->
 <section class="mb-4">
@@ -71,13 +73,13 @@
     </div>
     <div class="carousel-inner" style="max-height: 450px;">
       <div class="carousel-item active">
-        <img src="<?php echo e(asset('images/indian_tractor_1.jpg')); ?>" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Accessories">
+        <img src="{{ asset('images/indian_tractor_1.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Accessories">
       </div>
       <div class="carousel-item">
-        <img src="<?php echo e(asset('images/slider_new_1.jpg')); ?>" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Modification">
+        <img src="{{ asset('images/slider_new_1.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Tractor Modification">
       </div>
       <div class="carousel-item">
-        <img src="<?php echo e(asset('images/slider_new_2.jpg')); ?>" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Music Systems">
+        <img src="{{ asset('images/slider_new_2.jpg') }}" class="d-block w-100" style="object-fit: cover; height: 100%; max-height: 450px;" alt="Music Systems">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
@@ -96,7 +98,7 @@
   <!-- ===================== GOD TEXT ===================== -->
   <div class="text-center mb-5">
       <div class="d-inline-flex align-items-center gap-2" style="background: #fff; padding: 10px 24px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); color: #cc5500; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; font-family: 'Cinzel', serif;">
-         <img src="<?php echo e(asset('images/mahadev_logo.jpg')); ?>" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
+         <img src="{{ asset('images/mahadev_logo.jpg') }}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
          ॥ हर हर महादेव ॥
       </div>
   </div>
@@ -104,18 +106,18 @@
   <!-- ===================== CATEGORY CIRCLES ===================== -->
   <section class="mb-5">
     <div class="d-flex justify-content-center flex-wrap gap-3 gap-md-5">
-      <?php $__currentLoopData = \App\Models\Category::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php
+      @foreach(\App\Models\Category::all() as $cat)
+        @php
             $firstProd = $cat->products()->first();
             $catImg = $firstProd ? $firstProd->primary_image_url : asset('images/logo.jpeg');
-        ?>
-        <a href="<?php echo e(url('/shop?cat=' . $cat->slug)); ?>" class="cat-circle-wrap">
+        @endphp
+        <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="cat-circle-wrap">
           <div class="cat-circle">
-             <img src="<?php echo e($catImg); ?>" alt="<?php echo e($cat->name); ?>">
+             <img src="{{ $catImg }}" alt="{{ $cat->name }}">
           </div>
-          <div class="cat-title"><?php echo e($cat->name); ?></div>
+          <div class="cat-title">{{ $cat->name }}</div>
         </a>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      @endforeach
     </div>
   </section>
 
@@ -123,56 +125,60 @@
   <section class="mb-4">
     <h2 class="section-title">New Arrivals</h2>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      <?php $__currentLoopData = \App\Models\Product::orderBy('created_at', 'desc')->take(5)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      @foreach(\App\Models\Product::orderBy('created_at', 'desc')->take(5)->get() as $product)
       <div class="col">
         <div class="pl-product-card">
           <div class="pl-card-img">
-            <a href="<?php echo e(route('product.show', $product->slug)); ?>"><img src="<?php echo e($product->primary_image_url); ?>" alt="<?php echo e($product->name); ?>"></a>
+            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
-          <a href="<?php echo e(route('product.show', $product->slug)); ?>" class="pl-card-title"><?php echo e($product->name); ?></a>
+          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
           <div class="pl-card-price">
-             &#8377;<?php echo e(number_format($product->price, 2)); ?> <strike>&#8377;<?php echo e(number_format($product->price * 1.2, 2)); ?></strike>
+             &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price * 1.2, 2) }}</strike>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('<?php echo e($product->id); ?>')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
+          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
         </div>
       </div>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      @endforeach
     </div>
   </section>
 
   <!-- ===================== DYNAMIC CATEGORY SECTIONS ===================== -->
-  <?php $__currentLoopData = \App\Models\Category::has('products', '>=', 4)->take(4)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+  @foreach(\App\Models\Category::has('products', '>=', 4)->take(4)->get() as $cat)
   <section class="mb-4 pt-3">
-    <h2 class="section-title"><?php echo e($cat->name); ?></h2>
+    <h2 class="section-title">{{ $cat->name }}</h2>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      <?php $__currentLoopData = $cat->products()->take(5)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      @foreach($cat->products()->take(5)->get() as $product)
       <div class="col">
         <div class="pl-product-card">
           <div class="pl-card-img">
-            <a href="<?php echo e(route('product.show', $product->slug)); ?>"><img src="<?php echo e($product->primary_image_url); ?>" alt="<?php echo e($product->name); ?>"></a>
+            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
-          <a href="<?php echo e(route('product.show', $product->slug)); ?>" class="pl-card-title"><?php echo e($product->name); ?></a>
+          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
           <div class="pl-card-price">
-             &#8377;<?php echo e(number_format($product->price, 2)); ?> <strike>&#8377;<?php echo e(number_format($product->price + 50, 2)); ?></strike>
+             &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price + 50, 2) }}</strike>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('<?php echo e($product->id); ?>')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
+          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
         </div>
       </div>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      @endforeach
     </div>
   </section>
-  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+  @endforeach
 
 </main>
 
-<?php echo $__env->make('frontend.partials.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
-<?php echo $__env->make('frontend.partials.bottom_nav', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+@include('frontend.partials.footer')
+@include('frontend.partials.bottom_nav')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  window.pl_csrf = '<?php echo e(csrf_token()); ?>';
+  window.pl_csrf = '{{ csrf_token() }}';
 </script>
-<script src="<?php echo e(asset('js/script.js?v=4')); ?>"></script>
+<script src="{{ asset('js/script.js?v=4') }}"></script>
 
 </body>
-</html><?php /**PATH C:\xampp\htdocs\mahadevetractor\resources\views/frontend/home.blade.php ENDPATH**/ ?>
+</html>
+"@
+
+[System.IO.File]::WriteAllText("resources/views/frontend/home.blade.php", $html, (New-Object System.Text.UTF8Encoding($False)))
+
