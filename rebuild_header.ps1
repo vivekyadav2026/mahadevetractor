@@ -1,6 +1,6 @@
+﻿
+$html = @"
 <!-- ===================== UNIFIED HEADER (MATCHING RANISAHAB LAYOUT) ===================== -->
-<!-- Google Fonts for Header -->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
 <header class="pl-header" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 0.8rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
   <div class="container-fluid px-3 px-xl-5 d-flex align-items-center justify-content-between">
     
@@ -16,7 +16,7 @@
     <div class="text-center" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
       <a href="{{ route('home') }}" class="d-inline-block text-decoration-none">
         <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 50px; width: auto; border-radius: 6px; display: block; margin: 0 auto; object-fit: contain;">
-        <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.95rem; color: #cc5500; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 6px; display: block; line-height: 1; white-space: nowrap;">Mahadev Tractor</span>
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.9rem; color: #f26522; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 5px; display: block; line-height: 1;">Mahadev Tractor</span>
       </a>
     </div>
 
@@ -89,3 +89,7 @@
     @endauth
   </div>
 </div>
+"@
+
+[System.IO.File]::WriteAllText("resources/views/frontend/partials/header.blade.php", $html, (New-Object System.Text.UTF8Encoding($False)))
+

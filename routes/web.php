@@ -116,7 +116,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 require __DIR__.'/auth.php';
 
-// Stripe Webhook — excluded from CSRF and auth middleware
+// Stripe Webhook â€” excluded from CSRF and auth middleware
 Route::withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->post(
     '/webhook/stripe',
     [CheckoutController::class, 'stripeWebhook']
@@ -124,3 +124,17 @@ Route::withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->post(
 
 Route::get('/sitemap.xml', [FrontendController::class, 'sitemap'])->name('sitemap');
 
+
+// --- Shared Hosting Deployment Routes ---
+Route::get('/optimize-clear', function() {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    return "Application optimized and caches cleared for live server!";
+});
+
+Route::get('/create-storage-link', function() {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return "Storage link created successfully!";
+});

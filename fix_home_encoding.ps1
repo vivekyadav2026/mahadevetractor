@@ -1,17 +1,18 @@
-<!DOCTYPE html>
+﻿
+$html = '<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Mahadev Tractor Modification & Accessories</title>
 <meta name="description" content="India`s most trusted vehicle accessories store. Buy fiber hoods, music systems, and tractor accessories.">
-<link rel="icon" href="{{ asset('images/mahadev_logo.jpg') }}">
+<link rel="icon" href="{{ asset(''images/mahadev_logo.jpg'') }}">
 
 <!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/style.css?v=11') }}">
+<link rel="stylesheet" href="{{ asset(''css/style.css?v=11'') }}">
 <style>
   /* Premium E-commerce Overrides */
   body { background-color: #f8f9fa; }
@@ -79,7 +80,7 @@
 </head>
 <body>
 
-@include('frontend.partials.header')
+@include(''frontend.partials.header'')
 
 <main class="container-fluid px-3 px-xl-5 pl-main-container py-4">
 
@@ -89,7 +90,7 @@
       
       <!-- GOD ELEMENT -->
       <div class="god-text">
-         <img src="{{ asset('images/mahadev_logo.jpg') }}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
+         <img src="{{ asset(''images/mahadev_logo.jpg'') }}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
          ॥ हर हर महादेव ॥
       </div>
 
@@ -97,7 +98,7 @@
       <p style="font-size: 1.1rem; color: #666; margin: 1.5rem 0; font-weight: 500;">
         ट्रैक्टर हुड, बम्पर, साइलेंसर, और म्यूजिक सिस्टम की विशाल रेंज। बेहतरीन क्वालिटी और सबसे अच्छे दाम!
       </p>
-      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
+      <a href="{{ url(''/shop'') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
     
     <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">
@@ -109,13 +110,13 @@
         </div>
         <div class="carousel-inner h-100">
           <div class="carousel-item active h-100">
-            <img src="{{ asset('images/indian_tractor_1.jpg') }}" alt="Indian Decorated Tractor">
+            <img src="{{ asset(''images/indian_tractor_1.jpg'') }}" alt="Indian Decorated Tractor">
           </div>
           <div class="carousel-item h-100">
-            <img src="{{ asset('images/slider_new_1.jpg') }}" alt="Modern Custom Tractor">
+            <img src="{{ asset(''images/slider_new_1.jpg'') }}" alt="Modern Custom Tractor">
           </div>
           <div class="carousel-item h-100">
-            <img src="{{ asset('images/slider_new_2.jpg') }}" alt="Tractor Audio System">
+            <img src="{{ asset(''images/slider_new_2.jpg'') }}" alt="Tractor Audio System">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
@@ -134,9 +135,9 @@
       @foreach(\App\Models\Category::all() as $cat)
         @php
             $firstProd = $cat->products()->first();
-            $catImg = $firstProd ? $firstProd->primary_image_url : asset('images/logo.jpeg');
+            $catImg = $firstProd ? $firstProd->primary_image_url : asset(''images/logo.jpeg'');
         @endphp
-        <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="cat-circle-wrap">
+        <a href="{{ url(''/shop?cat='' . $cat->slug) }}" class="cat-circle-wrap">
           <div class="cat-circle">
              <img src="{{ $catImg }}" alt="{{ $cat->name }}">
           </div>
@@ -150,29 +151,29 @@
   <section class="mb-4">
     <h2 class="section-title">New Arrivals</h2>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      @foreach(\App\Models\Product::orderBy('created_at', 'desc')->take(5)->get() as $product)
+      @foreach(\App\Models\Product::orderBy(''created_at'', ''desc'')->take(5)->get() as $product)
       <div class="col">
         <div class="pl-product-card">
           <div class="badge-discount">20% OFF</div>
           <div class="pl-card-img">
-            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
+            <a href="{{ route(''product.show'', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
-          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
+          <a href="{{ route(''product.show'', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
           <div class="pl-card-price">
              &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price * 1.2, 2) }}</strike>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')">ADD TO CART</button>
+          <button class="btn-add" onclick="PL.addToCartById(''{{ $product->id }}'')">ADD TO CART</button>
         </div>
       </div>
       @endforeach
     </div>
     <div class="text-center mb-4">
-       <a href="{{ url('/shop') }}" class="btn btn-dark text-white fw-bold px-5 py-2" style="border-radius: 30px; font-size: 1rem; text-decoration: none;">VIEW ALL</a>
+       <a href="{{ url(''/shop'') }}" class="btn btn-dark text-white fw-bold px-5 py-2" style="border-radius: 30px; font-size: 1rem; text-decoration: none;">VIEW ALL</a>
     </div>
   </section>
 
   <!-- ===================== DYNAMIC CATEGORY SECTIONS ===================== -->
-  @foreach(\App\Models\Category::has('products', '>=', 4)->take(4)->get() as $cat)
+  @foreach(\App\Models\Category::has(''products'', ''>='', 4)->take(4)->get() as $cat)
   <section class="mb-4" style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
     <h2 class="section-title">{{ $cat->name }}</h2>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
@@ -181,33 +182,35 @@
         <div class="pl-product-card">
           <div class="badge-discount" style="background: var(--pl-primary);">SALE</div>
           <div class="pl-card-img">
-            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
+            <a href="{{ route(''product.show'', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
           </div>
-          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
+          <a href="{{ route(''product.show'', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
           <div class="pl-card-price">
              &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price + 50, 2) }}</strike>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')">ADD TO CART</button>
+          <button class="btn-add" onclick="PL.addToCartById(''{{ $product->id }}'')">ADD TO CART</button>
         </div>
       </div>
       @endforeach
     </div>
     <div class="text-center">
-       <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="btn btn-dark text-white fw-bold px-5 py-2" style="border-radius: 30px; font-size: 1rem; text-decoration: none;">VIEW ALL <i class="bi bi-chevron-right ms-1"></i></a>
+       <a href="{{ url(''/shop?cat='' . $cat->slug) }}" class="btn btn-dark text-white fw-bold px-5 py-2" style="border-radius: 30px; font-size: 1rem; text-decoration: none;">VIEW ALL <i class="bi bi-chevron-right ms-1"></i></a>
     </div>
   </section>
   @endforeach
 
 </main>
 
-@include('frontend.partials.footer')
-@include('frontend.partials.bottom_nav')
+@include(''frontend.partials.footer'')
+@include(''frontend.partials.bottom_nav'')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  window.pl_csrf = '{{ csrf_token() }}';
+  window.pl_csrf = ''{{ csrf_token() }}'';
 </script>
-<script src="{{ asset('js/script.js?v=4') }}"></script>
+<script src="{{ asset(''js/script.js?v=4'') }}"></script>
 
 </body>
-</html>
+</html>'
+[System.IO.File]::WriteAllText("resources/views/frontend/home.blade.php", $html, (New-Object System.Text.UTF8Encoding($False)))
+
