@@ -1737,3 +1737,21 @@ body:has(#pl-product-detail-container) .pl-bottom-nav,
  . p l - n a v b a r   . p l - b r a n d - t a g   {   w h i t e - s p a c e :   n o w r a p ;   } 
   
  
+/* MAHADEV TRACTOR BUTTON OVERRIDES */
+.pl-btn-add-cart {
+    background: linear-gradient(135deg, #0097a7 0%, #00bcd4 60%, #00838f 100%) !important;
+    box-shadow: 0 4px 18px rgba(0,188,212,.28), 0 1px 3px rgba(0,188,212,.18) !important;
+}
+.pl-btn-add-cart:hover {
+    box-shadow: 0 8px 24px rgba(0,188,212,.38) !important;
+}
+.pl-btn-buy-now {
+    background: linear-gradient(135deg, #cc5500 0%, #f26522 60%, #a34300 100%) !important;
+    box-shadow: 0 4px 18px rgba(242,101,34,.3), 0 1px 3px rgba(242,101,34,.2) !important;
+    color: #fff !important;
+}
+.pl-btn-buy-now:hover {
+    box-shadow: 0 8px 24px rgba(242,101,34,.42) !important;
+    background: linear-gradient(135deg, #e65c00 0%, #ff7b3b 60%, #b34a00 100%) !important;
+    color: #fff !important;
+}
