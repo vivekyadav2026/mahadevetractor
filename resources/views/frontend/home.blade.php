@@ -11,7 +11,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/style.css?v=14') }}">
+<link rel="stylesheet" href="{{ asset('css/style.css?v=' . filemtime(public_path('css/style.css'))) }}">
 <style>
   /* Premium E-commerce Overrides */
   body { background-color: #f8f9fa; }
@@ -33,13 +33,14 @@
   .god-text { color: #f26522; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; margin-bottom: 12px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 8px; }
   .hero-title { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
   .hero-delivery-text { font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .pl-hero-text .highlight { color: #00bcd4; }
+  .pl-hero-text .highlight { color: #ff6b00; }
   .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; aspect-ratio: 16 / 9; }
   .pl-hero-carousel img { width: 100%; height: 100%; object-fit: contain; background: #080d16; }
   
-  .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; }
+  .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; flex-shrink: 0; }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
   .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; padding: 12px; border: 2px solid transparent; }
-  .cat-circle:hover { transform: translateY(-5px); border-color: #00bcd4; }
+  .cat-circle:hover { transform: translateY(-5px); border-color: #ff6b00; }
   .cat-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .cat-title { font-size: 0.85rem; font-weight: 700; color: #333; line-height: 1.2; }
 
@@ -51,7 +52,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e5e5e5;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); height: 100%; display: flex; flex-direction: column; position: relative;
   }
-  .pl-product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.12); transform: translateY(-5px); border-color: #00bcd4; }
+  .pl-product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.12); transform: translateY(-5px); border-color: #ff6b00; }
   
   /* Perfect Image sizing to fill width without overlapping */
   .pl-card-img { width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding: 0; overflow: hidden; }
@@ -60,11 +61,11 @@
   .pl-product-card:hover .pl-card-img img { transform: scale(1.05); }
   
   .pl-card-title { font-size: 0.85rem; font-weight: 700; color: #222; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px; line-height: 1.3; }
-  .pl-card-title:hover { color: #00bcd4; }
+  .pl-card-title:hover { color: #ff6b00; }
   .pl-card-price { font-size: 1.05rem; font-weight: 800; color: #111; margin-bottom: 10px; }
   .pl-card-price strike { font-size: 0.8rem; color: #999; font-weight: 500; margin-left: 4px; }
   .btn-add { background: #f8f9fa; color: #111; border: 1px solid #ddd; font-weight: 700; font-size: 0.85rem; padding: 8px; border-radius: 6px; width: 100%; transition: 0.3s; margin-top: auto; }
-  .pl-product-card:hover .btn-add, .btn-add:hover { background: #00bcd4; color: #fff; border-color: #00bcd4; }
+  .pl-product-card:hover .btn-add, .btn-add:hover { background: #ff6b00; color: #fff; border-color: #ff6b00; }
 
   @media(max-width: 768px) {
       .pl-hero-custom { flex-direction: column; text-align: center; padding: 1rem 0.8rem; margin-bottom: 1.2rem; margin-left: -1rem; margin-right: -1rem; border-radius: 0; }
@@ -98,7 +99,7 @@
         🚚 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
       </p>
 
-      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
+      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #ff6b00; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
     
     <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">
@@ -125,7 +126,7 @@
 
   <!-- ===================== CATEGORY CIRCLES ===================== -->
   <section class="mb-5">
-    <div class="d-flex justify-content-center flex-wrap gap-3 gap-md-5">
+    <div class="d-flex flex-nowrap overflow-x-auto pb-2 gap-3 gap-md-5 justify-content-start justify-content-md-center scrollbar-hidden" style="-webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 5px 10px;">
       @foreach(\App\Models\Category::all() as $cat)
         @php
             $imagePath = 'images/categories/' . $cat->slug . '.jpg';
@@ -258,7 +259,7 @@
 <script>
   window.pl_csrf = '{{ csrf_token() }}';
 </script>
-<script src="{{ asset('js/script.js?v=4') }}"></script>
+<script src="{{ asset('js/script.js?v=' . filemtime(public_path('js/script.js'))) }}"></script>
 
 </body>
 </html>
