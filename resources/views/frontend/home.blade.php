@@ -34,14 +34,14 @@
   .god-text { color: #f26522; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; margin-bottom: 12px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 8px; }
   .hero-title { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
   .hero-delivery-text { font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .pl-hero-text .highlight { color: #ff6b00; }
+  .pl-hero-text .highlight { color: #f08038; }
   .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; aspect-ratio: 16 / 9; }
   .pl-hero-carousel img { width: 100%; height: 100%; object-fit: contain; background: #080d16; }
   
   .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; flex-shrink: 0; }
   .scrollbar-hidden::-webkit-scrollbar { display: none; }
   .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; padding: 12px; border: 2px solid transparent; }
-  .cat-circle:hover { transform: translateY(-5px); border-color: #ff6b00; }
+  .cat-circle:hover { transform: translateY(-5px); border-color: #f08038; }
   .cat-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .cat-title { font-size: 0.85rem; font-weight: 700; color: #333; line-height: 1.2; }
 
@@ -53,7 +53,7 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e5e5e5;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); height: 100%; display: flex; flex-direction: column; position: relative;
   }
-  .pl-product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.12); transform: translateY(-5px); border-color: #ff6b00; }
+  .pl-product-card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.12); transform: translateY(-5px); border-color: #f08038; }
   
   /* Perfect Image sizing to fill width without overlapping */
   .pl-card-img { width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; padding: 0; overflow: hidden; }
@@ -62,11 +62,11 @@
   .pl-product-card:hover .pl-card-img img { transform: scale(1.05); }
   
   .pl-card-title { font-size: 0.85rem; font-weight: 700; color: #222; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 6px; line-height: 1.3; }
-  .pl-card-title:hover { color: #ff6b00; }
+  .pl-card-title:hover { color: #f08038; }
   .pl-card-price { font-size: 1.05rem; font-weight: 800; color: #111; margin-bottom: 10px; }
   .pl-card-price strike { font-size: 0.8rem; color: #999; font-weight: 500; margin-left: 4px; }
   .btn-add { background: #f8f9fa; color: #111; border: 1px solid #ddd; font-weight: 700; font-size: 0.85rem; padding: 8px; border-radius: 6px; width: 100%; transition: 0.3s; margin-top: auto; }
-  .pl-product-card:hover .btn-add, .btn-add:hover { background: #ff6b00; color: #fff; border-color: #ff6b00; }
+  .pl-product-card:hover .btn-add, .btn-add:hover { background: #f08038; color: #fff; border-color: #f08038; }
 
   @media(max-width: 768px) {
       .pl-hero-custom { flex-direction: column; text-align: center; padding: 1rem 0.8rem; margin-bottom: 1.2rem; margin-left: -1rem; margin-right: -1rem; border-radius: 0; }
@@ -100,7 +100,7 @@
         🚚 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
       </p>
 
-      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #ff6b00; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
+      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #f08038; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
     
     <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">

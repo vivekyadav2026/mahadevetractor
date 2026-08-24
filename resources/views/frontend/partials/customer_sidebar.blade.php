@@ -16,88 +16,88 @@
             </div>
         </div>
         
-        <a href="{{ url('/dashboard') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/dashboard') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('dashboard'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-chart-line mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-chart-line mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Dashboard Overview
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
 
-        <a href="{{ url('/orders') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('orders*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/orders') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('orders*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('orders*'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-box mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-box mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Orders
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
         
-        <a href="{{ url('/wishlist') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/wishlist') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('wishlist'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-heart mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-heart mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Wishlist
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
         
-        <a href="{{ url('/cart') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/cart') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50 hover:text-slate-900' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('cart'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-cart-shopping mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-cart-shopping mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Shopping Cart
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
         
-        <a href="{{ route('profile.edit') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ route('profile.edit') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('profile'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-user-gear mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-user-gear mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Account Settings
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
 
-        <a href="{{ url('/addresses') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/addresses') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('addresses*'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-map-location-dot mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-map-location-dot mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Addresses
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
-        <a href="{{ route('payment-methods.index') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('payment-methods*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ route('payment-methods.index') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('payment-methods*') ? 'bg-primary/5 text-primary' : 'text-slate-700 hover:bg-slate-50' }}" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('payment-methods*'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-credit-card mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-credit-card mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Payment Methods
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
         </a>
         
-        <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/contact') }}" class="group relative w-full px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/5 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
                 @if(request()->is('contact'))
                     <span class="absolute left-0 top-2 bottom-2 w-0.75 bg-primary rounded-r-md"></span>
                 @endif
-                <i class="fa-solid fa-headset mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-headset mr-2.5 text-sm transition-transform group-hover:scale-105" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Support & Help
             </span>
             <i class="fa-solid fa-chevron-right text-[7px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"></i>
@@ -173,9 +173,9 @@
          class="mt-2 bg-white border border-slate-150 rounded-xl p-2 shadow-xs space-y-1"
          style="display: none;">
         
-        <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/dashboard') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('dashboard') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-chart-line mr-2 text-xs" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-chart-line mr-2 text-xs" style="color: {{ request()->is('dashboard') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Dashboard Overview
             </span>
             @if(request()->is('dashboard'))
@@ -183,9 +183,9 @@
             @endif
         </a>
 
-        <a href="{{ url('/orders') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('orders*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/orders') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('orders*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-box mr-2 text-xs" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-box mr-2 text-xs" style="color: {{ request()->is('orders*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Orders
             </span>
             @if(request()->is('orders*'))
@@ -193,9 +193,9 @@
             @endif
         </a>
         
-        <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/wishlist') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('wishlist') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-heart mr-2 text-xs" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-heart mr-2 text-xs" style="color: {{ request()->is('wishlist') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Wishlist
             </span>
             @if(request()->is('wishlist'))
@@ -203,9 +203,9 @@
             @endif
         </a>
         
-        <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/cart') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('cart') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-cart-shopping mr-2 text-xs" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-cart-shopping mr-2 text-xs" style="color: {{ request()->is('cart') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Shopping Cart
             </span>
             @if(request()->is('cart'))
@@ -213,9 +213,9 @@
             @endif
         </a>
         
-        <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ route('profile.edit') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('profile') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-user-gear mr-2 text-xs" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-user-gear mr-2 text-xs" style="color: {{ request()->is('profile') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Account Settings
             </span>
             @if(request()->is('profile'))
@@ -223,18 +223,18 @@
             @endif
         </a>
 
-        <a href="{{ url('/addresses') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/addresses') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('addresses*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-map-location-dot mr-2 text-xs" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-map-location-dot mr-2 text-xs" style="color: {{ request()->is('addresses*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 My Addresses
             </span>
             @if(request()->is('addresses*'))
                 <span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
             @endif
         </a>
-        <a href="{{ route('payment-methods.index') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('payment-methods*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ route('payment-methods.index') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('payment-methods*') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-credit-card mr-2 text-xs" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-credit-card mr-2 text-xs" style="color: {{ request()->is('payment-methods*') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Payment Methods
             </span>
             @if(request()->is('payment-methods*'))
@@ -242,9 +242,9 @@
             @endif
         </a>
         
-        <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #ff6b00)' : 'black' }} !important;">
+        <a href="{{ url('/contact') }}" class="group w-full px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-between {{ request()->is('contact') ? 'bg-primary/10 text-primary font-bold' : 'text-black hover:bg-slate-50' }}" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #f08038)' : 'black' }} !important;">
             <span class="flex items-center">
-                <i class="fa-solid fa-headset mr-2 text-xs" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #ff6b00)' : '#94a3b8' }} !important;"></i>
+                <i class="fa-solid fa-headset mr-2 text-xs" style="color: {{ request()->is('contact') ? 'var(--pl-primary, #f08038)' : '#94a3b8' }} !important;"></i>
                 Support & Help
             </span>
             @if(request()->is('contact'))

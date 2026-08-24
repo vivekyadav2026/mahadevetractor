@@ -4,7 +4,7 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ff6b00",
+  "theme_color": "#f08038",
   "description": "Your favourite premium grocery store.",
   "orientation": "portrait",
   "icons": [

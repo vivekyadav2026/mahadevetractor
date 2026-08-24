@@ -26,7 +26,7 @@
                 <div class="max-w-3xl mx-auto space-y-4">
                     
                     <!-- Welcome Banner -->
-                    <div class="relative overflow-hidden rounded-2xl p-5 sm:p-6 shadow-sm" style="background: linear-gradient(135deg, #fff0e6 0%, #ffe6d4 60%, #f5fffe 100%); border: 1px solid #ffd1b3; border-left: 4px solid #ff6b00;">
+                    <div class="relative overflow-hidden rounded-2xl p-5 sm:p-6 shadow-sm" style="background: linear-gradient(135deg, #fff0e6 0%, #ffe6d4 60%, #f5fffe 100%); border: 1px solid #ffd1b3; border-left: 4px solid #f08038;">
                         <!-- Soft background blob -->
                         <div class="absolute -right-10 -top-10 w-44 h-44 rounded-full" style="background: radial-gradient(circle, rgba(255,107,0,0.06) 0%, transparent 70%);"></div>
                         <div class="absolute right-0 bottom-0 w-32 h-32 rounded-full" style="background: radial-gradient(circle, rgba(255,107,0,0.04) 0%, transparent 70%);"></div>
@@ -34,13 +34,13 @@
                         <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div class="flex items-start gap-4">
                                 <!-- Avatar / Icon -->
-                                <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-extrabold text-sm text-white shadow-md" style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
+                                <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-extrabold text-sm text-white shadow-md" style="background: linear-gradient(135deg, #f08038, #cc5500);">
                                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2 flex-wrap mb-1.5">
-                                        <span class="text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full" style="background: #ff6b00; color: #fff; letter-spacing: 0.08em;">Welcome Back</span>
-                                        <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background: rgba(255,107,0,0.08); color: #ff6b00; border: 1px solid rgba(255,107,0,0.15);">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
+                                        <span class="text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full" style="background: #f08038; color: #fff; letter-spacing: 0.08em;">Welcome Back</span>
+                                        <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background: rgba(255,107,0,0.08); color: #f08038; border: 1px solid rgba(255,107,0,0.15);">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
                                     </div>
                                     <h2 class="text-base sm:text-lg font-bold tracking-tight leading-tight" style="font-family: 'Outfit', sans-serif; color: #0f1f1c;">Hello, {{ Auth::user()->name }}! Ã°Å¸â€˜â€¹</h2>
                                     <p class="text-[11px] mt-1 max-w-sm leading-relaxed font-medium" style="color: #4b7a6e;">Manage your orders, wishlist, and profile Ã¢â‚¬â€ all in one place.</p>

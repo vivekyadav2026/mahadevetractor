@@ -8,7 +8,7 @@
 
         {{-- Header --}}
         <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-3 shadow-md" style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-3 shadow-md" style="background: linear-gradient(135deg, #f08038, #cc5500);">
                 <i class="fa-solid fa-lock text-white text-lg"></i>
             </div>
             <h1 class="text-xl font-bold text-slate-900" style="font-family: 'Outfit', sans-serif;">Secure Payment</h1>
@@ -50,7 +50,7 @@
 
                 <button id="submit-btn" type="submit"
                     class="w-full text-white font-bold py-3 rounded-xl text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
-                    style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
+                    style="background: linear-gradient(135deg, #f08038, #cc5500);">
                     <span id="btn-text">
                         <i class="fa-solid fa-lock text-xs mr-1"></i>
                         Pay &#8377;{{ number_format($order->total_amount, 2) }}
@@ -88,7 +88,7 @@
     const appearance = {
         theme: 'stripe',
         variables: {
-            colorPrimary: '#ff6b00',
+            colorPrimary: '#f08038',
             colorBackground: '#ffffff',
             colorText: '#1e293b',
             colorDanger: '#e11d48',
@@ -104,7 +104,7 @@
                 fontSize: '13px',
             },
             '.Input:focus': {
-                border: '1px solid #ff6b00',
+                border: '1px solid #f08038',
                 boxShadow: '0 0 0 3px rgba(255,107,0,0.1)',
             },
             '.Label': {
