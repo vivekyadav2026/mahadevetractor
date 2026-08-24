@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Shop Online - Mahadev Tractor Premium Grocery & Beverage Store</title>
-<meta name="description" content="Shop the finest selection of beverages, Mexican foods, organic snacks, candies, and daily grocery items at Mahadev Tractor. Fast shipping & best deals.">
-<meta name="keywords" content="buy beverages online, snacks shop, premium groceries online, organic snacks, Mahadev Tractor shop">
+<title>Shop Online - Mahadev Tractor Modification & Accessories</title>
+<meta name="description" content="Shop the finest selection of tractor accessories, fiber hoods, headlights, custom horns, steering wheels, and modification parts at Mahadev Tractor Modification. Fast shipping across India.">
+<meta name="keywords" content="tractor accessories, modification parts, fiber hoods, custom horns, steering accessories, Mahadev Tractor Modification">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="{{ url('/shop') }}">
 
@@ -15,20 +15,21 @@
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url('/shop') }}">
-<meta property="og:title" content="Shop Online - Mahadev Tractor Premium Grocery & Beverage Store">
-<meta property="og:description" content="Shop the finest selection of beverages, Mexican foods, organic snacks, candies, and daily grocery items at Mahadev Tractor. Fast shipping & best deals.">
+<meta property="og:title" content="Shop Online - Mahadev Tractor Modification & Accessories">
+<meta property="og:description" content="Shop the finest selection of tractor accessories, fiber hoods, headlights, custom horns, steering wheels, and modification parts at Mahadev Tractor Modification. Fast shipping across India.">
 <meta property="og:image" content="{{ asset('images/logo.jpeg') }}">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="{{ url('/shop') }}">
-<meta name="twitter:title" content="Shop Online - Mahadev Tractor Premium Grocery & Beverage Store">
-<meta name="twitter:description" content="Shop the finest selection of beverages, Mexican foods, organic snacks, candies, and daily grocery items at Mahadev Tractor. Fast shipping & best deals.">
+<meta name="twitter:title" content="Shop Online - Mahadev Tractor Modification & Accessories">
+<meta name="twitter:description" content="Shop the finest selection of tractor accessories, fiber hoods, headlights, custom horns, steering wheels, and modification parts at Mahadev Tractor Modification. Fast shipping across India.">
 <meta name="twitter:image" content="{{ asset('images/logo.jpeg') }}">
 <link rel="icon" href="{{ asset('images/logo.jpeg') }}">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/style.css?v=' . filemtime(public_path('css/style.css'))) }}">
 </head>
@@ -41,7 +42,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-2">
       <a href="{{ url('/') }}" class="pl-back-btn"><i class="bi bi-arrow-left"></i></a>
-      <h1 class="pl-header-title-text" id="mobile-category-title">All Beverage</h1>
+      <h1 class="pl-header-title-text" id="mobile-category-title">All Products</h1>
     </div>
     <div class="pl-header-icons">
       <button class="pl-icon-btn" style="width:34px;height:34px;border:none;" id="mobile-filter-toggle"><i class="bi bi-sliders"></i></button>

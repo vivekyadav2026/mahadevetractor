@@ -31,6 +31,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/style.css?v=' . filemtime(public_path('css/style.css'))) }}">
 </head>
@@ -271,15 +272,11 @@
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
-              <a href="{{ route('product.show', $relProduct->slug) }}" class="pl-btn-outline text-center flex-grow-1 py-2">Details</a>
               @if($relProduct->quantity > 0)
-                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $relProduct->id }}')">
-                  <i class="bi bi-cart-plus"></i>
-                </button>
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $relProduct->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $relProduct->id }}')"><i class="bi bi-cart-plus"></i></button>
               @else
-                <button class="btn px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;cursor:not-allowed;" disabled title="Out of Stock">
-                  <i class="bi bi-x-circle"></i>
-                </button>
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
               @endif
             </div>
           </div>

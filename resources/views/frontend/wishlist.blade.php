@@ -29,50 +29,45 @@
             <div class="w-full">
         @endauth
             @if($products->count() > 0)
-                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-3 mb-3">
                     @foreach($products as $product)
-                    <div class="group border border-gray-200 bg-white rounded-xl p-3 transition-all duration-300 hover:shadow flex flex-col h-full product-wishlist-card" data-id="{{ $product->id }}">
-                        <div class="w-full bg-white rounded-xl flex items-center justify-center relative overflow-hidden aspect-square border border-gray-100">
-                            <!-- Product Image -->
-                            <a href="/product/{{ $product->slug }}" class="w-full h-full flex items-center justify-center p-2">
-                                <img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" class="max-h-full max-w-full object-contain">
-                            </a>
-                            
-                            <!-- Sale Badge -->
-                            @if($product->sale_price)
-                            <div class="absolute top-2 left-2 bg-red-500 text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded z-10">Sale</div>
-                            @endif
-                            
-                            <!-- Right Icons -->
-                            <div class="flex flex-col space-y-1.5 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 z-10" style="position: absolute; top: 8px; right: 8px; left: auto;">
-                                <button class="bg-white text-red-500 p-1.5 rounded-full shadow border border-gray-100 hover:bg-gray-50 transition w-8 h-8 flex items-center justify-center text-xs btn-wishlist" data-product-id="{{ $product->id }}" title="Remove from Wishlist"><i class="fa-solid fa-heart"></i></button>
-                                <button class="bg-white text-gray-800 p-1.5 rounded-full shadow border border-gray-100 hover:text-primary hover:bg-gray-50 transition w-8 h-8 flex items-center justify-center text-xs btn-quickview" data-product-slug="{{ $product->slug }}" title="Quick View"><i class="fa-regular fa-eye"></i></button>
-                                <button class="bg-white text-gray-800 p-1.5 rounded-full shadow border border-gray-100 hover:text-primary hover:bg-gray-50 transition w-8 h-8 flex items-center justify-center text-xs btn-add-to-cart md:hidden" data-product-id="{{ $product->id }}" title="Add to Cart">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
+                    <div class="col" data-product>
+                      <div class="pl-product-card">
+                        <div class="pl-product-img-wrap">
+                          <!-- Tags Overlay -->
+                          @if($product->sale_price)
+                            <div class="pl-card-tags">
+                              @php
+                                $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                              @endphp
+                              <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
                             </div>
-                            
-                            <!-- Add to Cart Overlay -->
-                            <div class="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 hidden md:block">
-                                <button class="w-full bg-[#C49A6C] hover:bg-primary-dark text-white font-semibold py-2.5 tracking-wider text-xs uppercase btn-add-to-cart transition-colors duration-300 cursor-pointer" data-product-id="{{ $product->id }}">ADD TO CART</button>
+                          @endif
+                          @if($product->quantity <= 0)
+                            <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                              <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
                             </div>
+                          @endif
+                          <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="bi bi-heart-fill text-danger"></i></button>
+                          <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: contain;"></a>
                         </div>
-                        
-                        <div class="pt-3 text-left flex-1 flex flex-col justify-between">
-                            <h3 class="text-xs sm:text-sm font-sans font-medium text-black leading-snug">
-                                <a href="/product/{{ $product->slug }}" class="hover:text-primary transition">
-                                    {{ $product->name }}
-                                </a>
-                            </h3>
+                        <div class="pl-product-body">
+                          <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
+                          <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
                             @if($product->sale_price)
-                            <div class="flex items-center space-x-1.5 mt-1">
-                                <p class="text-sm font-bold text-primary">â‚¹{{ number_format($product->sale_price) }}</p>
-                                <p class="text-[10px] font-medium text-gray-400 line-through">â‚¹{{ number_format($product->price) }}</p>
-                            </div>
+                              <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                            @endif
+                          </div>
+                          <div class="mt-auto d-flex gap-2">
+                            @if($product->quantity > 0)
+                              <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                              <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
                             @else
-                            <p class="text-sm font-bold text-primary mt-1">â‚¹{{ number_format($product->price) }}</p>
+                              <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
                             @endif
+                          </div>
                         </div>
+                      </div>
                     </div>
                     @endforeach
                 </div>
