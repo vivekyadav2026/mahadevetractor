@@ -1793,32 +1793,31 @@ body:has(#pl-product-detail-container) .pl-bottom-nav,
  
 /* MAHADEV TRACTOR BUTTON OVERRIDES */
 .pl-btn-add-cart {
-    background: #fff !important;
-    border: 1.5px solid #e2e8f0 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04) !important;
+    background: #f08038 !important;
+    box-shadow: 0 4px 15px rgba(240, 128, 56, 0.25) !important;
     border-radius: 10px !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
-    color: #1e293b !important;
+    color: #fff !important;
 }
 .pl-btn-add-cart:hover {
-    background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
+    background: #e65c00 !important;
+    box-shadow: 0 6px 20px rgba(240, 128, 56, 0.35) !important;
 }
 .pl-btn-buy-now {
-    background: #fff !important;
-    border: 1.5px solid #e2e8f0 !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04) !important;
+    background: #f08038 !important;
+    box-shadow: 0 4px 15px rgba(240, 128, 56, 0.25) !important;
     border-radius: 10px !important;
-    font-weight: 700 !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
-    color: #1e293b !important;
+    color: #fff !important;
 }
 .pl-btn-buy-now:hover {
-    background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
+    background: #e65c00 !important;
+    box-shadow: 0 6px 20px rgba(240, 128, 56, 0.35) !important;
+    color: #fff !important;
 }
 .pl-btn-wish-half {
     border-radius: 10px !important;
