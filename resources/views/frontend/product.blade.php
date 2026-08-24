@@ -126,7 +126,7 @@
         <div class="mb-3">
           <div class="fw-semibold mb-2">Add Quantity <span class="text-muted small fw-normal">(Max available: {{ $product->quantity }})</span></div>
           <div class="pl-qty-stepper" id="pl-detail-qty-stepper">
-            <button type="button" class="pl-minus">âˆ’</button>
+            <button type="button" class="pl-minus">-</button>
             <span class="pl-qty-val" id="pl-detail-qty">1</span>
             <button type="button" class="pl-plus">+</button>
           </div>
@@ -300,7 +300,7 @@
     </div>
     @if($product->quantity > 0)
     <div class="pl-qty-stepper" id="pl-sticky-qty-stepper" style="gap:8px;">
-      <button type="button" class="pl-minus" style="width:28px;height:28px;font-size:0.9rem;">âˆ’</button>
+      <button type="button" class="pl-minus" style="width:28px;height:28px;font-size:0.9rem;">-</button>
       <span class="pl-qty-val" id="pl-sticky-qty" style="font-size:0.95rem;min-width:18px;">1</span>
       <button type="button" class="pl-plus" style="width:28px;height:28px;font-size:0.9rem;">+</button>
     </div>
