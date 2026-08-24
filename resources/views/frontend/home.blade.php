@@ -31,7 +31,8 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.03);
   }
   .god-text { color: #f26522; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; margin-bottom: 12px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 8px; }
-  .pl-hero-text h1 { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
+  .hero-title { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
+  .hero-delivery-text { font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .pl-hero-text .highlight { color: #00bcd4; }
   .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; aspect-ratio: 16 / 9; }
   .pl-hero-carousel img { width: 100%; height: 100%; object-fit: contain; background: #080d16; }
@@ -66,10 +67,11 @@
   .pl-product-card:hover .btn-add, .btn-add:hover { background: #00bcd4; color: #fff; border-color: #00bcd4; }
 
   @media(max-width: 768px) {
-      .pl-hero-custom { flex-direction: column; text-align: center; padding: 2rem 1rem; }
-      .pl-hero-text { margin-bottom: 2rem; max-width: 100% !important; padding-right: 0 !important; }
-      .pl-hero-text h1 { font-size: 2rem; }
-      .god-text { justify-content: center; }
+      .pl-hero-custom { flex-direction: column; text-align: center; padding: 1rem 0.8rem; margin-bottom: 1.2rem; }
+      .pl-hero-text { margin-bottom: 1.2rem; max-width: 100% !important; padding-right: 0 !important; }
+      .hero-title { font-size: 1.6rem !important; line-height: 1.3 !important; }
+      .hero-delivery-text { font-size: 0.95rem !important; margin: 0.6rem 0 !important; justify-content: center !important; }
+      .god-text { justify-content: center; font-size: 0.95rem; margin-bottom: 8px; }
       .pl-hero-carousel-wrap { max-width: 100% !important; }
 
       .pl-product-card { padding: 8px; border-radius: 8px; }
@@ -91,11 +93,11 @@
     <div class="pl-hero-text" style="flex: 1; max-width: 45%; padding-right: 20px;">
       
   
-      <h1 style="font-weight: 900; font-size: 2.6rem; color: #111; line-height: 1.2;">Tractor & Pickup<br><span class="highlight">Accessories Store</span></h1>
-      <p style="font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-        🇮🇳 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
+      <h1 class="hero-title">Tractor & Pickup<br><span class="highlight">Accessories Store</span></h1>
+      <p class="hero-delivery-text">
+        🚚 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
       </p>
-      <br>
+
       <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
     
