@@ -65,6 +65,7 @@ class ProductController extends Controller
                     $ext = $file->getClientOriginalExtension() ?: 'jpg';
                     $name = time() . '_' . uniqid() . '.' . $ext;
                     $file->move($path, $name);
+                    $this->compressImage($path . '/' . $name);
                     $imagePaths[] = 'uploads/products/' . $name;
                 }
             }
@@ -152,6 +153,7 @@ class ProductController extends Controller
                     $ext = $file->getClientOriginalExtension() ?: 'jpg';
                     $name = time() . '_' . uniqid() . '.' . $ext;
                     $file->move($path, $name);
+                    $this->compressImage($path . '/' . $name);
                     $newImages[] = 'uploads/products/' . $name;
                 }
             }
@@ -192,5 +194,53 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    private function compressImage($sourcePath, $quality = 75)
+    {
+        if (!file_exists($sourcePath)) {
+            return;
+        }
+
+        $info = getimagesize($sourcePath);
+        if ($info === false) {
+            return;
+        }
+
+        $mime = $info['mime'];
+        switch ($mime) {
+            case 'image/jpeg':
+                $image = @imagecreatefromjpeg($sourcePath);
+                break;
+            case 'image/png':
+                $image = @imagecreatefrompng($sourcePath);
+                if ($image) {
+                    imagealphablending($image, false);
+                    imagesavealpha($image, true);
+                }
+                break;
+            case 'image/webp':
+                $image = @imagecreatefromwebp($sourcePath);
+                break;
+            case 'image/gif':
+                $image = @imagecreatefromgif($sourcePath);
+                break;
+            default:
+                return;
+        }
+
+        if ($image) {
+            if ($mime === 'image/jpeg') {
+                imagejpeg($image, $sourcePath, $quality);
+            } elseif ($mime === 'image/png') {
+                $pngQuality = round((100 - $quality) / 10);
+                if ($pngQuality > 9) $pngQuality = 9;
+                if ($pngQuality < 0) $pngQuality = 0;
+                imagepng($image, $sourcePath, $pngQuality);
+            } elseif ($mime === 'image/webp') {
+                imagewebp($image, $sourcePath, $quality);
+            }
+            imagedestroy($image);
+        }
     }
 }
