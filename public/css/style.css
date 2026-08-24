@@ -1732,15 +1732,69 @@ body:has(#pl-product-detail-container) .pl-bottom-nav,
      . c o l - l g - 3   {   f l e x :   0   0   a u t o ;   w i d t h :   2 5 % ;   } 
      . c o l - l g - 4   {   f l e x :   0   0   a u t o ;   w i d t h :   3 3 . 3 3 3 3 3 3 3 3 % ;   } 
  } 
- 
- . p l - n a v b a r   . p l - b r a n d - t e x t   {   w h i t e - s p a c e :   n o w r a p ;   } 
- . p l - n a v b a r   . p l - b r a n d - t a g   {   w h i t e - s p a c e :   n o w r a p ;   } 
-  
- 
+ / *   F r a m e w o r k - A g n o s t i c   U t i l i t i e s   f o r   H e a d e r / F o o t e r   ( S o   i t   w o r k s   w i t h o u t   B o o t s t r a p )   * / 
+ . d - n o n e   {   d i s p l a y :   n o n e   ! i m p o r t a n t ;   } 
+ . d - f l e x   {   d i s p l a y :   f l e x   ! i m p o r t a n t ;   } 
+ . a l i g n - i t e m s - c e n t e r   {   a l i g n - i t e m s :   c e n t e r   ! i m p o r t a n t ;   } 
+ . j u s t i f y - c o n t e n t - c e n t e r   {   j u s t i f y - c o n t e n t :   c e n t e r   ! i m p o r t a n t ;   } 
+ . j u s t i f y - c o n t e n t - b e t w e e n   {   j u s t i f y - c o n t e n t :   s p a c e - b e t w e e n   ! i m p o r t a n t ;   } 
+ . f l e x - g r o w - 1   {   f l e x - g r o w :   1   ! i m p o r t a n t ;   } 
+ . f l e x - s h r i n k - 0   {   f l e x - s h r i n k :   0   ! i m p o r t a n t ;   } 
+ . f l e x - w r a p   {   f l e x - w r a p :   w r a p   ! i m p o r t a n t ;   } 
+ . g a p - 2   {   g a p :   0 . 5 r e m   ! i m p o r t a n t ;   } 
+ . g a p - 3   {   g a p :   1 r e m   ! i m p o r t a n t ;   } 
+ . g a p - 4   {   g a p :   1 . 5 r e m   ! i m p o r t a n t ;   } 
+ . t e x t - d e c o r a t i o n - n o n e   {   t e x t - d e c o r a t i o n :   n o n e   ! i m p o r t a n t ;   } 
+ . t e x t - d e c o r a t i o n - u n d e r l i n e   {   t e x t - d e c o r a t i o n :   u n d e r l i n e   ! i m p o r t a n t ;   } 
+ . t e x t - m u t e d   {   c o l o r :   # 6 c 7 5 7 d   ! i m p o r t a n t ;   } 
+ . t e x t - w h i t e   {   c o l o r :   # f f f   ! i m p o r t a n t ;   } 
+ . t e x t - l i g h t   {   c o l o r :   # f 8 f 9 f a   ! i m p o r t a n t ;   } 
+ . t e x t - w a r n i n g   {   c o l o r :   # f f c 1 0 7   ! i m p o r t a n t ;   } 
+ . t e x t - d a n g e r   {   c o l o r :   # d c 3 5 4 5   ! i m p o r t a n t ;   } 
+ . f w - b o l d   {   f o n t - w e i g h t :   7 0 0   ! i m p o r t a n t ;   } 
+ . f s - 5   {   f o n t - s i z e :   1 . 2 5 r e m   ! i m p o r t a n t ;   } 
+ . m b - 1   {   m a r g i n - b o t t o m :   0 . 2 5 r e m   ! i m p o r t a n t ;   } 
+ . m b - 2   {   m a r g i n - b o t t o m :   0 . 5 r e m   ! i m p o r t a n t ;   } 
+ . m b - 3   {   m a r g i n - b o t t o m :   1 r e m   ! i m p o r t a n t ;   } 
+ . m b - 4   {   m a r g i n - b o t t o m :   1 . 5 r e m   ! i m p o r t a n t ;   } 
+ . m y - 4   {   m a r g i n - t o p :   1 . 5 r e m   ! i m p o r t a n t ;   m a r g i n - b o t t o m :   1 . 5 r e m   ! i m p o r t a n t ;   } 
+ . m e - 2   {   m a r g i n - r i g h t :   0 . 5 r e m   ! i m p o r t a n t ;   } 
+ . p x - 3   {   p a d d i n g - l e f t :   1 r e m   ! i m p o r t a n t ;   p a d d i n g - r i g h t :   1 r e m   ! i m p o r t a n t ;   } 
+ . s m a l l   {   f o n t - s i z e :   0 . 8 7 5 e m   ! i m p o r t a n t ;   } 
+ . b t n - s m   {   p a d d i n g :   0 . 2 5 r e m   0 . 5 r e m ;   f o n t - s i z e :   0 . 8 7 5 r e m ;   b o r d e r - r a d i u s :   0 . 2 r e m ;   } 
+ . f o r m - c o n t r o l - s m   {   m i n - h e i g h t :   c a l c ( 1 . 5 e m   +   0 . 5 r e m   +   2 p x ) ;   p a d d i n g :   0 . 2 5 r e m   0 . 5 r e m ;   f o n t - s i z e :   0 . 8 7 5 r e m ;   b o r d e r - r a d i u s :   0 . 2 r e m ;   } 
+ . b g - w h i t e   {   b a c k g r o u n d - c o l o r :   # f f f   ! i m p o r t a n t ;   } 
+ . t e x t - d a r k   {   c o l o r :   # 2 1 2 5 2 9   ! i m p o r t a n t ;   } 
+ . d r o p d o w n - m e n u   {   d i s p l a y :   n o n e ;   p o s i t i o n :   a b s o l u t e ;   z - i n d e x :   1 0 0 0 ;   m i n - w i d t h :   1 0 r e m ;   p a d d i n g :   0 . 5 r e m   0 ;   m a r g i n :   0 ;   f o n t - s i z e :   1 r e m ;   c o l o r :   # 2 1 2 5 2 9 ;   t e x t - a l i g n :   l e f t ;   l i s t - s t y l e :   n o n e ;   b a c k g r o u n d - c o l o r :   # f f f ;   b a c k g r o u n d - c l i p :   p a d d i n g - b o x ;   b o r d e r :   1 p x   s o l i d   r g b a ( 0 , 0 , 0 , . 1 5 ) ;   b o r d e r - r a d i u s :   0 . 2 5 r e m ;   } 
+ . d r o p d o w n - m e n u . s h o w   {   d i s p l a y :   b l o c k ;   } 
+ . d r o p d o w n - i t e m   {   d i s p l a y :   b l o c k ;   w i d t h :   1 0 0 % ;   p a d d i n g :   0 . 2 5 r e m   1 r e m ;   c l e a r :   b o t h ;   f o n t - w e i g h t :   4 0 0 ;   c o l o r :   # 2 1 2 5 2 9 ;   t e x t - a l i g n :   i n h e r i t ;   t e x t - d e c o r a t i o n :   n o n e ;   w h i t e - s p a c e :   n o w r a p ;   b a c k g r o u n d - c o l o r :   t r a n s p a r e n t ;   b o r d e r :   0 ;   } 
+ . d r o p d o w n - i t e m : h o v e r   {   c o l o r :   # 1 e 2 1 2 5 ;   b a c k g r o u n d - c o l o r :   # e 9 e c e f ;   } 
+ . d r o p d o w n - i t e m - t e x t   {   d i s p l a y :   b l o c k ;   p a d d i n g :   0 . 2 5 r e m   1 r e m ;   c o l o r :   # 2 1 2 5 2 9 ;   } 
+ . d r o p d o w n - d i v i d e r   {   h e i g h t :   0 ;   m a r g i n :   0 . 5 r e m   0 ;   o v e r f l o w :   h i d d e n ;   b o r d e r - t o p :   1 p x   s o l i d   r g b a ( 0 , 0 , 0 , . 1 5 ) ;   } 
+ . p o s i t i o n - r e l a t i v e   {   p o s i t i o n :   r e l a t i v e   ! i m p o r t a n t ;   } 
+ . c u r s o r - p o i n t e r   {   c u r s o r :   p o i n t e r ;   } 
+ 
+ / *   G r i d   S y s t e m   F a l l b a c k   * / 
+ . r o w   {   d i s p l a y :   f l e x ;   f l e x - w r a p :   w r a p ;   m a r g i n - l e f t :   - 0 . 5 r e m ;   m a r g i n - r i g h t :   - 0 . 5 r e m ;   } 
+ . r o w   >   *   {   p a d d i n g - l e f t :   0 . 5 r e m ;   p a d d i n g - r i g h t :   0 . 5 r e m ;   w i d t h :   1 0 0 % ;   m a x - w i d t h :   1 0 0 % ;   } 
+ . c o l - 6   {   f l e x :   0   0   a u t o ;   w i d t h :   5 0 % ;   } 
+ 
+ @ m e d i a   ( m i n - w i d t h :   9 9 2 p x )   { 
+     . d - l g - b l o c k   {   d i s p l a y :   b l o c k   ! i m p o r t a n t ;   } 
+     . d - l g - n o n e   {   d i s p l a y :   n o n e   ! i m p o r t a n t ;   } 
+     . c o l - l g - 2   {   f l e x :   0   0   a u t o ;   w i d t h :   1 6 . 6 6 6 6 6 6 6 7 % ;   } 
+     . c o l - l g - 3   {   f l e x :   0   0   a u t o ;   w i d t h :   2 5 % ;   } 
+     . c o l - l g - 4   {   f l e x :   0   0   a u t o ;   w i d t h :   3 3 . 3 3 3 3 3 3 3 3 % ;   } 
+ } 
+ 
+ . p l - n a v b a r   . p l - b r a n d - t e x t   {   w h i t e - s p a c e :   n o w r a p ;   } 
+ . p l - n a v b a r   . p l - b r a n d - t a g   {   w h i t e - s p a c e :   n o w r a p ;   } 
+  
+ 
 /* MAHADEV TRACTOR BUTTON OVERRIDES */
 .pl-btn-add-cart {
-    background: #0f172a !important;
-    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15) !important;
+    background: #252d2a !important;
+    box-shadow: 0 4px 15px rgba(37, 45, 42, 0.15) !important;
     border-radius: 10px !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
@@ -1748,12 +1802,12 @@ body:has(#pl-product-detail-container) .pl-bottom-nav,
     color: #fff !important;
 }
 .pl-btn-add-cart:hover {
-    background: #1e293b !important;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25) !important;
+    background: #111514 !important;
+    box-shadow: 0 6px 20px rgba(17, 21, 20, 0.25) !important;
 }
 .pl-btn-buy-now {
-    background: #f08038 !important;
-    box-shadow: 0 4px 15px rgba(240, 128, 56, 0.25) !important;
+    background: #111514 !important;
+    box-shadow: 0 4px 15px rgba(17, 21, 20, 0.25) !important;
     border-radius: 10px !important;
     font-weight: 800 !important;
     text-transform: uppercase !important;
@@ -1761,8 +1815,8 @@ body:has(#pl-product-detail-container) .pl-bottom-nav,
     color: #fff !important;
 }
 .pl-btn-buy-now:hover {
-    background: #e65c00 !important;
-    box-shadow: 0 6px 20px rgba(240, 128, 56, 0.35) !important;
+    background: #252d2a !important;
+    box-shadow: 0 6px 20px rgba(37, 45, 42, 0.35) !important;
     color: #fff !important;
 }
 .pl-btn-wish-half {
