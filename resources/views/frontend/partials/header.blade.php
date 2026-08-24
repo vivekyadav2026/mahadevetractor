@@ -9,32 +9,32 @@
 <header class="d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 1rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
   <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
     
-    <!-- LEFT: Logo -->
+    <!-- LEFT: Search Bar (Moved from Center) -->
     <div class="d-flex align-items-center" style="flex: 1.5;">
-      <div class="d-flex flex-column align-items-start" style="gap: 2px;">
-        <a href="{{ route('home') }}" class="d-flex align-items-center gap-2 text-decoration-none">
-          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 65px; width: 65px; border-radius: 50%; object-fit: cover;">
-          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.15rem; color: #cc5500; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;">
+      <form action="{{ route('shop') }}" method="GET" class="position-relative w-100" style="max-width: 380px;">
+        <input type="text" name="search" class="form-control" placeholder="Search for tractor accessories, hoods, music systems..." style="border-radius: 30px; padding: 10px 20px; border: 1px solid #ddd; background: #f8f9fa;">
+        <button type="submit" class="btn position-absolute top-50 translate-middle-y" style="right: 10px; color: #cc5500;">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- CENTER: Logo & Brand Title (Centered, Moved from Left) -->
+    <div style="flex: 2; display: flex; justify-content: center; padding: 0 20px;">
+      <div class="d-flex flex-column align-items-center" style="gap: 2px; text-align: center;">
+        <a href="{{ route('home') }}" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center">
+          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #f08038;">
+          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.35rem; color: #cc5500; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;">
             MAHADEV TRACTOR MODIFICATION
           </span>
         </a>
-        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none" style="padding-left: 73px; margin-top: -6px;">
+        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center" style="margin-top: 1px;">
           <span style="color: #e21e1e; font-size: 0.95rem; line-height: 1;"><i class="bi bi-heart-fill"></i></span>
           <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.8rem; color: #444; white-space: nowrap;">
             19000+ Instagram family का भरोसा
           </span>
         </a>
       </div>
-    </div>
-
-    <!-- CENTER: Search Bar -->
-    <div style="flex: 2; padding: 0 40px;">
-      <form action="{{ route('shop') }}" method="GET" class="position-relative">
-        <input type="text" name="search" class="form-control" placeholder="Search for tractor accessories, hoods, music systems..." style="border-radius: 30px; padding: 12px 20px; border: 1px solid #ddd; background: #f8f9fa;">
-        <button type="submit" class="btn position-absolute top-50 translate-middle-y" style="right: 10px; color: #cc5500;">
-          <i class="bi bi-search"></i>
-        </button>
-      </form>
     </div>
 
     <!-- RIGHT: Icons & Menu -->
