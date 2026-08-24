@@ -41,7 +41,7 @@
                             </td>
                             <td class="px-6 py-4 font-bold text-slate-900">
                                 @if($coupon->type === 'fixed')
-                                    ${{ number_format($coupon->value, 2) }}
+                                    â‚¹{{ number_format($coupon->value, 2) }}
                                 @else
                                     {{ number_format($coupon->value) }}%
                                 @endif

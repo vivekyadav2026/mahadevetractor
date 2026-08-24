@@ -1,4 +1,4 @@
-<!-- Android Install Banner -->
+<!-- Android Install Banner
 <div id="android-install-banner" class="position-fixed bottom-0 start-0 w-100 bg-white border-top shadow-lg" style="display: none; z-index: 9999; padding: 15px;">
     <div class="d-flex align-items-center gap-3">
         <img src="{{ asset('images/icons/icon-192x192.png') }}" class="rounded shadow-sm" style="width: 40px; height: 40px;">
@@ -12,8 +12,9 @@
         <button id="android-install-btn" class="btn btn-pl-primary fw-bold px-3 py-2 shadow-sm" style="font-size: 0.75rem; border-radius: 8px;">Install</button>
     </div>
 </div>
+-->
 
-<!-- iOS Install Banner -->
+<!-- iOS Install Banner
 <div id="ios-install-banner" class="position-fixed bg-white border shadow-lg rounded-4" style="display: none; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 90%; max-width: 380px; padding: 12px 16px;">
     <div class="close-btn position-absolute bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="top: -10px; right: -10px; width: 24px; height: 24px; cursor: pointer; font-size: 14px;" onclick="document.getElementById('ios-install-banner').style.display='none'"><i class="bi bi-x"></i></div>
     <div class="d-flex align-items-center gap-3">
@@ -23,6 +24,7 @@
         </div>
     </div>
 </div>
+-->
 
 <!-- PWA Registration & Install Logic -->
 <script>
@@ -67,12 +69,7 @@
         }
 
         if (isIos() && !isInStandaloneMode()) {
-            // Show iOS hint after 2 seconds if not dismissed previously
-            if(!localStorage.getItem('iosInstallDismissed')) {
-                setTimeout(() => {
-                    iosBanner.style.display = 'block';
-                }, 2000);
-            }
+            // iOS banner trigger disabled
         }
 
         // Handle Android install prompt
@@ -84,9 +81,7 @@
             
             deferredPrompt = e;
             
-            if(!localStorage.getItem('androidInstallDismissed')) {
-                androidBanner.style.display = 'flex';
-            }
+            // Android banner trigger disabled
         });
 
         // Hide banner immediately when installation is complete

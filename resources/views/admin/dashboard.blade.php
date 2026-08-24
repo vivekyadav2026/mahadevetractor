@@ -14,7 +14,7 @@
             </div>
             <div>
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Sales</span>
-                <span class="block text-xl font-bold text-slate-900 mt-0.5">${{ number_format($totalSales) }}</span>
+                <span class="block text-xl font-bold text-slate-900 mt-0.5">â‚¹{{ number_format($totalSales) }}</span>
             </div>
         </div>
 
@@ -131,7 +131,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 font-bold text-slate-800">${{ number_format($order->total_amount, 2) }}</td>
+                            <td class="px-6 py-4 font-bold text-slate-800">â‚¹{{ number_format($order->total_amount, 2) }}</td>
                             <td class="px-6 py-4 text-xs text-slate-400">{{ $order->created_at->format('M d, Y g:i A') }}</td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('admin.orders.show', $order->id) }}" class="text-xs font-bold bg-slate-100 hover:bg-[#C49A6C] hover:text-white px-3.5 py-2 rounded-lg transition duration-200">

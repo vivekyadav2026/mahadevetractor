@@ -113,9 +113,9 @@
       </div>
 
       <div class="fs-2 fw-bold mb-3" style="font-family:var(--pl-font-head);color:var(--pl-primary-dark);" id="pl-product-price-wrap">
-        <span id="pl-product-price">${{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
+        <span id="pl-product-price">â‚¹{{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
         @if($product->sale_price)
-          <span class="pl-old" id="pl-product-old-price">${{ number_format($product->price, 2) }}</span>
+          <span class="pl-old" id="pl-product-old-price">â‚¹{{ number_format($product->price, 2) }}</span>
         @endif
       </div>
 
@@ -125,7 +125,7 @@
         <div class="mb-3">
           <div class="fw-semibold mb-2">Add Quantity <span class="text-muted small fw-normal">(Max available: {{ $product->quantity }})</span></div>
           <div class="pl-qty-stepper" id="pl-detail-qty-stepper">
-            <button type="button" class="pl-minus">−</button>
+            <button type="button" class="pl-minus">âˆ’</button>
             <span class="pl-qty-val" id="pl-detail-qty">1</span>
             <button type="button" class="pl-plus">+</button>
           </div>
@@ -215,14 +215,14 @@
                 <li class="mb-2"><strong class="text-dark">Case Weight:</strong> {{ $weightGrams }}g ({{ number_format($product->weight, 3) }} kg)</li>
               @endif
               @if($product->length && $product->width && $product->height)
-                <li class="mb-2"><strong class="text-dark">Dimensions (L×W×H):</strong> {{ $product->length }} cm × {{ $product->width }} cm × {{ $product->height }} cm</li>
+                <li class="mb-2"><strong class="text-dark">Dimensions (LÃ—WÃ—H):</strong> {{ $product->length }} cm Ã— {{ $product->width }} cm Ã— {{ $product->height }} cm</li>
               @endif
               <li class="mb-2"><strong class="text-dark">Stock Availability:</strong> {{ $product->quantity > 0 ? 'In Stock (' . $product->quantity . ' units available)' : 'Out of Stock' }}</li>
               @if($catSlug === 'beverage' || $catSlug === 'water' || $catSlug === 'mexican')
                 <li class="mb-2"><strong class="text-dark">Storage:</strong> Serve chilled. Refrigerate after opening.</li>
                 <li class="mb-2"><strong class="text-dark">Shelf Life:</strong> 12 Months from packing</li>
               @elseif($catSlug === 'chocolate' || $catSlug === 'candy')
-                <li class="mb-2"><strong class="text-dark">Storage:</strong> Keep in a cool, dry place (16-20°C).</li>
+                <li class="mb-2"><strong class="text-dark">Storage:</strong> Keep in a cool, dry place (16-20Â°C).</li>
                 <li class="mb-2"><strong class="text-dark">Allergens:</strong> May contain traces of dairy, soy, or nuts.</li>
               @else
                 <li class="mb-2"><strong class="text-dark">Storage:</strong> Store in a cool, dry environment.</li>
@@ -265,9 +265,9 @@
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $relProduct->slug) }}" class="pl-product-title" title="{{ $relProduct->name }}">{{ $relProduct->name }}</a>
-            <div class="pl-product-price">${{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
+            <div class="pl-product-price">â‚¹{{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
               @if($relProduct->sale_price)
-                <span class="pl-old">${{ number_format($relProduct->price, 2) }}</span>
+                <span class="pl-old">â‚¹{{ number_format($relProduct->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
@@ -299,11 +299,11 @@
   <div class="d-flex align-items-center justify-content-between mb-2">
     <div>
       <span class="small text-muted me-1">Price:</span>
-      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">${{ number_format($product->sale_price ?? $product->price, 2) }}</span>
+      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">â‚¹{{ number_format($product->sale_price ?? $product->price, 2) }}</span>
     </div>
     @if($product->quantity > 0)
     <div class="pl-qty-stepper" id="pl-sticky-qty-stepper" style="gap:8px;">
-      <button type="button" class="pl-minus" style="width:28px;height:28px;font-size:0.9rem;">−</button>
+      <button type="button" class="pl-minus" style="width:28px;height:28px;font-size:0.9rem;">âˆ’</button>
       <span class="pl-qty-val" id="pl-sticky-qty" style="font-size:0.95rem;min-width:18px;">1</span>
       <button type="button" class="pl-plus" style="width:28px;height:28px;font-size:0.9rem;">+</button>
     </div>
@@ -323,7 +323,7 @@
       </button>
     @else
       <button class="btn w-100" style="height:42px;font-size:0.85rem;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-weight:700;border-radius:10px;cursor:not-allowed;" disabled>
-        <i class="bi bi-x-circle me-1"></i> Out of Stock — Check back soon
+        <i class="bi bi-x-circle me-1"></i> Out of Stock â€” Check back soon
       </button>
     @endif
   </div>

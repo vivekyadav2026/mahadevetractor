@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Complete Payment — Mahadev Tractor')
+@section('title', 'Complete Payment Ã¢â‚¬â€ Mahadev Tractor')
 
 @section('content')
 <div class="min-h-[70vh] flex items-center justify-center px-4 py-10 bg-slate-50">
@@ -8,7 +8,7 @@
 
         {{-- Header --}}
         <div class="text-center mb-6">
-            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-3 shadow-md" style="background: linear-gradient(135deg, #0e6b57, #094f40);">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-3 shadow-md" style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
                 <i class="fa-solid fa-lock text-white text-lg"></i>
             </div>
             <h1 class="text-xl font-bold text-slate-900" style="font-family: 'Outfit', sans-serif;">Secure Payment</h1>
@@ -23,7 +23,7 @@
             </div>
             <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-600 font-medium">Total Amount</span>
-                <span class="text-lg font-extrabold text-slate-900" style="font-family: 'Outfit', sans-serif;">${{ number_format($order->total_amount, 2) }}</span>
+                <span class="text-lg font-extrabold text-slate-900" style="font-family: 'Outfit', sans-serif;">â‚¹{{ number_format($order->total_amount, 2) }}</span>
             </div>
         </div>
 
@@ -50,10 +50,10 @@
 
                 <button id="submit-btn" type="submit"
                     class="w-full text-white font-bold py-3 rounded-xl text-sm tracking-wide transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
-                    style="background: linear-gradient(135deg, #0e6b57, #094f40);">
+                    style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
                     <span id="btn-text">
                         <i class="fa-solid fa-lock text-xs mr-1"></i>
-                        Pay ${{ number_format($order->total_amount, 2) }}
+                        Pay â‚¹{{ number_format($order->total_amount, 2) }}
                     </span>
                     <span id="btn-spinner" class="hidden">
                         <i class="fa-solid fa-spinner fa-spin"></i> Processing...
@@ -74,7 +74,7 @@
         {{-- Security badge --}}
         <div class="flex items-center justify-center gap-2 mt-4 text-[10px] text-slate-400 font-medium">
             <i class="fa-solid fa-shield-halved text-slate-300"></i>
-            <span>Secured by <strong>Stripe</strong> · 256-bit SSL Encryption</span>
+            <span>Secured by <strong>Stripe</strong> Ã‚Â· 256-bit SSL Encryption</span>
         </div>
     </div>
 </div>
@@ -88,7 +88,7 @@
     const appearance = {
         theme: 'stripe',
         variables: {
-            colorPrimary: '#0e6b57',
+            colorPrimary: '#ff6b00',
             colorBackground: '#ffffff',
             colorText: '#1e293b',
             colorDanger: '#e11d48',
@@ -104,8 +104,8 @@
                 fontSize: '13px',
             },
             '.Input:focus': {
-                border: '1px solid #0e6b57',
-                boxShadow: '0 0 0 3px rgba(14,107,87,0.1)',
+                border: '1px solid #ff6b00',
+                boxShadow: '0 0 0 3px rgba(255,107,0,0.1)',
             },
             '.Label': {
                 fontSize: '11px',

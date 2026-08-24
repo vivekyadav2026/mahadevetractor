@@ -66,11 +66,11 @@
                             </h3>
                             @if($product->sale_price)
                             <div class="flex items-center space-x-1.5 mt-1">
-                                <p class="text-sm font-bold text-primary">${{ number_format($product->sale_price) }}</p>
-                                <p class="text-[10px] font-medium text-gray-400 line-through">${{ number_format($product->price) }}</p>
+                                <p class="text-sm font-bold text-primary">â‚¹{{ number_format($product->sale_price) }}</p>
+                                <p class="text-[10px] font-medium text-gray-400 line-through">â‚¹{{ number_format($product->price) }}</p>
                             </div>
                             @else
-                            <p class="text-sm font-bold text-primary mt-1">${{ number_format($product->price) }}</p>
+                            <p class="text-sm font-bold text-primary mt-1">â‚¹{{ number_format($product->price) }}</p>
                             @endif
                         </div>
                     </div>

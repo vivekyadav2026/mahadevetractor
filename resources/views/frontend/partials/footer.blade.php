@@ -7,14 +7,15 @@
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="d-flex align-items-center gap-2 mb-3">
           <img src="{{ asset('images/mahadev_logo.jpg') }}" class="pl-footer-logo" alt="Mahadev Tractor logo" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #f26522; object-fit: cover;">
-          <span class="fw-bold fs-4 text-white" style="font-family: 'Outfit', sans-serif;">Mahadev Tractor</span>
+          <span class="fw-bold fs-4 text-white" style="font-family: 'Outfit', sans-serif;">Mahadev Tractor Modification</span>
         </div>
-        <p class="mb-4 text-light" style="font-size: 0.95rem; line-height: 1.6;">
-          India's premier destination for heavy-duty tractor modifications, fiber hoods, premium music systems, and custom accessories.
+        <p class="mb-3 text-light" style="font-size: 0.95rem; line-height: 1.6; font-weight: 500;">
+          Tractor & Pickup Accessories, All in One Place<br>
+          🇮🇳 Order Online, Anywhere in India
         </p>
-        <div class="mb-2"><i class="bi bi-geo-alt me-2" style="color: #00bcd4;"></i>{{ \App\Models\Setting::get('site_address', 'Punjab, India') }}</div>
-        <div class="mb-2"><i class="bi bi-envelope me-2" style="color: #00bcd4;"></i>{{ \App\Models\Setting::get('site_email', 'contact@mahadevtractor.com') }}</div>
-        <div class="mb-2"><i class="bi bi-telephone me-2" style="color: #00bcd4;"></i>{{ \App\Models\Setting::get('site_phone', '+91 9915978757') }}</div>
+        <div class="mb-2" style="font-size: 0.9rem;"><i class="bi bi-geo-alt me-2" style="color: #00bcd4;"></i>Godhikala, Nawagarh, Bemetara, CG.</div>
+        <div class="mb-2" style="font-size: 0.9rem;"><i class="bi bi-envelope me-2" style="color: #00bcd4;"></i>Mahadevtractor8889@gmail.com</div>
+        <div class="mb-2" style="font-size: 0.9rem;"><i class="bi bi-telephone me-2" style="color: #00bcd4;"></i>9201964508</div>
       </div>
 
       <!-- Column 2: Quick Links -->
@@ -56,11 +57,7 @@
           <a href="{{ $youtube }}" class="social-circle" target="_blank"><i class="bi bi-youtube"></i></a>
         </div>
 
-        <p class="mb-2 text-white">Subscribe to Offers:</p>
-        <div class="input-group">
-          <input type="email" class="form-control" placeholder="Email Address" style="background: #222; border: 1px solid #333; color: #fff;">
-          <button class="btn" style="background: #00bcd4; color: #fff; font-weight: 600;">Join</button>
-        </div>
+        <!-- Subscribe section removed -->
       </div>
       
     </div>

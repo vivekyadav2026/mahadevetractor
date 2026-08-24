@@ -33,8 +33,8 @@
   .god-text { color: #f26522; font-weight: 800; font-size: 1.2rem; letter-spacing: 1.5px; margin-bottom: 12px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 8px; }
   .pl-hero-text h1 { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
   .pl-hero-text .highlight { color: #00bcd4; }
-  .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; height: 100%; max-height: 400px; }
-  .pl-hero-carousel img { width: 100%; height: 100%; object-fit: cover; }
+  .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; aspect-ratio: 16 / 9; }
+  .pl-hero-carousel img { width: 100%; height: 100%; object-fit: contain; background: #080d16; }
   
   .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; }
   .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; padding: 12px; border: 2px solid transparent; }
@@ -96,15 +96,16 @@
          ॥ हर हर महादेव ॥
       </div>
 
-      <h1>भारत का सबसे भरोसेमंद<br><span class="highlight">वाहन एक्सेसरीज़</span> स्टोर</h1>
-      <p style="font-size: 1.1rem; color: #666; margin: 1.5rem 0; font-weight: 500;">
-        ट्रैक्टर हुड, बम्पर, साइलेंसर, और म्यूजिक सिस्टम की विशाल रेंज। बेहतरीन क्वालिटी और सबसे अच्छे दाम!
+      <h1 style="font-weight: 900; font-size: 2.6rem; color: #111; line-height: 1.2;">Tractor & Pickup<br><span class="highlight">Accessories Store</span></h1>
+      <p style="font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        🇮🇳 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
       </p>
+      <br>
       <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #00bcd4; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
     </div>
     
     <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">
-      <div id="homeCarousel" class="carousel slide pl-hero-carousel" data-bs-ride="carousel" data-bs-interval="3500">
+      <div id="homeCarousel" class="carousel slide pl-hero-carousel" data-bs-ride="carousel" data-bs-interval="2000">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active"></button>
           <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
@@ -112,21 +113,15 @@
         </div>
         <div class="carousel-inner h-100">
           <div class="carousel-item active h-100">
-            <img src="{{ asset('images/indian_tractor_1.jpg') }}" alt="Indian Decorated Tractor">
+            <img src="{{ asset('images/tractor_parts_banner.jpg') }}" alt="Tractor Modification Parts Banner">
           </div>
           <div class="carousel-item h-100">
-            <img src="{{ asset('images/slider_new_1.jpg') }}" alt="Modern Custom Tractor">
+            <img src="{{ asset('images/tractor_pickup_banner.jpg') }}" alt="Tractor and Pickup Modification Banner">
           </div>
           <div class="carousel-item h-100">
             <img src="{{ asset('images/slider_new_2.jpg') }}" alt="Tractor Audio System">
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));"></span>
-        </button>
       </div>
     </div>
   </section>
@@ -136,8 +131,8 @@
     <div class="d-flex justify-content-center flex-wrap gap-3 gap-md-5">
       @foreach(\App\Models\Category::all() as $cat)
         @php
-            $firstProd = $cat->products()->first();
-            $catImg = $firstProd ? $firstProd->primary_image_url : asset('images/logo.jpeg');
+            $imagePath = 'images/categories/' . $cat->slug . '.jpg';
+            $catImg = file_exists(public_path($imagePath)) ? asset($imagePath) : asset('images/logo.jpeg');
         @endphp
         <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="cat-circle-wrap">
           <div class="cat-circle">
@@ -149,21 +144,56 @@
     </div>
   </section>
 
-  <!-- ===================== NEW ARRIVALS ===================== -->
+  <!-- ===================== BEST SELLING PRODUCTS ===================== -->
   <section class="mb-4">
-    <h2 class="section-title">New Arrivals</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.5rem;">Best Selling Product</h2>
+      <a href="{{ url('/shop') }}" class="fw-bold text-decoration-none" style="color: #00bcd4; font-size: 0.95rem;">View All <i class="bi bi-chevron-right"></i></a>
+    </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      @foreach(\App\Models\Product::orderBy('created_at', 'desc')->take(5)->get() as $product)
+      @php
+        $bestSellers = \App\Models\Product::where('is_bestseller', 1)->take(5)->get();
+        if ($bestSellers->isEmpty()) {
+            $bestSellers = \App\Models\Product::take(5)->get();
+        }
+      @endphp
+      @foreach($bestSellers as $product)
       <div class="col">
         <div class="pl-product-card">
-          <div class="pl-card-img">
-            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
+          <div class="pl-product-img-wrap">
+            <!-- Tags Overlay -->
+            @if($product->sale_price)
+              <div class="pl-card-tags">
+                @php
+                  $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                @endphp
+                <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
+              </div>
+            @endif
+            @if($product->quantity <= 0)
+              <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
+              </div>
+            @endif
+            <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
+            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: contain;"></a>
           </div>
-          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
-          <div class="pl-card-price">
-             &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price * 1.2, 2) }}</strike>
+          <div class="pl-product-body">
+            <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
+            <div class="pl-product-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}
+              @if($product->sale_price)
+                <span class="pl-old">&#8377;{{ number_format($product->price, 2) }}</span>
+              @endif
+            </div>
+            <div class="mt-auto d-flex gap-2">
+              @if($product->quantity > 0)
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
+            </div>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
         </div>
       </div>
       @endforeach
@@ -171,21 +201,50 @@
   </section>
 
   <!-- ===================== DYNAMIC CATEGORY SECTIONS ===================== -->
-  @foreach(\App\Models\Category::has('products', '>=', 4)->take(4)->get() as $cat)
+  @foreach(\App\Models\Category::has('products', '>=', 1)->take(6)->get() as $cat)
   <section class="mb-4 pt-3">
-    <h2 class="section-title">{{ $cat->name }}</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.5rem;">{{ $cat->name }}</h2>
+      <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="fw-bold text-decoration-none" style="color: #00bcd4; font-size: 0.95rem;">View All <i class="bi bi-chevron-right"></i></a>
+    </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
       @foreach($cat->products()->take(5)->get() as $product)
       <div class="col">
         <div class="pl-product-card">
-          <div class="pl-card-img">
-            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}"></a>
+          <div class="pl-product-img-wrap">
+            <!-- Tags Overlay -->
+            @if($product->sale_price)
+              <div class="pl-card-tags">
+                @php
+                  $discount = round((($product->price - $product->sale_price) / $product->price) * 100);
+                @endphp
+                <span class="pl-tag pl-tag-sale">{{ $discount }}% OFF</span>
+              </div>
+            @endif
+            @if($product->quantity <= 0)
+              <div class="pl-card-tags" style="top:auto;bottom:8px;left:8px;right:auto;">
+                <span class="pl-tag" style="background:#ef4444;color:#fff;">Out of Stock</span>
+              </div>
+            @endif
+            <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
+            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: contain;"></a>
           </div>
-          <a href="{{ route('product.show', $product->slug) }}" class="pl-card-title">{{ $product->name }}</a>
-          <div class="pl-card-price">
-             &#8377;{{ number_format($product->price, 2) }} <strike>&#8377;{{ number_format($product->price + 50, 2) }}</strike>
+          <div class="pl-product-body">
+            <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
+            <div class="pl-product-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}
+              @if($product->sale_price)
+                <span class="pl-old">&#8377;{{ number_format($product->price, 2) }}</span>
+              @endif
+            </div>
+            <div class="mt-auto d-flex gap-2">
+              @if($product->quantity > 0)
+                <button class="pl-btn-outline text-center flex-grow-1 py-2" onclick="PL.buyNow('{{ $product->id }}')">Buy Now</button>
+                <button class="btn btn-pl-primary px-3 d-flex align-items-center justify-content-center" style="border-radius:8px;" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus"></i></button>
+              @else
+                <button class="btn w-100 py-2" style="border-radius:8px;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-size:0.75rem;font-weight:700;cursor:not-allowed;" disabled><i class="bi bi-x-circle me-1"></i> Out of Stock</button>
+              @endif
+            </div>
           </div>
-          <button class="btn-add" onclick="PL.addToCartById('{{ $product->id }}')"><i class="bi bi-cart-plus me-1"></i> ADD TO CART</button>
         </div>
       </div>
       @endforeach

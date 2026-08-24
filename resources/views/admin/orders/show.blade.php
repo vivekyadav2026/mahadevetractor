@@ -35,17 +35,17 @@
                                 <img src="{{ $image }}" alt="{{ $item->product_name }}" class="h-14 w-14 rounded-xl object-contain bg-slate-50 border border-slate-100 p-1 flex-shrink-0">
                                 <div>
                                     <span class="block font-semibold text-slate-800">{{ $item->product_name }}</span>
-                                    <span class="block text-xs text-slate-400 mt-1">Quantity: {{ $item->quantity }} @ ${{ number_format($item->unit_price, 2) }}</span>
+                                    <span class="block text-xs text-slate-400 mt-1">Quantity: {{ $item->quantity }} @ â‚¹{{ number_format($item->unit_price, 2) }}</span>
                                 </div>
                             </div>
-                            <span class="font-bold text-slate-900">${{ number_format($item->total_price, 2) }}</span>
+                            <span class="font-bold text-slate-900">â‚¹{{ number_format($item->total_price, 2) }}</span>
                         </div>
                     @endforeach
                 </div>
                 
                 <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
                     <span class="text-sm font-semibold text-slate-500">Order Total</span>
-                    <span class="text-lg font-bold text-slate-950">${{ number_format($order->total_amount, 2) }}</span>
+                    <span class="text-lg font-bold text-slate-950">â‚¹{{ number_format($order->total_amount, 2) }}</span>
                 </div>
             </div>
 
@@ -241,7 +241,7 @@
                 @else
                     <div>
                         <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">COD Information</span>
-                        <span class="block text-slate-500 mt-1 leading-relaxed">Collect cash upon delivery. Collect exactly ${{ number_format($order->total_amount, 2) }}.</span>
+                        <span class="block text-slate-500 mt-1 leading-relaxed">Collect cash upon delivery. Collect exactly â‚¹{{ number_format($order->total_amount, 2) }}.</span>
                     </div>
                 @endif
             </div>

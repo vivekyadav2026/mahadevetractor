@@ -61,10 +61,10 @@
                                         <!-- Title and Price Row -->
                                         <div class="flex items-start justify-between gap-2">
                                             <h4 class="font-bold text-slate-800 text-xs sm:text-sm truncate leading-tight">{{ $itemName }}</h4>
-                                            <span class="font-extrabold text-slate-900 text-xs sm:text-sm whitespace-nowrap">${{ number_format($itemPrice * $item['quantity'], 2) }}</span>
+                                            <span class="font-extrabold text-slate-900 text-xs sm:text-sm whitespace-nowrap">â‚¹{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
                                         </div>
                                         
-                                        <p class="text-[10px] text-slate-400 font-semibold mt-0.5">${{ number_format($itemPrice, 2) }} each</p>
+                                        <p class="text-[10px] text-slate-400 font-semibold mt-0.5">â‚¹{{ number_format($itemPrice, 2) }} each</p>
                                         
                                         <!-- Stepper and Actions Row -->
                                         <div class="flex flex-wrap items-center justify-between gap-3 mt-2.5">
@@ -105,7 +105,7 @@
                             <div class="space-y-2 mb-4">
                                 <div class="flex justify-between text-slate-500 text-xs">
                                     <span class="font-medium">Subtotal</span>
-                                    <span class="font-extrabold text-slate-800 font-sans">${{ number_format($subtotal, 2) }}</span>
+                                    <span class="font-extrabold text-slate-800 font-sans">â‚¹{{ number_format($subtotal, 2) }}</span>
                                 </div>
                                 <div class="flex justify-between text-slate-500 text-xs">
                                     <span class="font-medium">Shipping</span>
@@ -114,7 +114,7 @@
                                 <hr class="border-slate-100">
                                 <div class="flex justify-between text-xs font-bold text-slate-900 pt-1">
                                     <span>Total Amount</span>
-                                    <span class="text-slate-900 font-extrabold">${{ number_format($total, 2) }}</span>
+                                    <span class="text-slate-900 font-extrabold">â‚¹{{ number_format($total, 2) }}</span>
                                 </div>
                             </div>
 

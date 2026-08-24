@@ -1,17 +1,31 @@
 <!-- Google Fonts for Header -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
 
+<div style="background: #cc5500; color: #ffffff; text-align: center; padding: 6px 0; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">
+  🔱 जय श्री महाकाल 🔱
+</div>
+
 <!-- ===================== DESKTOP HEADER (d-none d-lg-block) ===================== -->
 <header class="d-none d-lg-block" style="background: #ffffff; border-bottom: 1px solid #eaeaea; padding: 1rem 0; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
   <div class="container-fluid px-5 d-flex align-items-center justify-content-between">
     
     <!-- LEFT: Logo -->
-    <a href="{{ route('home') }}" class="d-flex align-items-center text-decoration-none gap-2" style="flex: 1;">
-      <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 60px; border-radius: 6px; object-fit: contain;">
-      <div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.2rem; color: #cc5500; letter-spacing: 1.5px; text-transform: uppercase; white-space: nowrap;">
-        Mahadev Tractor
+    <div class="d-flex align-items-center" style="flex: 1.5;">
+      <div class="d-flex flex-column align-items-start" style="gap: 2px;">
+        <a href="{{ route('home') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 65px; width: 65px; border-radius: 50%; object-fit: cover;">
+          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.15rem; color: #cc5500; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;">
+            MAHADEV TRACTOR MODIFICATION
+          </span>
+        </a>
+        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none" style="padding-left: 73px; margin-top: -6px;">
+          <span style="color: #e21e1e; font-size: 0.95rem; line-height: 1;"><i class="bi bi-heart-fill"></i></span>
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.8rem; color: #444; white-space: nowrap;">
+            19000+ Instagram family का भरोसा
+          </span>
+        </a>
       </div>
-    </a>
+    </div>
 
     <!-- CENTER: Search Bar -->
     <div style="flex: 2; padding: 0 40px;">
@@ -65,22 +79,29 @@
     </div>
 
     <!-- CENTER COLUMN: Centered Logo -->
-    <div class="text-center" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-      <a href="{{ route('home') }}" class="d-inline-block text-decoration-none">
-        <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 50px; width: auto; border-radius: 6px; display: block; margin: 0 auto; object-fit: contain;">
-        <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.95rem; color: #cc5500; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 6px; display: block; line-height: 1; white-space: nowrap;">Mahadev Tractor</span>
-      </a>
+    <div class="text-center" style="flex: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="d-flex flex-column align-items-center" style="gap: 2px;">
+        <a href="{{ route('home') }}" class="d-inline-block text-decoration-none">
+          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 3px auto;">
+          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.78rem; color: #cc5500; letter-spacing: 0.8px; text-transform: uppercase; white-space: nowrap;">MAHADEV TRACTOR MODIFICATION</span>
+        </a>
+        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center justify-content-center gap-1 text-decoration-none">
+          <span style="color: #e21e1e; font-size: 0.75rem; line-height: 1;"><i class="bi bi-heart-fill"></i></span>
+          <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.65rem; color: #444; white-space: nowrap;">19000+ Instagram family का भरोसा</span>
+        </a>
+      </div>
     </div>
 
     <!-- RIGHT COLUMN: Icons (Search, Profile, Wishlist, Cart) -->
     <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 14px;">
       
-      <!-- Search -->
+      <!-- Search
       <a href="{{ route('shop') }}" class="text-dark position-relative" style="font-size: 1.3rem;">
         <i class="bi bi-search"></i>
       </a>
+      -->
       
-      <!-- Account -->
+      <!-- Account
       @auth
         <a href="{{ route('dashboard') }}" class="text-dark position-relative" style="font-size: 1.3rem;">
           <i class="bi bi-person"></i>
@@ -90,6 +111,7 @@
           <i class="bi bi-person"></i>
         </a>
       @endauth
+      -->
 
       <!-- Wishlist -->
       <a href="{{ route('wishlist.index') }}" class="text-dark position-relative" style="font-size: 1.3rem;">

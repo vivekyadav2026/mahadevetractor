@@ -18,7 +18,7 @@
 
 <style>
     body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
-    .app-card { background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(14,107,87,0.1); padding: 40px 20px; text-align: center; max-width: 450px; margin: 0 auto; }
+    .app-card { background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(255,107,0,0.1); padding: 40px 20px; text-align: center; max-width: 450px; margin: 0 auto; }
     .app-icon-large { width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 24px; }
     .feature-list { text-align: left; margin: 30px 0; padding: 0 20px; }
     .feature-item { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-size: 1rem; color: #475569; font-weight: 500; }
