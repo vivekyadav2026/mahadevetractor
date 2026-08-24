@@ -67,7 +67,7 @@
   .pl-product-card:hover .btn-add, .btn-add:hover { background: #00bcd4; color: #fff; border-color: #00bcd4; }
 
   @media(max-width: 768px) {
-      .pl-hero-custom { flex-direction: column; text-align: center; padding: 1rem 0.8rem; margin-bottom: 1.2rem; }
+      .pl-hero-custom { flex-direction: column; text-align: center; padding: 1rem 0.8rem; margin-bottom: 1.2rem; margin-left: -1rem; margin-right: -1rem; border-radius: 0; }
       .pl-hero-text { margin-bottom: 1.2rem; max-width: 100% !important; padding-right: 0 !important; }
       .hero-title { font-size: 1.6rem !important; line-height: 1.3 !important; }
       .hero-delivery-text { font-size: 0.95rem !important; margin: 0.6rem 0 !important; justify-content: center !important; }
