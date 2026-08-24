@@ -323,7 +323,7 @@
                                             <span class="text-[9px] text-gray-400">Qty: {{ $item['quantity'] }}</span>
                                         </div>
                                     </div>
-                                    <span class="font-bold text-gray-900 text-xs">â‚¹{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
+                                    <span class="font-bold text-gray-900 text-xs">&#8377;{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
                                 </div>
                             @endforeach
                         </div>
@@ -331,7 +331,7 @@
                         <div class="space-y-2 mb-3 border-t border-gray-100 pt-2">
                             <div class="flex justify-between text-gray-500 text-xs">
                                 <span>Subtotal</span>
-                                <span class="font-semibold text-gray-900 font-sans">â‚¹{{ number_format($subtotal, 2) }}</span>
+                                <span class="font-semibold text-gray-900 font-sans">&#8377;{{ number_format($subtotal, 2) }}</span>
                             </div>
                             <div class="flex justify-between text-gray-500 text-xs">
                                 <span>Shipping</span>
@@ -340,12 +340,12 @@
                             <hr class="border-gray-100">
                             <div class="flex justify-between text-xs font-bold text-gray-900">
                                 <span>Grand Total</span>
-                                <span>â‚¹{{ number_format($subtotal, 2) }}</span>
+                                <span>&#8377;{{ number_format($subtotal, 2) }}</span>
                             </div>
                         </div>
 
                         <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 rounded-lg tracking-wider text-[11px] transition-all duration-300 shadow-md cursor-pointer hover:shadow-lg transform hover:-translate-y-0.5">
-                            PLACE ORDER (â‚¹{{ number_format($subtotal, 2) }})
+                            PLACE ORDER (&#8377;{{ number_format($subtotal, 2) }})
                         </button>
                     </div>
                 </div>

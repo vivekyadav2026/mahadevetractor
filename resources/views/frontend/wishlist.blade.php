@@ -53,9 +53,9 @@
                         </div>
                         <div class="pl-product-body">
                           <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-                          <div class="pl-product-price">₹{{ number_format($product->sale_price ?? $product->price, 2) }}
+                          <div class="pl-product-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}
                             @if($product->sale_price)
-                              <span class="pl-old">₹{{ number_format($product->price, 2) }}</span>
+                              <span class="pl-old">&#8377;{{ number_format($product->price, 2) }}</span>
                             @endif
                           </div>
                           <div class="mt-auto d-flex gap-2">

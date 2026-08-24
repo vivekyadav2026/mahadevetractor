@@ -92,8 +92,8 @@
           <h6 class="fw-bold mb-3">Price Range</h6>
           <input type="range" class="form-range" name="max_price" id="desktop-price-range" min="20" max="2000" value="{{ request('max_price', 2000) }}">
           <div class="d-flex justify-content-between small text-muted mt-1">
-            <span>₹20</span>
-            <span id="desktop-price-max-label">â‚¹{{ request('max_price', 2000) }}</span>
+            <span>&#8377;20</span>
+            <span id="desktop-price-max-label">&#8377;{{ request('max_price', 2000) }}</span>
           </div>
         </div>
       </form>
@@ -134,9 +134,9 @@
             </div>
             <div class="pl-product-body">
               <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
-              <div class="pl-product-price">â‚¹{{ number_format($product->sale_price ?? $product->price, 2) }}
+              <div class="pl-product-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}
                 @if($product->sale_price)
-                  <span class="pl-old">â‚¹{{ number_format($product->price, 2) }}</span>
+                  <span class="pl-old">&#8377;{{ number_format($product->price, 2) }}</span>
                 @endif
               </div>
               <div class="mt-auto d-flex gap-2">
@@ -211,8 +211,8 @@
           <h6 class="fw-bold mb-2">Price Range</h6>
           <input type="range" class="form-range" name="max_price" id="mobile-price-range" min="20" max="2000" value="{{ request('max_price', 2000) }}">
           <div class="d-flex justify-content-between small text-muted mt-1">
-            <span>₹20</span>
-            <span id="mobile-price-max-label">â‚¹{{ request('max_price', 2000) }}</span>
+            <span>&#8377;20</span>
+            <span id="mobile-price-max-label">&#8377;{{ request('max_price', 2000) }}</span>
           </div>
         </div>
         <button type="submit" class="btn btn-pl-primary w-100 py-2 rounded-3" id="mobileFilterApply">Apply Filters</button>

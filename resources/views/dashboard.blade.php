@@ -51,7 +51,7 @@
                             <div class="hidden md:flex items-center gap-5">
                                 <div class="text-center px-4 py-2.5 rounded-xl" style="background: rgba(255,255,255,0.75); border: 1px solid rgba(255,107,0,0.12); backdrop-filter: blur(4px);">
                                     <span class="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style="color: #4b7a6e;">Total Spent</span>
-                                    <span class="text-sm font-extrabold" style="color: #0f1f1c; font-family: 'Outfit', sans-serif;">â‚¹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
+                                    <span class="text-sm font-extrabold" style="color: #0f1f1c; font-family: 'Outfit', sans-serif;">&#8377;{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 2) }}</span>
                                 </div>
                                 <div class="text-center px-4 py-2.5 rounded-xl" style="background: rgba(255,255,255,0.75); border: 1px solid rgba(255,107,0,0.12); backdrop-filter: blur(4px);">
                                     <span class="text-[9px] font-bold uppercase tracking-wider block mb-0.5" style="color: #4b7a6e;">Orders</span>
@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="mt-2.5">
-                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">â‚¹{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 0) }}</span>
+                                <span class="text-xl font-extrabold text-slate-900 tracking-tight" style="font-family: 'Outfit', sans-serif;">&#8377;{{ number_format($orders->where('payment_status', 'completed')->sum('total_amount'), 0) }}</span>
                                 <div class="flex items-center gap-1 text-[8px] text-blue-600 font-extrabold mt-1.5 bg-blue-50 w-fit px-1.5 py-0.5 rounded">
                                     <i class="fa-solid fa-shield text-[7px]"></i> Secured Transactions
                                 </div>
@@ -258,7 +258,7 @@
                                                 <!-- Desktop only Status / Mobile & Desktop Total -->
                                                 <div class="flex items-center gap-3">
                                                     <div class="text-right">
-                                                         <span class="text-xs font-extrabold text-slate-900">â‚¹{{ number_format($order->total_amount, 2) }}</span>
+                                                         <span class="text-xs font-extrabold text-slate-900">&#8377;{{ number_format($order->total_amount, 2) }}</span>
                                                     </div>
                                                     <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold border {{ $config['bg'] }}">
                                                          <span class="relative flex h-1.5 w-1.5">
@@ -304,10 +304,10 @@
                                                                 @endif
                                                                 <div>
                                                                     <p class="text-xs font-bold text-slate-900">{{ $item->product_name }}</p>
-                                                                    <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} Ãƒâ€” <span class="font-medium text-slate-500">â‚¹{{ number_format($item->unit_price, 2) }}</span></p>
+                                                                    <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} Ãƒâ€” <span class="font-medium text-slate-500">&#8377;{{ number_format($item->unit_price, 2) }}</span></p>
                                                                 </div>
                                                             </div>
-                                                            <span class="text-xs font-extrabold text-slate-900">â‚¹{{ number_format($item->total_price, 2) }}</span>
+                                                            <span class="text-xs font-extrabold text-slate-900">&#8377;{{ number_format($item->total_price, 2) }}</span>
                                                         </div>
                                                     @endforeach
                                                 </div>

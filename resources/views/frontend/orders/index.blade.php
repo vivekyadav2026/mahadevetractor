@@ -123,7 +123,7 @@
 
                                             <div class="flex items-center gap-3">
                                                 <div class="text-right font-sans">
-                                                    <span class="text-xs font-extrabold text-slate-900">â‚¹{{ number_format($order->total_amount, 2) }}</span>
+                                                    <span class="text-xs font-extrabold text-slate-900">&#8377;{{ number_format($order->total_amount, 2) }}</span>
                                                 </div>
                                                 <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold border {{ $config['bg'] }}">
                                                     <span class="relative flex h-1.5 w-1.5">
@@ -169,10 +169,10 @@
                                                             @endif
                                                             <div>
                                                                 <p class="text-xs font-bold text-slate-900">{{ $item->product_name }}</p>
-                                                                <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} Ã— <span class="font-medium text-slate-500">â‚¹{{ number_format($item->unit_price, 2) }}</span></p>
+                                                                <p class="text-[10px] text-slate-600 font-bold mt-0.5">{{ $item->quantity }} Ã— <span class="font-medium text-slate-500">&#8377;{{ number_format($item->unit_price, 2) }}</span></p>
                                                             </div>
                                                         </div>
-                                                        <span class="text-xs font-extrabold text-slate-900">â‚¹{{ number_format($item->total_price, 2) }}</span>
+                                                        <span class="text-xs font-extrabold text-slate-900">&#8377;{{ number_format($item->total_price, 2) }}</span>
                                                     </div>
                                                 @endforeach
                                             </div>

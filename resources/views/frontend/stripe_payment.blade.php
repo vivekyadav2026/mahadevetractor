@@ -23,7 +23,7 @@
             </div>
             <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-600 font-medium">Total Amount</span>
-                <span class="text-lg font-extrabold text-slate-900" style="font-family: 'Outfit', sans-serif;">â‚¹{{ number_format($order->total_amount, 2) }}</span>
+                <span class="text-lg font-extrabold text-slate-900" style="font-family: 'Outfit', sans-serif;">&#8377;{{ number_format($order->total_amount, 2) }}</span>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                     style="background: linear-gradient(135deg, #ff6b00, #cc5500);">
                     <span id="btn-text">
                         <i class="fa-solid fa-lock text-xs mr-1"></i>
-                        Pay â‚¹{{ number_format($order->total_amount, 2) }}
+                        Pay &#8377;{{ number_format($order->total_amount, 2) }}
                     </span>
                     <span id="btn-spinner" class="hidden">
                         <i class="fa-solid fa-spinner fa-spin"></i> Processing...

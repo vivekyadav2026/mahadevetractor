@@ -114,9 +114,9 @@
       </div>
 
       <div class="fs-2 fw-bold mb-3" style="font-family:var(--pl-font-head);color:var(--pl-primary-dark);" id="pl-product-price-wrap">
-        <span id="pl-product-price">â‚¹{{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
+        <span id="pl-product-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}</span> 
         @if($product->sale_price)
-          <span class="pl-old" id="pl-product-old-price">â‚¹{{ number_format($product->price, 2) }}</span>
+          <span class="pl-old" id="pl-product-old-price">&#8377;{{ number_format($product->price, 2) }}</span>
         @endif
       </div>
 
@@ -266,9 +266,9 @@
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $relProduct->slug) }}" class="pl-product-title" title="{{ $relProduct->name }}">{{ $relProduct->name }}</a>
-            <div class="pl-product-price">â‚¹{{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
+            <div class="pl-product-price">&#8377;{{ number_format($relProduct->sale_price ?? $relProduct->price, 2) }}
               @if($relProduct->sale_price)
-                <span class="pl-old">â‚¹{{ number_format($relProduct->price, 2) }}</span>
+                <span class="pl-old">&#8377;{{ number_format($relProduct->price, 2) }}</span>
               @endif
             </div>
             <div class="mt-auto d-flex gap-2">
@@ -296,7 +296,7 @@
   <div class="d-flex align-items-center justify-content-between mb-2">
     <div>
       <span class="small text-muted me-1">Price:</span>
-      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">â‚¹{{ number_format($product->sale_price ?? $product->price, 2) }}</span>
+      <span class="fw-bold fs-5" style="color:var(--pl-primary-dark);" id="pl-sticky-price">&#8377;{{ number_format($product->sale_price ?? $product->price, 2) }}</span>
     </div>
     @if($product->quantity > 0)
     <div class="pl-qty-stepper" id="pl-sticky-qty-stepper" style="gap:8px;">
