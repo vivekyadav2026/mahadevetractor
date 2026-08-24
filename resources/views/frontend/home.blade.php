@@ -90,12 +90,7 @@
   <section class="pl-hero-custom">
     <div class="pl-hero-text" style="flex: 1; max-width: 45%; padding-right: 20px;">
       
-      <!-- GOD ELEMENT -->
-      <div class="god-text">
-         <img src="{{ asset('images/mahadev_logo.jpg') }}" style="width:24px; height:24px; border-radius:50%; object-fit:cover;">
-         ॥ हर हर महादेव ॥
-      </div>
-
+  
       <h1 style="font-weight: 900; font-size: 2.6rem; color: #111; line-height: 1.2;">Tractor & Pickup<br><span class="highlight">Accessories Store</span></h1>
       <p style="font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px;">
         🇮🇳 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
