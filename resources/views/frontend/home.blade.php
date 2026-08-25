@@ -37,10 +37,15 @@
   .pl-hero-text .highlight { color: #f08038; }
   .pl-hero-slider-img {
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 21 / 9;
       object-fit: cover;
       border-radius: 16px;
       display: block;
+  }
+  @media (max-width: 768px) {
+      .pl-hero-slider-img {
+          aspect-ratio: 16 / 9;
+      }
   }
   
   .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; flex-shrink: 0; transition: color 0.2s; }
@@ -112,7 +117,7 @@
         <!-- Slide 1: Designed Brand Banner -->
         <div class="carousel-item active">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img">
+            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0a0e14;">
           </a>
         </div>
         <!-- Slide 2: Modified Bolero Pickup -->
