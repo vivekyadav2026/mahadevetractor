@@ -117,7 +117,7 @@
         <!-- Slide 1: Designed Brand Banner -->
         <div class="carousel-item active">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0a0e14;">
+            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img" style="object-fit: fill;">
           </a>
         </div>
         <!-- Slide 2: Modified Bolero Pickup -->
@@ -129,13 +129,13 @@
         <!-- Slide 3: Generated Tractor Modifications -->
         <div class="carousel-item">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/generated_banner_1.jpg') }}" alt="Tractor Modifications Banner" class="pl-hero-slider-img">
+            <img src="{{ asset('images/generated_banner_1.jpg') }}" alt="Tractor Modifications Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0b0d11;">
           </a>
         </div>
         <!-- Slide 4: Generated Pickup Modifications -->
         <div class="carousel-item">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/generated_banner_2.jpg') }}" alt="Pickup Modifications Banner" class="pl-hero-slider-img">
+            <img src="{{ asset('images/generated_banner_2.jpg') }}" alt="Pickup Modifications Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0c0f13;">
           </a>
         </div>
       </div>
