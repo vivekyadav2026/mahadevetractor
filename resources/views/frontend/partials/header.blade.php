@@ -49,9 +49,9 @@
           <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #f08038;">
           <div class="d-flex flex-column align-items-start">
             <span class="mahadev-brand-text" style="font-size: 1.35rem; letter-spacing: 2px; padding-bottom: 2px;">
-              <span style="color: #ff5500;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #ffaa00;"><span style="font-size: 1.65rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #ff5500;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>ODIFICATION</span>
+              <span style="color: #f08038;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #f08038;"><span style="font-size: 1.65rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #f08038;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>ODIFICATION</span>
             </span>
-            <div style="height: 2px; width: 100%; background: linear-gradient(to right, #ff5500, #ffaa00, #ff5500, transparent); margin-top: 1px;"></div>
+            <div style="height: 2px; width: 100%; background: linear-gradient(to right, #f08038, #ffaa00, #f08038, transparent); margin-top: 1px;"></div>
           </div>
         </a>
         <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center" style="margin-top: 1px; color: #2b2b2b !important;">
@@ -111,9 +111,9 @@
           <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 3px auto;">
           <div class="d-flex flex-column align-items-center">
             <span class="mahadev-brand-text" style="font-size: 0.78rem; letter-spacing: 1.6px; padding-bottom: 1px;">
-              <span style="color: #ff5500;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #ffaa00;"><span style="font-size: 0.98rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #ff5500;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>ODIFICATION</span>
+              <span style="color: #f08038;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #f08038;"><span style="font-size: 0.98rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #f08038;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>ODIFICATION</span>
             </span>
-            <div style="height: 1.5px; width: 80%; background: linear-gradient(to right, transparent, #ff5500, #ffaa00, #ff5500, transparent); margin-top: 1px;"></div>
+            <div style="height: 1.5px; width: 80%; background: linear-gradient(to right, transparent, #f08038, #ffaa00, #f08038, transparent); margin-top: 1px;"></div>
           </div>
         </a>
         <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center justify-content-center gap-1 text-decoration-none" style="color: #2b2b2b !important;">
