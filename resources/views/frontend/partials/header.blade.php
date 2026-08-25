@@ -12,7 +12,7 @@
     <!-- LEFT: Search Bar (Moved from Center) -->
     <div class="d-flex align-items-center" style="flex: 1.5;">
       <form action="{{ route('shop') }}" method="GET" class="position-relative w-100" style="max-width: 380px;">
-        <input type="text" name="search" class="form-control" placeholder="Search for tractor accessories, hoods, music systems..." style="border-radius: 30px; padding: 10px 20px; border: 1px solid #ddd; background: #f8f9fa;">
+        <input type="text" name="search" class="form-control" placeholder="Search for tractor accessories, hoods, music systems..." style="border-radius: 30px; padding: 10px 45px 10px 20px; border: 1px solid #ddd; background: #f8f9fa;">
         <button type="submit" class="btn position-absolute top-50 translate-middle-y" style="right: 10px; color: #cc5500;">
           <i class="bi bi-search"></i>
         </button>

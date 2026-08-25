@@ -35,15 +35,24 @@
   .hero-title { font-weight: 900; font-size: 2.8rem; color: #111; line-height: 1.2; }
   .hero-delivery-text { font-size: 1.3rem; color: #cc5500; margin: 1rem 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
   .pl-hero-text .highlight { color: #f08038; }
-  .pl-hero-carousel { border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; aspect-ratio: 16 / 9; }
-  .pl-hero-carousel img { width: 100%; height: 100%; object-fit: contain; background: #080d16; }
+  .pl-hero-slider-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 16px;
+      display: block;
+  }
   
-  .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; flex-shrink: 0; }
+  .cat-circle-wrap { text-align: center; text-decoration: none; display: block; width: 100px; flex-shrink: 0; transition: color 0.2s; }
+  .cat-circle-wrap:hover .cat-title { color: #f08038; }
   .scrollbar-hidden::-webkit-scrollbar { display: none; }
-  .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s; padding: 12px; border: 2px solid transparent; }
-  .cat-circle:hover { transform: translateY(-5px); border-color: #f08038; }
-  .cat-circle img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .cat-title { font-size: 0.85rem; font-weight: 700; color: #333; line-height: 1.2; }
+  .cat-circle { width: 85px; height: 85px; border-radius: 50%; background: #fff; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 12px; border: 2px solid #fff3eb; }
+  .cat-circle-wrap:hover .cat-circle { transform: translateY(-6px) scale(1.05); border-color: #f08038; box-shadow: 0 8px 24px rgba(240, 128, 56, 0.15); background: linear-gradient(135deg, #ffffff 0%, #fffbf8 100%); }
+  .cat-circle img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s; }
+  .cat-circle-wrap:hover .cat-circle img { transform: scale(1.08); }
+  .cat-title { font-size: 0.85rem; font-weight: 700; color: #475569; line-height: 1.2; transition: color 0.2s; }
+  .cat-arrow-indicator { font-size: 0.7rem; color: #cbd5e1; margin: -4px auto 4px; transition: all 0.3s ease; opacity: 0.4; transform: translateY(0); display: block; }
+  .cat-circle-wrap:hover .cat-arrow-indicator { color: #f08038; opacity: 1; transform: translateY(3px); }
 
   .section-title { font-size: 1.6rem; font-weight: 800; color: #222; text-align: center; margin-bottom: 1.5rem; }
   
@@ -90,43 +99,62 @@
 
 <main class="container-fluid px-3 px-xl-5 pl-main-container py-4">
 
-  <!-- ===================== PREMIUM HERO BANNER ===================== -->
-  <section class="pl-hero-custom">
-    <div class="pl-hero-text" style="flex: 1; max-width: 45%; padding-right: 20px;">
-      
-  
-      <h1 class="hero-title">Tractor & Pickup<br><span class="highlight">Accessories Store</span></h1>
-      <p class="hero-delivery-text">
-        🚚 घर बैठे आर्डर करे, पुरे भारत में डिलीवरी
-      </p>
-
-      <a href="{{ url('/shop') }}" class="btn btn-add" style="display: inline-block; width: auto; padding: 12px 30px; font-size: 1rem; border-radius: 30px; background: #f08038; color: #fff; border:none;">अभी खरीदारी करें <i class="bi bi-arrow-right ms-2"></i></a>
-    </div>
-    
-    <div class="pl-hero-carousel-wrap" style="flex: 1; max-width: 55%; width: 100%;">
-      <div id="homeCarousel" class="carousel slide pl-hero-carousel" data-bs-ride="carousel" data-bs-interval="2000">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active"></button>
-          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="1"></button>
-          <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="2"></button>
+  <!-- ===================== PREMIUM HERO BANNER SLIDER ===================== -->
+  <section class="mb-4">
+    <div id="heroBannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500" data-bs-pause="false">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroBannerCarousel" data-bs-slide-to="3"></button>
+      </div>
+      <div class="carousel-inner" style="border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
+        <!-- Slide 1: Designed Brand Banner -->
+        <div class="carousel-item active">
+          <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
+            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img">
+          </a>
         </div>
-        <div class="carousel-inner h-100">
-          <div class="carousel-item active h-100">
-            <img src="{{ asset('images/tractor_parts_banner.jpg') }}" alt="Tractor Modification Parts Banner">
-          </div>
-          <div class="carousel-item h-100">
-            <img src="{{ asset('images/tractor_pickup_banner.jpg') }}" alt="Tractor and Pickup Modification Banner">
-          </div>
-          <div class="carousel-item h-100">
-            <img src="{{ asset('images/slider_new_2.jpg') }}" alt="Tractor Audio System">
-          </div>
+        <!-- Slide 2: Modified Bolero Pickup -->
+        <div class="carousel-item">
+          <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
+            <img src="{{ asset('images/pickup_slider.jpg') }}" alt="Modified Pickup Truck" class="pl-hero-slider-img">
+          </a>
+        </div>
+        <!-- Slide 3: Generated Tractor Modifications -->
+        <div class="carousel-item">
+          <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
+            <img src="{{ asset('images/generated_banner_1.jpg') }}" alt="Tractor Modifications Banner" class="pl-hero-slider-img">
+          </a>
+        </div>
+        <!-- Slide 4: Generated Pickup Modifications -->
+        <div class="carousel-item">
+          <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
+            <img src="{{ asset('images/generated_banner_2.jpg') }}" alt="Pickup Modifications Banner" class="pl-hero-slider-img">
+          </a>
         </div>
       </div>
+      
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="prev" style="width: 5%;">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true" style="background-size: 50% 50%;"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroBannerCarousel" data-bs-slide="next" style="width: 5%;">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true" style="background-size: 50% 50%;"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
   </section>
 
   <!-- ===================== CATEGORY CIRCLES ===================== -->
   <section class="mb-5">
+    <div class="d-flex align-items-center justify-content-center my-4">
+      <div style="flex: 1; height: 1px; background: #e0e0e0; max-width: 80px;"></div>
+      <h4 class="mx-3 fw-bold text-uppercase mb-0" style="font-size: 0.95rem; color: #222; letter-spacing: 1px;">SHOP BY CATEGORY</h4>
+      <div style="flex: 1; height: 1px; background: #e0e0e0; max-width: 80px;"></div>
+    </div>
+
     <div class="d-flex flex-nowrap overflow-x-auto pb-2 gap-3 gap-md-5 justify-content-start justify-content-md-center scrollbar-hidden" style="-webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 5px 10px;">
       @foreach(\App\Models\Category::all() as $cat)
         @php
@@ -137,17 +165,26 @@
           <div class="cat-circle">
              <img src="{{ $catImg }}" alt="{{ $cat->name }}">
           </div>
+          <div class="cat-arrow-indicator">
+            <i class="bi bi-chevron-double-down"></i>
+          </div>
           <div class="cat-title">{{ $cat->name }}</div>
         </a>
       @endforeach
+    </div>
+
+    <div class="text-center mt-3">
+      <a href="{{ url('/shop') }}" class="btn fw-bold py-1 px-4" style="background: #ffffff; border: 1.5px solid #f08038; color: #f08038; border-radius: 30px; font-size: 0.82rem; transition: all 0.2s;">
+        सभी Categories देखें &rarr;
+      </a>
     </div>
   </section>
 
   <!-- ===================== BEST SELLING PRODUCTS ===================== -->
   <section class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.5rem;">Best Selling Product</h2>
-      <a href="{{ url('/shop') }}" class="fw-bold text-decoration-none" style="color: #00bcd4; font-size: 0.95rem;">View All <i class="bi bi-chevron-right"></i></a>
+      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.25rem; font-weight: 800;"><span class="me-1">🔥</span>BEST SELLING PRODUCTS</h2>
+      <a href="{{ url('/shop') }}" class="fw-bold text-decoration-none" style="color: #f08038; font-size: 0.85rem;">सभी देखें &rarr;</a>
     </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
       @php
@@ -203,8 +240,8 @@
   @foreach(\App\Models\Category::has('products', '>=', 1)->take(6)->get() as $cat)
   <section class="mb-4 pt-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.5rem;">{{ $cat->name }}</h2>
-      <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="fw-bold text-decoration-none" style="color: #00bcd4; font-size: 0.95rem;">View All <i class="bi bi-chevron-right"></i></a>
+      <h2 class="section-title mb-0" style="text-align: left; font-size: 1.25rem; font-weight: 800; text-transform: uppercase;">📦 {{ $cat->name }}</h2>
+      <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="fw-bold text-decoration-none" style="color: #f08038; font-size: 0.85rem;">सभी देखें &rarr;</a>
     </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
       @foreach($cat->products()->take(5)->get() as $product)
@@ -250,7 +287,281 @@
     </div>
   </section>
   @endforeach
+  <!-- ===================== WHY CHOOSE US SECTION ===================== -->
+  <section class="container mt-4 mb-3 py-4 px-3 rounded-4 text-white" style="background: #111111; border: 1px solid #222222;">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
+      <h3 class="mx-3 fw-bold fs-5 text-uppercase mb-0" style="color: #ffffff; letter-spacing: 0.5px;">क्यों खरीदें हमसे?</h3>
+      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
+    </div>
+    <div class="row g-2 g-md-3 justify-content-center text-center">
+      <!-- Card 1: Instagram -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-instagram"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">19,000+</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">Instagram Family</div>
+        </div>
+      </div>
+      <!-- Card 2: Delivery -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-truck"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">पूरे भारत में</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">Delivery</div>
+        </div>
+      </div>
+      <!-- Card 3: Quality -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-patch-check"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">Best Quality</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">Products</div>
+        </div>
+      </div>
+      <!-- Card 4: Secure -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-shield-lock"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">100% Secure</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">Payments</div>
+        </div>
+      </div>
+      <!-- Card 5: Support -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-whatsapp"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">WhatsApp Support</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">तुरंत सहायता</div>
+        </div>
+      </div>
+      <!-- Card 6: Experience -->
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="p-3 rounded-4 h-100 d-flex flex-column align-items-center justify-content-center" style="background: #181818; border: 1px solid #2a2a2a; min-height: 135px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+          <div class="d-flex align-items-center justify-content-center mb-2" style="width: 44px; height: 44px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; color: #f08038; font-size: 1.3rem;">
+            <i class="bi bi-tools"></i>
+          </div>
+          <div class="fw-bold" style="font-size: 0.9rem;">Modifications</div>
+          <div class="text-muted small" style="font-size: 0.75rem;">का सालों का अनुभव</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ===================== CUSTOMER REVIEWS SECTION ===================== -->
+  <section class="container my-3">
+    <div class="d-flex align-items-center justify-content-center mb-4">
+      <div style="flex: 1; height: 1px; background: #e0e0e0; max-width: 80px;"></div>
+      <h3 class="mx-3 fw-bold fs-5 text-uppercase mb-0" style="color: #222; letter-spacing: 0.5px;">⭐ हमारे ग्राहकों का भरोसा ⭐</h3>
+      <div style="flex: 1; height: 1px; background: #e0e0e0; max-width: 80px;"></div>
+    </div>
+    
+    <!-- DESKTOP VIEW: Clean 4-card grid row (No slider needed as 4 cards fit perfectly) -->
+    <div class="d-none d-lg-block">
+      <div class="row justify-content-center">
+        <!-- Review 1 -->
+        <div class="col-lg-3 mb-3">
+          <div class="bg-white p-3 rounded-4 border shadow-sm h-100" style="min-height: 200px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">RY</div>
+              <div>
+                <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Ramesh Yadav</h5>
+                <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+              </div>
+            </div>
+            <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">बहुत बढ़िया म्यूजिक सिस्टम है! 4 स्पीकर और भारी बास (heavy bass) की वजह से साउंड क्वालिटी कमाल की है। पैकिंग भी बहुत मजबूत थी और 3 दिन में डिलीवरी मिल गई। महाकाल की कृपा बनी रहे भाई 🙏</p>
+          </div>
+        </div>
+        <!-- Review 2 -->
+        <div class="col-lg-3 mb-3">
+          <div class="bg-white p-3 rounded-4 border shadow-sm h-100" style="min-height: 200px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">VC</div>
+              <div>
+                <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Vikram Choudhary</h5>
+                <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+              </div>
+            </div>
+            <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">मैंने स्वराज ट्रैक्टर के लिए फाइबर हुड (Fiber Hood) आर्डर किया था। फिटिंग और फिनिशिंग एकदम परफेक्ट आई है, कोई एक्स्ट्रा एडजस्टमेंट नहीं करना पड़ा। पेंट क्वालिटी भी बहुत शानदार है। 100% Recommended!</p>
+          </div>
+        </div>
+        <!-- Review 3 -->
+        <div class="col-lg-3 mb-3">
+          <div class="bg-white p-3 rounded-4 border shadow-sm h-100" style="min-height: 200px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">SP</div>
+              <div>
+                <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Suresh Patil</h5>
+                <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+              </div>
+            </div>
+            <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">सामान की क्वालिटी बहुत लाजवाब है। मैंने एलईडी हेडलाइट्स और साइलेंसर मंगवाया था, फिटिंग एकदम सही है और डिलीवरी भी बहुत फास्ट थी। सबसे भरोसेमंद दुकान है 👍</p>
+          </div>
+        </div>
+        <!-- Review 4 -->
+        <div class="col-lg-3 mb-3">
+          <div class="bg-white p-3 rounded-4 border shadow-sm h-100" style="min-height: 200px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">AV</div>
+              <div>
+                <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Amit Verma</h5>
+                <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+              </div>
+            </div>
+            <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">महादेव ट्रैक्टर मॉडिफिकेशन का कस्टमर सपोर्ट सच में बहुत बढ़िया है। कॉल और व्हाट्सएप पर जो भी सवाल पूछो, उसका तुरंत रिप्लाई और सही सलाह देते हैं। बहुत ही ईमानदार भाई हैं! Thank you 😊</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE & TABLET VIEW: Responsive Slider Carousel -->
+    <div id="reviewsCarouselMobile" class="carousel slide d-lg-none" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <!-- Slide 1: Ramesh Yadav -->
+        <div class="carousel-item active">
+          <div class="row justify-content-center px-4">
+            <div class="col-12 col-md-8">
+              <div class="bg-white p-3 rounded-4 border shadow-sm" style="min-height: 180px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">RY</div>
+                  <div>
+                    <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Ramesh Yadav</h5>
+                    <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                  </div>
+                </div>
+                <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">बहुत बढ़िया म्यूजिक सिस्टम है! 4 स्पीकर और भारी बास (heavy bass) की वजह से साउंड क्वालिटी कमाल की है। पैकिंग भी बहुत मजबूत थी और 3 दिन में डिलीवरी मिल गई। महाकाल की कृपा बनी रहे भाई 🙏</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 2: Vikram Choudhary -->
+        <div class="carousel-item">
+          <div class="row justify-content-center px-4">
+            <div class="col-12 col-md-8">
+              <div class="bg-white p-3 rounded-4 border shadow-sm" style="min-height: 180px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">VC</div>
+                  <div>
+                    <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Vikram Choudhary</h5>
+                    <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                  </div>
+                </div>
+                <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">मैंने स्वराज ट्रैक्टर के लिए फाइबर हुड (Fiber Hood) आर्डर किया था। फिटिंग और फिनिशिंग एकदम परफेक्ट आई है, कोई एक्स्ट्रा एडजस्टमेंट नहीं करना पड़ा। पेंट क्वालिटी भी बहुत शानदार है। 100% Recommended!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 3: Suresh Patil -->
+        <div class="carousel-item">
+          <div class="row justify-content-center px-4">
+            <div class="col-12 col-md-8">
+              <div class="bg-white p-3 rounded-4 border shadow-sm" style="min-height: 180px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">SP</div>
+                  <div>
+                    <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Suresh Patil</h5>
+                    <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                  </div>
+                </div>
+                <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">सामान की क्वालिटी बहुत लाजवाब है। मैंने एलईडी हेडलाइट्स और साइलेंसर मंगवाया था, फिटिंग एकदम सही है और डिलीवरी भी बहुत फास्ट थी। सबसे भरोसेमंद दुकान है 👍</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Slide 4: Amit Verma -->
+        <div class="carousel-item">
+          <div class="row justify-content-center px-4">
+            <div class="col-12 col-md-8">
+              <div class="bg-white p-3 rounded-4 border shadow-sm" style="min-height: 180px;">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div style="width: 40px; height: 40px; background: rgba(240, 128, 56, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #f08038;">AV</div>
+                  <div>
+                    <h5 class="fw-bold mb-0" style="font-size: 0.85rem;">Amit Verma</h5>
+                    <div class="text-warning" style="font-size: 0.75rem;"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                  </div>
+                </div>
+                <p class="text-muted mb-0" style="font-size: 0.82rem; line-height: 1.5;">महादेव ट्रैक्टर मॉडिफिकेशन का कस्टमर सपोर्ट सच में बहुत बढ़िया है। कॉल और व्हाट्सएप पर जो भी सवाल पूछो, उसका तुरंत रिप्लाई और सही सलाह देते हैं। बहुत ही ईमानदार भाई हैं! Thank you 😊</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Controls (Mobile/Tablet only) -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarouselMobile" data-bs-slide="prev" style="width: 8%;">
+        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true" style="background-size: 50% 50%;"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarouselMobile" data-bs-slide="next" style="width: 8%;">
+        <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true" style="background-size: 50% 50%;"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===================== DELIVERY PROMO BANNER ===================== -->
+  <section class="container my-3">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4 rounded-4 border" style="background: #fff8f5; border-color: #ffe4d6 !important;">
+      <div class="d-flex align-items-center gap-3 flex-column flex-md-row text-center text-md-start mb-3 mb-md-0">
+        <div class="d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; flex-shrink: 0;">
+          <svg viewBox="0 0 120 120" style="width: 100%; height: 100%;">
+            <defs>
+              <linearGradient id="truckGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff7b00" />
+                <stop offset="100%" stop-color="#cc5500" />
+              </linearGradient>
+            </defs>
+            <!-- Background circle -->
+            <circle cx="60" cy="60" r="50" fill="#fff5f0" />
+            
+            <!-- Speed lines -->
+            <path d="M15 45h15M10 55h22M18 65h10" stroke="#f08038" stroke-width="3" stroke-linecap="round" opacity="0.7" />
+            
+            <!-- Truck Body -->
+            <path d="M42 35h32v32H42z" fill="url(#truckGrad)" />
+            <path d="M74 42l16 4v21H74z" fill="#f08038" />
+            
+            <!-- Cab Window -->
+            <path d="M76 46l8 2v10h-8z" fill="#fff" />
+            
+            <!-- Wheels -->
+            <circle cx="50" cy="72" r="7" fill="#111" />
+            <circle cx="50" cy="72" r="3" fill="#fff" />
+            <circle cx="78" cy="72" r="7" fill="#111" />
+            <circle cx="78" cy="72" r="3" fill="#fff" />
+          </svg>
+        </div>
+        <div>
+          <h4 class="fw-bold mb-1" style="color: #c2410c;">पूरे भारत में Delivery</h4>
+          <p class="text-muted mb-0" style="font-size: 0.95rem;">जल्दी और सुरक्षित Delivery आपकी दहलीज़ तक। सभी सामान को लकड़ी के बॉक्स पैकिंग में सुरक्षित भेजा जाता है ताकि टूट-फूट न हो।</p>
+        </div>
+      </div>
+      <a href="{{ route('shop') }}" class="btn fw-bold pl-delivery-btn" style="background: #ffffff; border: 1.5px solid #f08038; color: #f08038; border-radius: 30px; transition: all 0.2s; padding: 6px 16px; font-size: 0.85rem;">ज्यादा जानकारी &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ===================== BOTTOM WHATSAPP BANNER ===================== -->
+  <section class="container my-3">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4 rounded-4 text-white" style="background: #111; border: 1px solid #222;">
+      <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
+        <i class="bi bi-whatsapp text-success" style="font-size: 2rem;"></i>
+        <h5 class="fw-bold mb-0" style="font-size: 1.1rem; letter-spacing: 0.3px;">कोई भी सवाल? हम WhatsApp पर उपलब्ध हैं</h5>
+      </div>
+      <a href="https://wa.me/919201964508?text={{ urlencode('जय श्री महाकाल! मुझे आपसे कुछ सवाल पूछने हैं।') }}" target="_blank" class="btn text-white px-4 py-2 fw-bold d-inline-flex align-items-center gap-2" style="background: #25d366; border-radius: 8px; box-shadow: 0 4px 12px rgba(37,211,102,0.25);">
+        <i class="bi bi-whatsapp"></i> WhatsApp पर पूछें
+      </a>
+    </div>
+  </section>
 </main>
 
 @include('frontend.partials.footer')
