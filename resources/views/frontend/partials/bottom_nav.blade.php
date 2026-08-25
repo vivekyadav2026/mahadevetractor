@@ -30,3 +30,8 @@
         </a>
     @endauth
 </nav>
+
+<!-- Floating WhatsApp Button (Global) -->
+<a href="https://wa.me/919201964508?text={{ urlencode('जय श्री महाकाल! मुझे आपसे संपर्क करना है।') }}" target="_blank" class="d-flex align-items-center justify-content-center shadow-lg" style="position: fixed; bottom: 85px; right: 20px; width: 50px; height: 50px; background-color: #25d366; color: white; border-radius: 50%; z-index: 9999; text-decoration: none; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);">
+  <i class="bi bi-whatsapp" style="font-size: 1.8rem; line-height: 1;"></i>
+</a>
