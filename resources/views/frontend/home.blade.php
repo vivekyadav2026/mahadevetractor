@@ -295,9 +295,9 @@
   <!-- ===================== WHY CHOOSE US SECTION ===================== -->
   <section class="container mt-4 mb-3 py-4 px-3 rounded-4 text-white" style="background: #111111; border: 1px solid #222222;">
     <div class="d-flex align-items-center justify-content-center mb-4">
-      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
-      <h3 class="mx-3 fw-bold fs-5 text-uppercase mb-0" style="color: #ffffff; letter-spacing: 0.5px;">क्यों खरीदें हमसे?</h3>
-      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
+      <div class="d-none d-sm-block" style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
+      <h3 class="mx-3 fw-bold fs-5 text-uppercase mb-0 text-center" style="color: #ffffff; letter-spacing: 0.5px;">क्यों खरीदें हमसे?</h3>
+      <div class="d-none d-sm-block" style="flex: 1; height: 1px; background: rgba(255,255,255,0.15); max-width: 80px;"></div>
     </div>
     <div class="row g-2 g-md-3 justify-content-center text-center">
       <!-- Card 1: Instagram -->
@@ -307,7 +307,7 @@
             <i class="bi bi-instagram"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">19,000+</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">Instagram Family</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">Instagram Family</div>
         </div>
       </div>
       <!-- Card 2: Delivery -->
@@ -317,7 +317,7 @@
             <i class="bi bi-truck"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">पूरे भारत में</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">Delivery</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">Delivery</div>
         </div>
       </div>
       <!-- Card 3: Quality -->
@@ -327,7 +327,7 @@
             <i class="bi bi-patch-check"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">Best Quality</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">Products</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">Products</div>
         </div>
       </div>
       <!-- Card 4: Secure -->
@@ -337,7 +337,7 @@
             <i class="bi bi-shield-lock"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">100% Secure</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">Payments</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">Payments</div>
         </div>
       </div>
       <!-- Card 5: Support -->
@@ -347,7 +347,7 @@
             <i class="bi bi-whatsapp"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">WhatsApp Support</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">तुरंत सहायता</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">तुरंत सहायता</div>
         </div>
       </div>
       <!-- Card 6: Experience -->
@@ -357,7 +357,7 @@
             <i class="bi bi-tools"></i>
           </div>
           <div class="fw-bold" style="font-size: 0.9rem;">Modifications</div>
-          <div class="text-muted small" style="font-size: 0.75rem;">का सालों का अनुभव</div>
+          <div class="small" style="font-size: 0.75rem; color: #cccccc;">का सालों का अनुभव</div>
         </div>
       </div>
     </div>
@@ -548,7 +548,6 @@
         </div>
         <div>
           <h4 class="fw-bold mb-1" style="color: #c2410c;">पूरे भारत में Delivery</h4>
-          <p class="text-muted mb-0" style="font-size: 0.95rem;">जल्दी और सुरक्षित Delivery आपकी दहलीज़ तक। सभी सामान को लकड़ी के बॉक्स पैकिंग में सुरक्षित भेजा जाता है ताकि टूट-फूट न हो।</p>
         </div>
       </div>
       <a href="{{ route('shop') }}" class="btn fw-bold pl-delivery-btn" style="background: #ffffff; border: 1.5px solid #f08038; color: #f08038; border-radius: 30px; transition: all 0.2s; padding: 6px 16px; font-size: 0.85rem;">ज्यादा जानकारी &rarr;</a>

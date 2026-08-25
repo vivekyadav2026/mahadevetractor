@@ -1,7 +1,30 @@
 <!-- Google Fonts for Header -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
 
-<div style="background: #cc5500; color: #ffffff; text-align: center; padding: 6px 0; font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;">
+<style>
+  .mahadev-brand-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+    letter-spacing: 2px;
+    text-shadow: 
+      1px 1px 0px #000000,  
+      2px 2px 0px #000000,
+      3px 3px 0px #000000;
+    display: inline-block;
+  }
+
+  .insta-brand-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    display: inline-block;
+  }
+</style>
+
+<div style="background: #cc5500; color: #ffffff; text-align: center; padding: 4px 0; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px;">
   🔱 जय श्री महाकाल 🔱
 </div>
 
@@ -24,14 +47,17 @@
       <div class="d-flex flex-column align-items-center" style="gap: 2px; text-align: center;">
         <a href="{{ route('home') }}" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center">
           <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Logo" style="height: 60px; width: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #f08038;">
-          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.35rem; color: #cc5500; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap;">
-            MAHADEV TRACTOR MODIFICATION
-          </span>
+          <div class="d-flex flex-column align-items-start">
+            <span class="mahadev-brand-text" style="font-size: 1.35rem; letter-spacing: 2px; padding-bottom: 2px;">
+              <span style="color: #ff5500;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #ffaa00;"><span style="font-size: 1.65rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #ff5500;"><span style="font-size: 1.65rem; font-weight: 900;">M</span>ODIFICATION</span>
+            </span>
+            <div style="height: 2px; width: 100%; background: linear-gradient(to right, #ff5500, #ffaa00, #ff5500, transparent); margin-top: 1px;"></div>
+          </div>
         </a>
-        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center" style="margin-top: 1px;">
+        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center gap-2 text-decoration-none justify-content-center" style="margin-top: 1px; color: #2b2b2b !important;">
           <span style="color: #e21e1e; font-size: 0.95rem; line-height: 1;"><i class="bi bi-heart-fill"></i></span>
-          <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.8rem; color: #444; white-space: nowrap;">
-            19000+ Instagram family का भरोसा
+          <span class="insta-brand-text" style="font-size: 0.8rem; color: #2b2b2b !important;">
+            <span style="color: #e65100 !important; font-weight: 800;">19,000+</span> Instagram family का भरोसा
           </span>
         </a>
       </div>
@@ -83,11 +109,18 @@
       <div class="d-flex flex-column align-items-center" style="gap: 2px;">
         <a href="{{ route('home') }}" class="d-inline-block text-decoration-none">
           <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 3px auto;">
-          <span style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.78rem; color: #cc5500; letter-spacing: 0.8px; text-transform: uppercase; white-space: nowrap;">MAHADEV TRACTOR MODIFICATION</span>
+          <div class="d-flex flex-column align-items-center">
+            <span class="mahadev-brand-text" style="font-size: 0.78rem; letter-spacing: 1.6px; padding-bottom: 1px;">
+              <span style="color: #ff5500;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>AHADEV</span> <span style="color: #ffaa00;"><span style="font-size: 0.98rem; font-weight: 900;">T</span>RACTOR</span> <span style="color: #ff5500;"><span style="font-size: 0.98rem; font-weight: 900;">M</span>ODIFICATION</span>
+            </span>
+            <div style="height: 1.5px; width: 80%; background: linear-gradient(to right, transparent, #ff5500, #ffaa00, #ff5500, transparent); margin-top: 1px;"></div>
+          </div>
         </a>
-        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center justify-content-center gap-1 text-decoration-none">
+        <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-flex align-items-center justify-content-center gap-1 text-decoration-none" style="color: #2b2b2b !important;">
           <span style="color: #e21e1e; font-size: 0.75rem; line-height: 1;"><i class="bi bi-heart-fill"></i></span>
-          <span style="font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.65rem; color: #444; white-space: nowrap;">19000+ Instagram family का भरोसा</span>
+          <span class="insta-brand-text" style="font-size: 0.65rem; color: #2b2b2b !important;">
+            <span style="color: #e65100 !important; font-weight: 800;">19,000+</span> Instagram family का भरोसा
+          </span>
         </a>
       </div>
     </div>
