@@ -144,11 +144,15 @@
               <span>Wishlist</span>
             </button>
           </div>
-          <!-- Buy Now row -->
           <button class="pl-btn-buy-now w-100" onclick="PL.buyNow('{{ $product->id }}')">
             <span class="pl-btn-icon"><i class="bi bi-lightning-fill"></i></span>
             <span class="pl-btn-label">Buy Now</span>
           </button>
+          
+          <!-- WhatsApp Order Button -->
+          <a href="https://wa.me/919201964508?text={{ urlencode('जय श्री महाकाल! मुझे इस प्रोडक्ट को आर्डर करना है: ' . $product->name . ' - ' . route('product.show', $product->slug)) }}" target="_blank" class="btn w-100 mt-2 d-flex align-items-center justify-content-center gap-2" style="background: #25d366; color: #fff; border: none; padding: 10px; border-radius: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);">
+            <i class="bi bi-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp पर आर्डर करें
+          </a>
         </div>
       @else
         <div class="mb-4">
