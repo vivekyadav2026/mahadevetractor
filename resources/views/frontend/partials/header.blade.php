@@ -93,14 +93,14 @@
 
 
 <!-- ===================== MOBILE HEADER (d-lg-none) ===================== -->
-<header class="pl-header d-lg-none" style="background: #ffffff; position: sticky; top: 0; z-index: 1020; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+<header class="pl-header d-lg-none" style="background: #111111; position: sticky; top: 0; z-index: 1020; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
   <!-- Top Row: Hamburger, Logo, Icons -->
-  <div style="border-bottom: 1px solid #eaeaea; padding: 0.6rem 0;">
+  <div style="border-bottom: 1px solid #222222; padding: 0.8rem 0; background: #111111;">
     <div class="container-fluid px-3 d-flex align-items-center justify-content-between">
       
       <!-- LEFT COLUMN: Hamburger Menu Button -->
       <div style="flex: 1; display: flex; justify-content: flex-start;">
-        <button class="btn d-flex align-items-center justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas" style="background: #ffffff; border: 1px solid #eaeaea; border-radius: 12px; width: 44px; height: 44px; box-shadow: 0 3px 8px rgba(0,0,0,0.06); padding: 0;">
+        <button class="btn d-flex align-items-center justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenuOffcanvas" style="background: #ffffff; border: none; border-radius: 12px; width: 44px; height: 44px; box-shadow: 0 3px 8px rgba(0,0,0,0.15); padding: 0;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -112,31 +112,31 @@
       <!-- CENTER COLUMN: Logo -->
       <div class="text-center" style="flex: 2; display: flex; justify-content: center;">
         <a href="{{ route('home') }}" class="d-inline-block text-decoration-none">
-          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover; display: block; border: 2px solid #000;">
+          <img src="{{ asset('images/mahadev_logo.jpg') }}" alt="Mahadev Tractor Modification Logo" style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover; display: block; border: 2px solid #f08038; box-shadow: 0 0 10px rgba(240, 128, 56, 0.4);">
         </a>
       </div>
 
       <!-- RIGHT COLUMN: Wishlist & Cart Icons -->
-      <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 4px;">
+      <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 6px;">
         
         <!-- Wishlist -->
         <a href="{{ route('wishlist.index') }}" class="position-relative d-flex align-items-center justify-content-center text-decoration-none" style="width: 40px; height: 40px;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
-          <span class="position-absolute d-flex align-items-center justify-content-center" data-wishlist-badge style="background: #f26522; color: #fff; font-size: 0.58rem; font-weight: 700; border-radius: 50%; width: 15px; height: 15px; top: 2px; right: 2px; {{ session()->has('wishlist') && count(session('wishlist')) > 0 ? 'display:flex !important;' : 'display:none !important;' }}">
+          <span class="position-absolute d-flex align-items-center justify-content-center fw-bold" data-wishlist-badge style="background: #f08038; color: #fff; font-size: 0.6rem; border-radius: 50%; width: 16px; height: 16px; top: 1px; right: 1px; {{ session()->has('wishlist') && count(session('wishlist')) > 0 ? 'display:flex !important;' : 'display:none !important;' }}">
             {{ session()->has('wishlist') ? count(session('wishlist')) : 0 }}
           </span>
         </a>
 
         <!-- Cart (Bag) -->
         <a href="{{ route('cart.index') }}" class="position-relative d-flex align-items-center justify-content-center text-decoration-none" style="width: 40px; height: 40px;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          <span class="position-absolute d-flex align-items-center justify-content-center" data-cart-badge style="background: #f26522; color: #fff; font-size: 0.58rem; font-weight: 700; border-radius: 50%; width: 15px; height: 15px; top: 2px; right: 2px; {{ session()->has('cart') && array_sum(array_column(session('cart'), 'quantity')) > 0 ? 'display:flex !important;' : 'display:none !important;' }}">
+          <span class="position-absolute d-flex align-items-center justify-content-center fw-bold" data-cart-badge style="background: #f26522; color: #fff; font-size: 0.6rem; border-radius: 50%; width: 16px; height: 16px; top: 1px; right: 1px;">
             {{ session()->has('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
           </span>
         </a>
@@ -144,18 +144,18 @@
     </div>
   </div>
 
-  <!-- Colorful Box Below -->
-  <div style="background: linear-gradient(135deg, #ff4e00, #ec9f05); padding: 10px 10px; text-align: center; color: #fff; box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1);">
-    <a href="{{ route('home') }}" class="text-decoration-none d-block">
-      <span style="font-size: 1.05rem; font-weight: 900; letter-spacing: 1px; font-family: 'Montserrat', sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); color: #fff; display: block; line-height: 1.2;">
-        MAHADEV TRACTOR MODIFICATION
+  <!-- Main Title & Trust Badge Below -->
+  <div style="background: #111111; padding: 12px 10px 18px 10px; text-align: center; border-bottom: 1px solid #222222;">
+    <a href="{{ route('home') }}" class="text-decoration-none d-block mb-3" style="overflow: hidden;">
+      <span style="font-size: 1.12rem; font-weight: 900; font-family: 'Montserrat', sans-serif; font-style: italic; letter-spacing: -0.3px; text-transform: uppercase; display: block; line-height: 1.2; white-space: nowrap;">
+        <span style="color: #ff4e00;">MAHADEV</span> <span style="color: #ffffff;">TRACTOR MODIFICATION</span>
       </span>
     </a>
-    <a href="https://www.instagram.com/mahadev_tractor_modification_" target="_blank" class="d-inline-block text-decoration-none mt-1" style="color: #fff;">
-      <span style="font-size: 0.85rem; font-family: 'Montserrat', sans-serif; font-weight: 600; text-shadow: 1px 1px 1px rgba(0,0,0,0.4);">
-        <i class="bi bi-heart-fill text-white me-1"></i> 19,000 Instagram family का भरोसा
+    <div class="d-inline-flex align-items-center justify-content-center bg-white px-3 py-2" style="border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); max-width: 95%;">
+      <span style="font-size: 0.95rem; font-weight: 800; color: #111111; font-family: 'Montserrat', sans-serif; display: flex; align-items: center; gap: 6px; justify-content: center; line-height: 1;">
+        <span style="font-size: 1.25rem; line-height: 1;">❤️</span> 19,000+ Instagram family का भरोसा
       </span>
-    </a>
+    </div>
   </div>
 </header>
 
