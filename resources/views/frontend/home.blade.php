@@ -553,7 +553,6 @@
       <a href="{{ route('shop') }}" class="btn fw-bold pl-delivery-btn" style="background: #ffffff; border: 1.5px solid #f08038; color: #f08038; border-radius: 30px; transition: all 0.2s; padding: 6px 16px; font-size: 0.85rem;">ज्यादा जानकारी &rarr;</a>
     </div>
   </section>
-
   <!-- ===================== BOTTOM WHATSAPP BANNER ===================== -->
   <section class="container my-3">
     <div class="d-flex flex-column flex-md-row align-items-center justify-content-between p-4 rounded-4 text-white" style="background: #111; border: 1px solid #222;">

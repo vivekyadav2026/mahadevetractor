@@ -65,7 +65,11 @@
     <hr style="border-color: rgba(255,255,255,0.1); margin: 2rem 0;">
     
     <div class="d-flex justify-content-between flex-wrap gap-3 align-items-center pb-4 pb-lg-0" style="font-size: 0.9rem;">
-      <div>&copy; {{ date('Y') }} Mahadev Tractor Modification & Accessories. All rights reserved.</div>
+      <div>
+        &copy; {{ date('Y') }} Mahadev Tractor Modification & Accessories. All rights reserved.
+        <span class="mx-2 text-muted">|</span>
+        Designed by <a href="https://foundida.com/" target="_blank" style="color: #f26522; font-weight: 600; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#00bcd4'" onmouseout="this.style.color='#f26522'">Foundida</a>
+      </div>
       <div style="color: #aaa;">
         ॥ हर हर महादेव ॥
       </div>
