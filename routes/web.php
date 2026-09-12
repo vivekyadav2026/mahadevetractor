@@ -94,10 +94,13 @@ Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('products', AdminProductController::class);
+    Route::post('products/{product}', [AdminProductController::class, 'update'])->name('products.update.post');
     Route::resource('categories', AdminCategoryController::class);
+    Route::post('categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update.post');
     Route::resource('testimonials', AdminTestimonialController::class);
     Route::resource('coupons', AdminCouponController::class);
     Route::resource('banners', AdminBannerController::class);
+    Route::post('banners/{banner}', [AdminBannerController::class, 'update'])->name('banners.update.post');
     
     // Orders
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');

@@ -341,7 +341,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.querySelector('input[name="images[]"]');
     if (imageInput) {
         imageInput.addEventListener('change', function() {
-            selectedFiles = Array.from(this.files);
+            const files = Array.from(this.files);
+            let totalSize = 0;
+            let oversizedFiles = [];
+            files.forEach(f => {
+                totalSize += f.size;
+                if (f.size > 10 * 1024 * 1024) {
+                    oversizedFiles.push(f.name + ' (' + (f.size / (1024*1024)).toFixed(1) + 'MB)');
+                }
+            });
+
+            if (oversizedFiles.length > 0) {
+                alert('Warning: The following files exceed the 10MB limit per image:\n' + oversizedFiles.join('\n') + '\nPlease select smaller files to avoid server errors.');
+            } else if (totalSize > 20 * 1024 * 1024) {
+                alert('Warning: Total upload size is ' + (totalSize / (1024*1024)).toFixed(1) + 'MB. This may exceed your server\'s post_max_size limit and fail. Consider uploading fewer or compressed images.');
+            }
+
+            selectedFiles = files;
             renderImagePreviews();
         });
     }

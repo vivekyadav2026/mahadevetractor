@@ -37,6 +37,13 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        if (isset($_SERVER['CONTENT_LENGTH']) && (int)$_SERVER['CONTENT_LENGTH'] > 0 && empty($request->all()) && empty($request->allFiles())) {
+            $sizeMb = round((int)$_SERVER['CONTENT_LENGTH'] / (1024 * 1024), 1);
+            return redirect()->back()->withInput()->withErrors([
+                'images' => "The uploaded images ({$sizeMb}MB) exceed the server upload limit (post_max_size). Please upload smaller image files or compress them first."
+            ]);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
@@ -107,6 +114,13 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        if (isset($_SERVER['CONTENT_LENGTH']) && (int)$_SERVER['CONTENT_LENGTH'] > 0 && empty($request->all()) && empty($request->allFiles())) {
+            $sizeMb = round((int)$_SERVER['CONTENT_LENGTH'] / (1024 * 1024), 1);
+            return redirect()->back()->withInput()->withErrors([
+                'images' => "The uploaded images ({$sizeMb}MB) exceed the server upload limit (post_max_size). Please upload smaller image files or compress them first."
+            ]);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
