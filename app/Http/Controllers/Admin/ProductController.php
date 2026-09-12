@@ -85,7 +85,7 @@ class ProductController extends Controller
         Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => Product::generateUniqueSlug($request->name),
             'price' => $request->price,
             'sale_price' => $request->sale_price,
             'sku' => $request->sku ?: 'VB-' . strtoupper(Str::random(6)),
@@ -183,7 +183,7 @@ class ProductController extends Controller
         $product->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => Product::generateUniqueSlug($request->name, $product->id),
             'price' => $request->price,
             'sale_price' => $request->sale_price,
             'sku' => $request->sku ?: $product->sku,

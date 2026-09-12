@@ -161,14 +161,10 @@
     </div>
 
     <div class="d-flex flex-nowrap overflow-x-auto pb-2 gap-3 gap-md-5 justify-content-start justify-content-md-center scrollbar-hidden" style="-webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 5px 10px;">
-      @foreach(\App\Models\Category::all() as $cat)
-        @php
-            $imagePath = 'images/categories/' . $cat->slug . '.jpg';
-            $catImg = file_exists(public_path($imagePath)) ? asset($imagePath) : asset('images/logo.jpeg');
-        @endphp
+      @foreach($categories as $cat)
         <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="cat-circle-wrap">
           <div class="cat-circle">
-             <img src="{{ $catImg }}" alt="{{ $cat->name }}">
+             <img src="{{ $cat->image_url }}" alt="{{ $cat->name }}" loading="lazy">
           </div>
           <div class="cat-arrow-indicator">
             <i class="bi bi-chevron-double-down"></i>
@@ -192,13 +188,7 @@
       <a href="{{ url('/shop') }}" class="fw-bold text-decoration-none" style="color: #f08038; font-size: 0.85rem;">सभी देखें &rarr;</a>
     </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      @php
-        $bestSellers = \App\Models\Product::where('is_bestseller', 1)->take(5)->get();
-        if ($bestSellers->isEmpty()) {
-            $bestSellers = \App\Models\Product::take(5)->get();
-        }
-      @endphp
-      @foreach($bestSellers as $product)
+      @foreach($bestSellers->take(5) as $product)
       <div class="col">
         <div class="pl-product-card">
           <div class="pl-product-img-wrap">
@@ -217,7 +207,7 @@
               </div>
             @endif
             <button class="pl-wishlist-btn" data-wishlist-product-id="{{ $product->id }}" onclick="PL.toggleWishlist('{{ $product->id }}')"><i class="{{ is_array(session('wishlist')) && in_array($product->id, session('wishlist')) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart' }}"></i></button>
-            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: contain;"></a>
+            <a href="{{ route('product.show', $product->slug) }}"><img src="{{ $product->primary_image_url }}" alt="{{ $product->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: contain;"></a>
           </div>
           <div class="pl-product-body">
             <a href="{{ route('product.show', $product->slug) }}" class="pl-product-title" title="{{ $product->name }}">{{ $product->name }}</a>
@@ -242,14 +232,14 @@
   </section>
 
   <!-- ===================== DYNAMIC CATEGORY SECTIONS ===================== -->
-  @foreach(\App\Models\Category::has('products', '>=', 1)->take(6)->get() as $cat)
+  @foreach($categorySections as $cat)
   <section class="mb-4 pt-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="section-title mb-0" style="text-align: left; font-size: 1.25rem; font-weight: 800; text-transform: uppercase;">📦 {{ $cat->name }}</h2>
       <a href="{{ url('/shop?cat=' . $cat->slug) }}" class="fw-bold text-decoration-none" style="color: #f08038; font-size: 0.85rem;">सभी देखें &rarr;</a>
     </div>
     <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-5 mb-3">
-      @foreach($cat->products()->take(5)->get() as $product)
+      @foreach($cat->products as $product)
       <div class="col">
         <div class="pl-product-card">
           <div class="pl-product-img-wrap">

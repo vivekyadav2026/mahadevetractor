@@ -14,23 +14,30 @@ class FrontendController extends Controller
     {
         $banners = Banner::where('is_active', true)->get();
         $testimonials = Testimonial::where('is_active', true)->get();
-        $bestSellers = Product::where('is_active', true)->where('is_bestseller', true)->latest()->take(8)->get();
-        $featuredProducts = Product::where('is_active', true)->where('is_featured', true)->latest()->take(8)->get();
-        $dealOfWeek = Product::where('is_active', true)->where('deal_of_week', true)->first();
+        $bestSellers = Product::with('category')->where('is_active', true)->where('is_bestseller', true)->latest()->take(8)->get();
+        $featuredProducts = Product::with('category')->where('is_active', true)->where('is_featured', true)->latest()->take(8)->get();
+        $dealOfWeek = Product::with('category')->where('is_active', true)->where('deal_of_week', true)->first();
         $categories = Category::where('is_active', true)->get();
 
         // Fallbacks if database has no flagged products
         if ($bestSellers->isEmpty()) {
-            $bestSellers = Product::where('is_active', true)->latest()->take(8)->get();
+            $bestSellers = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
         }
         if ($featuredProducts->isEmpty()) {
-            $featuredProducts = Product::where('is_active', true)->latest()->take(8)->get();
+            $featuredProducts = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
         }
 
         // Paginated "All Products" grid for the infinite scroll section
-        $allProducts = Product::where('is_active', true)->latest()->paginate(12)->withQueryString();
+        $allProducts = Product::with('category')->where('is_active', true)->latest()->paginate(12)->withQueryString();
 
-        return view('frontend.home', compact('banners', 'testimonials', 'bestSellers', 'featuredProducts', 'dealOfWeek', 'categories', 'allProducts'));
+        // Eager loaded category sections for homepage (eliminating N+1 queries in view)
+        $categorySections = Category::with(['products' => function($query) {
+            $query->where('is_active', true)->take(5);
+        }])->whereHas('products', function($query) {
+            $query->where('is_active', true);
+        })->where('is_active', true)->take(6)->get();
+
+        return view('frontend.home', compact('banners', 'testimonials', 'bestSellers', 'featuredProducts', 'dealOfWeek', 'categories', 'allProducts', 'categorySections'));
     }
 
     public function about()
@@ -40,7 +47,7 @@ class FrontendController extends Controller
 
     public function shop(Request $request)
     {
-        $query = Product::where('is_active', true);
+        $query = Product::with('category')->where('is_active', true);
 
         // Filter by search query
         if ($request->has('search') && $request->input('search') != '') {

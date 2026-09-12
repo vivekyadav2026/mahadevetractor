@@ -58,6 +58,10 @@ class CheckoutController extends Controller
             }
         }
 
+        $request->merge([
+            'delivery_type' => $request->input('delivery_type', 'online_delivery')
+        ]);
+
         // Validate basic info
         $validated = $request->validate([
             'shipping_name'    => 'required|string|max:255',

@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => Category::generateUniqueSlug($request->name),
             'description' => $request->description,
             'image' => $imagePath,
             'is_active' => $request->has('is_active'),
@@ -78,7 +78,7 @@ class CategoryController extends Controller
 
         $category->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => Category::generateUniqueSlug($request->name, $category->id),
             'description' => $request->description,
             'image' => $imagePath,
             'is_active' => $request->has('is_active'),

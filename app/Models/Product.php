@@ -3,10 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
     protected $guarded = [];
+
+    public static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $slug = Str::slug($name);
+        if (empty($slug)) {
+            $slug = 'product-' . time();
+        }
+
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (static::where('slug', $slug)
+            ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
+    }
 
     public function category()
     {
@@ -20,13 +41,13 @@ class Product extends Model
             $images = !empty($this->images) ? [$this->images] : [];
         }
         $firstImg = count($images) > 0 ? $images[0] : null;
-        if ($firstImg && (str_starts_with($firstImg, 'http://') || str_starts_with($firstImg, 'https://'))) {
+        if (empty($firstImg)) {
+            return asset('images/logo.jpeg');
+        }
+        if (str_starts_with($firstImg, 'http://') || str_starts_with($firstImg, 'https://')) {
             return $firstImg;
         }
-        if ($firstImg && file_exists(public_path($firstImg))) {
-            return asset($firstImg);
-        }
-        return asset('images/logo.jpeg');
+        return asset($firstImg);
     }
 
     public function getAllImageUrlsAttribute(): array
@@ -40,10 +61,8 @@ class Product extends Model
             if (empty($img)) continue;
             if (str_starts_with($img, 'http://') || str_starts_with($img, 'https://')) {
                 $urls[] = $img;
-            } elseif (file_exists(public_path($img))) {
-                $urls[] = asset($img);
             } else {
-                $urls[] = asset('images/logo.jpeg');
+                $urls[] = asset($img);
             }
         }
         return count($urls) > 0 ? $urls : [asset('images/logo.jpeg')];

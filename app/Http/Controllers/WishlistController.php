@@ -52,7 +52,7 @@ class WishlistController extends Controller
     public function index()
     {
         $wishlistIds = session()->get('wishlist', []);
-        $products = Product::whereIn('id', $wishlistIds)->where('is_active', true)->get();
+        $products = Product::with('category')->whereIn('id', $wishlistIds)->where('is_active', true)->get();
         return view('frontend.wishlist', compact('products'));
     }
 }
