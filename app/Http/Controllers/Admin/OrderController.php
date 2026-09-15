@@ -92,7 +92,8 @@ class OrderController extends Controller
     {
         try {
             $result = $shiprocket->createShipment($order);
-            return redirect()->back()->with('success', 'Shiprocket shipment created successfully! Shipment ID: ' . ($result['shipment_id'] ?? 'N/A'));
+            $shipmentId = !empty($result['shipment_id']) ? $result['shipment_id'] : ($result['order_id'] ?? 'Success');
+            return redirect()->back()->with('success', 'Shiprocket shipment created successfully! Order/Shipment ID: ' . $shipmentId);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Shiprocket Error: ' . $e->getMessage());
         }

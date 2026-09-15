@@ -139,10 +139,10 @@ class ShiprocketService
 
         $data = $response->json();
 
-        $shiprocketOrderId    = $data['order_id'] ?? null;
-        $shiprocketShipmentId = $data['shipment_id'] ?? null;
-        $awbCode              = $data['awb_code'] ?? null;
-        $courierName          = $data['courier_name'] ?? null;
+        $shiprocketOrderId    = $data['order_id'] ?? ($data['data']['order_id'] ?? null);
+        $shiprocketShipmentId = $data['shipment_id'] ?? ($data['data']['shipment_id'] ?? $shiprocketOrderId);
+        $awbCode              = $data['awb_code'] ?? ($data['data']['awb_code'] ?? null);
+        $courierName          = $data['courier_name'] ?? ($data['data']['courier_name'] ?? null);
 
         $order->update([
             'shiprocket_order_id'     => $shiprocketOrderId,
@@ -166,14 +166,15 @@ class ShiprocketService
      */
     public function generateAwb(Order $order): array
     {
-        if (!$order->shiprocket_shipment_id) {
+        $shipmentId = $order->shiprocket_shipment_id ?: $order->shiprocket_order_id;
+        if (!$shipmentId) {
             throw new \Exception('Shipment ID is missing. Please create the shipment first.');
         }
 
         $token = $this->getToken();
 
         $response = Http::withToken($token)->post("{$this->baseUrl}/courier/assign/awb", [
-            'shipment_id' => $order->shiprocket_shipment_id,
+            'shipment_id' => $shipmentId,
         ]);
 
         if (!$response->successful()) {
