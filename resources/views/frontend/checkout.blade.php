@@ -39,64 +39,69 @@
 <style>
     .co-card {
         background: #ffffff;
-        border: 1px solid #e9ecef;
+        border: 1px solid #e2e8f0;
         border-radius: 14px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.03);
     }
     .co-header {
-        font-size: 15px;
+        font-size: 13.5px;
         font-weight: 700;
-        color: #1a1a1a;
-        font-family: 'Outfit', sans-serif;
+        color: #1e293b;
+        font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 7px;
     }
     .co-input {
         background: #fafafa;
         border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 9px 14px;
-        font-size: 13px;
+        border-radius: 9px;
+        padding: 8px 12px;
+        font-size: 12.5px;
         color: #1e293b;
         transition: all 0.2s ease;
     }
     .co-input:focus {
         background: #ffffff;
         border-color: #f08038;
-        box-shadow: 0 0 0 3px rgba(240, 128, 56, 0.12);
+        box-shadow: 0 0 0 3px rgba(240, 128, 56, 0.1);
         outline: none;
     }
     .co-label {
         display: block;
-        font-size: 11px;
+        font-size: 10.5px;
         font-weight: 700;
         color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 5px;
+        letter-spacing: 0.4px;
+        margin-bottom: 4px;
     }
-    .order-item-row {
+    .order-item-card {
+        background: #ffffff;
+        border: 1px solid #f1f5f9;
+        border-radius: 10px;
+        padding: 8px 10px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 10px 0;
-        border-bottom: 1px solid #f1f5f9;
+        gap: 10px;
+        transition: all 0.2s ease;
     }
-    .order-item-row:last-child {
-        border-bottom: none;
+    .order-item-card:hover {
+        background: #fafafa;
+        border-color: #e2e8f0;
     }
     .order-item-img {
-        width: 48px;
-        height: 48px;
+        width: 44px;
+        height: 44px;
         border-radius: 8px;
-        border: 1px solid #edf2f7;
+        border: 1px solid #eef2f6;
         background: #f8fafc;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        padding: 4px;
+        padding: 3px;
+        position: relative;
     }
     .order-item-img img {
         max-width: 100%;
@@ -106,20 +111,20 @@
 </style>
 
     <!-- Checkout Form -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <!-- Breadcrumb & Title Inline -->
-        <div class="mb-5 flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 leading-tight" style="font-family: 'Outfit', sans-serif;">Secure Checkout</h1>
-                <p class="text-xs text-gray-400 mt-0.5">
-                    <a href="/" class="text-gray-500 hover:text-primary transition">Home</a> / 
-                    <a href="{{ route('cart.index') }}" class="text-gray-500 hover:text-primary transition">Cart</a> / 
-                    <span class="text-gray-900 font-semibold">Checkout</span>
+                <h1 class="text-xl font-bold text-slate-800 leading-tight m-0" style="font-family: 'Outfit', sans-serif;">Checkout</h1>
+                <p class="text-[10px] text-slate-400 mt-0.5 mb-0 font-medium">
+                    <a href="/" class="text-slate-500 hover:text-primary transition">Home</a> / 
+                    <a href="{{ route('cart.index') }}" class="text-slate-500 hover:text-primary transition">Cart</a> / 
+                    <span class="text-slate-700 font-semibold">Checkout</span>
                 </p>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-[11px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-200/60 px-3 py-1 rounded-full flex items-center gap-1.5">
-                    <i class="fa-solid fa-shield-halved text-emerald-500"></i> SSL Encrypted Checkout
+                <span class="text-[10px] text-emerald-700 font-semibold bg-emerald-50 border border-emerald-200/60 px-2.5 py-0.5 rounded-full flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-emerald-500 text-[9px]"></i> 256-Bit SSL Encrypted
                 </span>
             </div>
         </div>
@@ -340,23 +345,30 @@
 
                 </div>
 
-                <!-- RIGHT COLUMN: Compact & Clean Order Summary (5 cols) -->
+                <!-- RIGHT COLUMN: Modern & Polished Order Summary (5 cols) -->
                 <div class="lg:col-span-5 sticky top-24">
-                    <div class="co-card p-5">
+                    <div class="co-card p-4 sm:p-5">
                         
                         <!-- Header -->
-                        <div class="flex items-center justify-between pb-3.5 border-b border-gray-100">
-                            <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2 m-0" style="font-family: 'Outfit', sans-serif;">
-                                <i class="fa-solid fa-bag-shopping text-primary text-xs"></i>
-                                Order Summary
-                            </h3>
-                            <span class="text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full">
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-orange-50 text-[#f08038] flex items-center justify-center text-xs">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-[13px] font-bold text-slate-800 tracking-tight leading-none m-0" style="font-family: 'Outfit', sans-serif;">
+                                        Order Summary
+                                    </h3>
+                                    <p class="text-[9.5px] text-slate-400 font-medium mt-0.5 mb-0">Review your selected items</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-[#f08038] bg-orange-50 border border-orange-200/60 px-2 py-0.5 rounded-full">
                                 {{ count($cart) }} {{ count($cart) === 1 ? 'Item' : 'Items' }}
                             </span>
                         </div>
 
                         <!-- Items Scrollable List -->
-                        <div class="divide-y divide-gray-100 max-h-72 overflow-y-auto my-3 pr-1">
+                        <div class="space-y-2 max-h-72 overflow-y-auto my-3 pr-1">
                             @foreach($cart as $id => $item)
                                 @php
                                     $liveProduct = \App\Models\Product::find($id);
@@ -364,60 +376,68 @@
                                     $itemPrice = $liveProduct ? ($liveProduct->sale_price ?? $liveProduct->price) : $item['price'];
                                     $itemImage = $liveProduct ? $liveProduct->primary_image_url : $item['image'];
                                 @endphp
-                                <div class="order-item-row">
+                                <div class="order-item-card">
+                                    <!-- Image Box -->
                                     <div class="order-item-img">
                                         <img src="{{ $itemImage }}" alt="{{ $itemName }}">
                                     </div>
+                                    <!-- Details -->
                                     <div class="flex-1 min-w-0">
-                                        <h4 class="text-xs font-semibold text-gray-900 leading-snug truncate m-0" title="{{ $itemName }}">
+                                        <h4 class="text-[11.5px] font-medium text-slate-700 leading-snug line-clamp-2 m-0 hover:text-primary transition-colors" title="{{ $itemName }}" style="font-family: 'Inter', sans-serif;">
                                             {{ $itemName }}
                                         </h4>
-                                        <p class="text-[11px] text-gray-500 font-medium mt-0.5 m-0">
-                                            Qty: <span class="font-bold text-gray-800">{{ $item['quantity'] }}</span> &times; &#8377;{{ number_format($itemPrice, 2) }}
+                                        <p class="text-[10px] text-slate-400 font-medium mt-0.5 m-0">
+                                            Qty: <span class="font-semibold text-slate-700">{{ $item['quantity'] }}</span> &times; &#8377;{{ number_format($itemPrice, 2) }}
                                         </p>
                                     </div>
-                                    <div class="text-right flex-shrink-0">
-                                        <span class="text-xs font-extrabold text-gray-900 font-sans">&#8377;{{ number_format($itemPrice * $item['quantity'], 2) }}</span>
+                                    <!-- Line Price -->
+                                    <div class="text-right flex-shrink-0 pl-1">
+                                        <span class="text-[12px] font-bold text-slate-900 font-sans block">
+                                            &#8377;{{ number_format($itemPrice * $item['quantity'], 2) }}
+                                        </span>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
 
                         <!-- Price Breakdown -->
-                        <div class="bg-gray-50/90 rounded-xl p-3.5 space-y-2 border border-gray-100 mb-4">
-                            <div class="flex justify-between text-xs text-gray-600 font-medium">
-                                <span>Subtotal</span>
-                                <span class="font-bold text-gray-900 font-sans">&#8377;{{ number_format($subtotal, 2) }}</span>
+                        <div class="bg-slate-50/80 rounded-xl p-3.5 space-y-2 border border-slate-150 mb-3.5">
+                            <div class="flex justify-between text-[11px] text-slate-600 font-medium">
+                                <span>Subtotal ({{ count($cart) }} {{ count($cart) === 1 ? 'item' : 'items' }})</span>
+                                <span class="font-bold text-slate-800 font-sans">&#8377;{{ number_format($subtotal, 2) }}</span>
                             </div>
-                            <div class="flex justify-between text-xs text-gray-600 font-medium">
+                            <div class="flex justify-between text-[11px] text-slate-600 font-medium">
                                 <span class="flex items-center gap-1.5">
-                                    <i class="fa-solid fa-truck-fast text-[11px] text-emerald-600"></i> Delivery Charges
+                                    <i class="fa-solid fa-truck-fast text-[10px] text-emerald-600"></i> Delivery Charges
                                 </span>
-                                <span class="text-emerald-700 font-bold text-[11px] uppercase">Free</span>
+                                <span class="inline-flex items-center gap-1 text-[9.5px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-1.5 py-0.2 rounded uppercase">
+                                    <i class="fa-solid fa-check text-[8px]"></i> Free
+                                </span>
                             </div>
-                            <div class="border-t border-dashed border-gray-200 pt-2.5 flex justify-between items-center">
+                            <div class="border-t border-dashed border-slate-200 pt-2.5 flex justify-between items-center">
                                 <div>
-                                    <span class="text-xs font-bold text-gray-900 block">Total Amount</span>
-                                    <span class="text-[10px] text-gray-400 font-medium">Inclusive of all taxes</span>
+                                    <span class="text-[11.5px] font-bold text-slate-800 block">Total Amount</span>
+                                    <span class="text-[9.5px] text-slate-400 font-medium">Inclusive of all taxes</span>
                                 </div>
-                                <span class="text-lg font-extrabold text-primary font-sans leading-none">&#8377;{{ number_format($subtotal, 2) }}</span>
+                                <span class="text-[16px] font-extrabold text-[#f08038] font-sans tracking-tight leading-none">&#8377;{{ number_format($subtotal, 2) }}</span>
                             </div>
                         </div>
 
                         <!-- Place Order Button -->
-                        <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer">
-                            <i class="fa-solid fa-lock text-[11px]"></i>
+                        <button type="submit" class="w-full bg-gradient-to-r from-[#f08038] to-[#e06b20] hover:from-[#e06b20] hover:to-[#c85610] text-white font-bold py-3 px-4 rounded-xl text-[11.5px] uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]">
+                            <i class="fa-solid fa-lock text-[10px]"></i>
                             <span>Place Order &middot; &#8377;{{ number_format($subtotal, 2) }}</span>
+                            <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i>
                         </button>
 
                         <!-- Trust Footer -->
-                        <div class="flex items-center justify-between text-[11px] text-gray-400 mt-3 pt-3 border-t border-gray-100 font-medium">
-                            <span class="flex items-center gap-1">
-                                <i class="fa-solid fa-shield-check text-emerald-500"></i> 100% Genuine Parts
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <i class="fa-solid fa-headset text-blue-500"></i> Fast Support
-                            </span>
+                        <div class="grid grid-cols-2 gap-2 text-[9.5px] text-slate-400 mt-3 pt-2.5 border-t border-slate-100 font-medium text-center">
+                            <div class="flex items-center justify-center gap-1 py-1 px-1.5 bg-slate-50/80 rounded-lg border border-slate-100">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-[10px]"></i> 100% Genuine
+                            </div>
+                            <div class="flex items-center justify-center gap-1 py-1 px-1.5 bg-slate-50/80 rounded-lg border border-slate-100">
+                                <i class="fa-solid fa-shield-halved text-blue-500 text-[10px]"></i> Secure Payment
+                            </div>
                         </div>
 
                     </div>
