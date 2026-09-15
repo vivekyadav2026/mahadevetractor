@@ -95,7 +95,8 @@
                 @if(!empty($cart))
                     @php 
                         $subtotal = array_sum(array_map(function($item) { return $item['price'] * $item['quantity']; }, $cart));
-                        $delivery = 0; // Free delivery matching checkout config
+                        $freeThreshold = (float) \App\Models\Setting::get('free_shipping_threshold', 0);
+                        $isFreeDelivery = ($freeThreshold > 0 && $subtotal >= $freeThreshold);
                         $total = $subtotal;
                     @endphp
                     <div class="w-full lg:w-[35%]">
@@ -107,9 +108,13 @@
                                     <span class="font-medium">Subtotal</span>
                                     <span class="font-extrabold text-slate-800 font-sans">&#8377;{{ number_format($subtotal, 2) }}</span>
                                 </div>
-                                <div class="flex justify-between text-slate-500 text-xs">
+                                <div class="flex justify-between text-slate-500 text-xs items-center">
                                     <span class="font-medium">Shipping</span>
-                                    <span class="text-green-600 font-extrabold uppercase text-[9px] tracking-wider">Free</span>
+                                    @if($isFreeDelivery)
+                                        <span class="text-green-600 font-extrabold uppercase text-[9px] tracking-wider bg-green-50 px-1.5 py-0.5 rounded border border-green-200">Free</span>
+                                    @else
+                                        <span class="text-slate-400 font-normal text-[11px] italic">Calculated at checkout</span>
+                                    @endif
                                 </div>
                                 <hr class="border-slate-100">
                                 <div class="flex justify-between text-xs font-bold text-slate-900 pt-1">

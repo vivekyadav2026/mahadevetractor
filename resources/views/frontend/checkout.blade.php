@@ -544,10 +544,12 @@
                         </div>
 
                         <!-- Place Order Button -->
-                        <button type="submit" class="w-full bg-gradient-to-r from-[#f08038] to-[#e06b20] hover:from-[#e06b20] hover:to-[#c85610] text-white font-bold py-2.5 px-3 rounded-lg text-[11px] uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99]">
-                            <i class="fa-solid fa-lock text-[9.5px]"></i>
+                        <button type="submit" 
+                                style="background: linear-gradient(135deg, #f08038 0%, #d96b27 100%); color: #ffffff; display: flex; align-items: center; justify-content: center;"
+                                class="w-full text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-lg hover:opacity-95 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] my-3">
+                            <i class="fa-solid fa-lock text-xs"></i>
                             <span>Place Order &middot; <span x-text="formattedTotal">&#8377;{{ number_format($initialGrandTotal ?? $subtotal, 2) }}</span></span>
-                            <i class="fa-solid fa-arrow-right text-[9.5px] ml-0.5"></i>
+                            <i class="fa-solid fa-arrow-right text-xs ml-0.5"></i>
                         </button>
 
                         <!-- Trust Footer -->

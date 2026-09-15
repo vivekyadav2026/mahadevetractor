@@ -307,7 +307,14 @@ class ShiprocketService
     /**
      * Check Courier Serviceability and get lowest estimated shipping rate for a destination pincode.
      */
-    public function checkServiceabilityAndRate(string $deliveryPincode, float $weight = 0.5, bool $isCod = false): array
+    public function checkServiceabilityAndRate(
+        string $deliveryPincode, 
+        float $weight = 0.5, 
+        bool $isCod = false,
+        int $length = 10,
+        int $width = 10,
+        int $height = 10
+    ): array
     {
         if (!$this->isConfigured()) {
             return [
@@ -330,12 +337,18 @@ class ShiprocketService
         try {
             $token = $this->getToken();
 
-            $response = Http::withToken($token)->get("{$this->baseUrl}/courier/serviceability/", [
+            $queryParams = [
                 'pickup_postcode'   => $pickupPincode,
                 'delivery_postcode' => $deliveryPincode,
                 'weight'            => max(0.1, round($weight, 3)),
                 'cod'               => $isCod ? 1 : 0,
-            ]);
+            ];
+
+            if ($length > 0) $queryParams['length'] = max(1, $length);
+            if ($width > 0)  $queryParams['width']  = max(1, $width);
+            if ($height > 0) $queryParams['height'] = max(1, $height);
+
+            $response = Http::withToken($token)->get("{$this->baseUrl}/courier/serviceability/", $queryParams);
 
             if ($response->status() === 401) {
                 Cache::forget('shiprocket_jwt_token');

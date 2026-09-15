@@ -75,11 +75,21 @@ class CheckoutController extends Controller
         $cart = session()->get('cart', []);
         $subtotal = 0;
         $totalWeight = 0;
+        $maxLength = 0;
+        $maxWidth  = 0;
+        $maxHeight = 0;
+
         foreach ($cart as $productId => $item) {
             $subtotal += $item['price'] * $item['quantity'];
             $product = Product::find($productId);
             $weight = $product && $product->weight > 0 ? (float) $product->weight : 0.500;
             $totalWeight += $weight * $item['quantity'];
+
+            if ($product) {
+                $maxLength = max($maxLength, (int) ($product->length ?? 10));
+                $maxWidth  = max($maxWidth,  (int) ($product->width ?? 10));
+                $maxHeight = max($maxHeight, (int) ($product->height ?? 10));
+            }
         }
 
         // Check for Free Shipping threshold
@@ -99,7 +109,14 @@ class CheckoutController extends Controller
         if (strlen($cleanPincode) === 6) {
             try {
                 $shiprocket = new ShiprocketService();
-                $srResult = $shiprocket->checkServiceabilityAndRate($cleanPincode, $totalWeight, $isCod);
+                $srResult = $shiprocket->checkServiceabilityAndRate(
+                    $cleanPincode, 
+                    $totalWeight, 
+                    $isCod, 
+                    max(10, $maxLength), 
+                    max(10, $maxWidth), 
+                    max(5, $maxHeight)
+                );
 
                 if (!empty($srResult['success']) && isset($srResult['rate']) && $srResult['rate'] > 0) {
                     $daysText = !empty($srResult['estimated_delivery_days']) ? " ({$srResult['estimated_delivery_days']} days)" : '';
