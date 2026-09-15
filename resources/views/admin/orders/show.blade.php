@@ -142,13 +142,19 @@
                         </select>
                     </div>
 
-                    <!-- UPS Tracking ID (only visible for online delivery) -->
+                    <!-- Shiprocket Courier & Tracking Details -->
                     @if($order->delivery_type === 'online_delivery')
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">UPS Tracking Number</label>
-                            <input type="text" name="ups_tracking_number" value="{{ old('ups_tracking_number', $order->ups_tracking_number) }}" 
-                                   placeholder="e.g. 1Z999AA10123456784"
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Shiprocket AWB Code</label>
+                            <input type="text" name="shiprocket_awb_code" value="{{ old('shiprocket_awb_code', $order->shiprocket_awb_code) }}" 
+                                   placeholder="e.g. 143245678912"
                                    class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white font-mono">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Assigned Courier Name</label>
+                            <input type="text" name="shiprocket_courier_name" value="{{ old('shiprocket_courier_name', $order->shiprocket_courier_name) }}" 
+                                   placeholder="e.g. Delhivery, BlueDart, DTDC"
+                                   class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
                         </div>
                     @endif
 
@@ -194,31 +200,78 @@
                     </button>                </form>
             </div>
 
-            <!-- UPS Shipping Information Display Card -->
+            <!-- Shiprocket Shipping & Fulfillment Card -->
             @if($order->delivery_type === 'online_delivery')
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-xs p-6 text-sm text-slate-650 space-y-4">
-                    <h4 class="font-serif font-bold text-slate-800 text-base pb-2 border-b border-slate-50 flex items-center justify-between">
-                        <span>UPS Tracking Info</span>
-                        <i class="fa-solid fa-truck-fast text-[#351C15]"></i>
-                    </h4>
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-50">
+                        <h4 class="font-serif font-bold text-slate-800 text-base m-0">Shiprocket Delivery</h4>
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full {{ $order->shiprocket_status ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-slate-100 text-slate-500' }}">
+                            {{ $order->shiprocket_status ?: 'Unfulfilled' }}
+                        </span>
+                    </div>
 
-                    @if($order->ups_tracking_number)
-                        <div class="space-y-3">
-                            <div>
-                                <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tracking Number</span>
-                                <span class="block font-semibold text-slate-800 mt-0.5 font-mono text-xs select-all">{{ $order->ups_tracking_number }}</span>
-                            </div>
+                    @if($order->shiprocket_shipment_id || $order->shiprocket_order_id)
+                        <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-xs">
+                            @if($order->shiprocket_courier_name)
+                                <div>
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400">Courier Partner</span>
+                                    <span class="block font-bold text-slate-800">{{ $order->shiprocket_courier_name }}</span>
+                                </div>
+                            @endif
 
-                            <div class="pt-2">
-                                <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
-                                   class="w-full text-center block text-white font-bold text-xs py-2.5 rounded-xl transition"
-                                   style="background: #351C15;">
-                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Track on UPS.com
-                                </a>
+                            @if($order->shiprocket_awb_code)
+                                <div>
+                                    <span class="block text-[10px] uppercase font-bold text-slate-400">AWB Tracking Code</span>
+                                    <span class="block font-bold text-slate-900 font-mono text-sm select-all">{{ $order->shiprocket_awb_code }}</span>
+                                </div>
+                            @endif
+
+                            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+                                <div>
+                                    <span class="text-slate-400">Shipment ID:</span>
+                                    <span class="font-mono font-bold text-slate-700">{{ $order->shiprocket_shipment_id ?: 'N/A' }}</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">Order ID:</span>
+                                    <span class="font-mono font-bold text-slate-700">{{ $order->shiprocket_order_id ?: 'N/A' }}</span>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Action Buttons -->
+                        <div class="space-y-2 pt-1">
+                            @if(!$order->shiprocket_awb_code)
+                                <!-- Step 2: Assign AWB Code -->
+                                <form action="{{ route('admin.orders.shiprocket.awb', $order->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="w-full bg-[#f08038] hover:bg-[#cc5500] text-white font-bold text-xs py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm">
+                                        <i class="fa-solid fa-barcode"></i> Assign Courier & Generate AWB
+                                    </button>
+                                </form>
+                            @else
+                                <!-- Step 3: Track & Print Label -->
+                                <div class="grid grid-cols-2 gap-2">
+                                    <a href="{{ route('admin.orders.shiprocket.track', $order->id) }}" class="text-center bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-location-crosshairs text-[11px]"></i> Track Live
+                                    </a>
+                                    <a href="{{ route('admin.orders.shiprocket.label', $order->id) }}" target="_blank" class="text-center bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center gap-1">
+                                        <i class="fa-solid fa-print text-[11px]"></i> Print Label
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     @else
-                        <p class="text-xs text-slate-400 italic">No tracking number has been added to this order yet. Use the status update form above to add a tracking ID.</p>
+                        <!-- Step 1: Create Shipment in Shiprocket (Admin Manual Trigger) -->
+                        <div class="text-center py-2 space-y-3">
+                            <p class="text-xs text-slate-500 m-0">This order is ready to be sent to Shiprocket. Click below to generate the shipment.</p>
+                            <form action="{{ route('admin.orders.shiprocket.create', $order->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full bg-[#f08038] hover:bg-[#cc5500] text-white font-bold text-xs py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-primary/20">
+                                    <i class="fa-solid fa-truck-fast"></i>
+                                    <span>Send Order to Shiprocket</span>
+                                </button>
+                            </form>
+                        </div>
                     @endif
                 </div>
             @endif

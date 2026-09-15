@@ -108,6 +108,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::post('orders/{order}/shiprocket/create', [AdminOrderController::class, 'createShiprocketShipment'])->name('orders.shiprocket.create');
+    Route::post('orders/{order}/shiprocket/awb', [AdminOrderController::class, 'generateShiprocketAwb'])->name('orders.shiprocket.awb');
+    Route::get('orders/{order}/shiprocket/track', [AdminOrderController::class, 'trackShiprocketShipment'])->name('orders.shiprocket.track');
+    Route::get('orders/{order}/shiprocket/label', [AdminOrderController::class, 'printShiprocketLabel'])->name('orders.shiprocket.label');
 
     // Users / Customers
     Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
@@ -143,20 +147,39 @@ Route::get('/run-migrations', function() {
     }
 });
 
-Route::get('/fix-cashfree-db', function() {
+Route::get('/fix-database', function() {
     try {
-        if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_order_id')) {
-            \Illuminate\Support\Facades\Schema::table('orders', function (\Illuminate\Database\Schema\Blueprint $table) {
+        $messages = [];
+        \Illuminate\Support\Facades\Schema::table('orders', function (\Illuminate\Database\Schema\Blueprint $table) use (&$messages) {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_order_id')) {
                 $table->string('cashfree_order_id')->nullable()->after('payment_method');
                 $table->string('cashfree_payment_id')->nullable()->after('cashfree_order_id');
                 $table->text('cashfree_payment_session_id')->nullable()->after('cashfree_payment_id');
-            });
-            return "Cashfree columns (cashfree_order_id, cashfree_payment_id, cashfree_payment_session_id) added to orders table successfully!";
-        }
-        return "Cashfree columns already exist in orders table!";
+                $messages[] = "Added Cashfree columns (cashfree_order_id, cashfree_payment_id, cashfree_payment_session_id).";
+            } else {
+                $messages[] = "Cashfree columns already exist.";
+            }
+
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_order_id')) {
+                $table->string('shiprocket_order_id')->nullable();
+                $table->string('shiprocket_shipment_id')->nullable();
+                $table->string('shiprocket_awb_code')->nullable();
+                $table->string('shiprocket_status')->nullable();
+                $table->string('shiprocket_courier_name')->nullable();
+                $messages[] = "Added Shiprocket columns (shiprocket_order_id, shipment_id, awb_code, status, courier_name).";
+            } else {
+                $messages[] = "Shiprocket columns already exist.";
+            }
+        });
+
+        return "Database check completed:<br><ul><li>" . implode("</li><li>", $messages) . "</li></ul>";
     } catch (\Exception $e) {
         return "Error updating database: " . $e->getMessage();
     }
+});
+
+Route::get('/fix-cashfree-db', function() {
+    return redirect('/fix-database');
 });
 
 Route::get('/optimize-clear', function() {

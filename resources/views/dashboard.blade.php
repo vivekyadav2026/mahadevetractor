@@ -384,17 +384,27 @@
                                                          @endif
 
                                                          <!-- Tracking Info if Online Delivery and available -->
-                                                         @if($order->delivery_type === 'online_delivery' && $order->ups_tracking_number)
-                                                             <div class="pt-2 border-t border-slate-100 space-y-1">
-                                                                 <div class="flex justify-between items-center">
-                                                                     <span class="text-slate-500 font-medium text-[10px]">UPS Tracking</span>
-                                                                     <span class="font-mono font-bold text-slate-800">{{ $order->ups_tracking_number }}</span>
+                                                         @if($order->delivery_type === 'online_delivery' && ($order->shiprocket_awb_code || $order->ups_tracking_number))
+                                                             @php
+                                                                 $awb = $order->shiprocket_awb_code ?: $order->ups_tracking_number;
+                                                                 $courier = $order->shiprocket_courier_name ?: 'Shiprocket';
+                                                             @endphp
+                                                             <div class="pt-2 border-t border-slate-100 space-y-1.5">
+                                                                 <div class="flex justify-between items-center text-[10px]">
+                                                                     <span class="text-slate-500 font-medium">Courier / AWB</span>
+                                                                     <span class="font-mono font-bold text-slate-800">{{ $courier }} ({{ $awb }})</span>
                                                                  </div>
-                                                                 <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
-                                                                    class="w-full text-center block text-white font-extrabold text-[9px] py-1.5 rounded-lg transition"
-                                                                    style="background: #351C15;">
-                                                                     <i class="fa-solid fa-magnifying-glass text-[8px] mr-1"></i> Track on UPS.com
-                                                                 </a>
+                                                                 @if($order->shiprocket_awb_code)
+                                                                     <a href="https://shiprocket.co//tracking/{{ $order->shiprocket_awb_code }}" target="_blank"
+                                                                        class="w-full text-center block text-white font-extrabold text-[10px] py-1.5 rounded-lg transition bg-blue-600 hover:bg-blue-700 shadow-xs">
+                                                                         <i class="fa-solid fa-truck-fast text-[9px] mr-1"></i> Track on Shiprocket
+                                                                     </a>
+                                                                 @else
+                                                                     <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank"
+                                                                        class="w-full text-center block text-white font-extrabold text-[10px] py-1.5 rounded-lg transition bg-slate-800 hover:bg-slate-900">
+                                                                         <i class="fa-solid fa-magnifying-glass text-[9px] mr-1"></i> Track Shipment
+                                                                     </a>
+                                                                 @endif
                                                              </div>
                                                          @endif
                                                      </div>

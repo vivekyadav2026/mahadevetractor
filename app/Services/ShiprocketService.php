@@ -4,154 +4,294 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class ShiprocketService
 {
-    protected $baseUrl = 'https://apiv2.shiprocket.in/v1/external';
+    protected string $baseUrl = 'https://apiv2.shiprocket.in/v1/external';
 
     /**
-     * Authenticate and get JWT token from Shiprocket.
+     * Authenticate and retrieve cached JWT token from Shiprocket.
      */
-    public function getToken()
+    public function getToken(): string
     {
-        $settings = Setting::pluck('value', 'key')->all();
-        $email = $settings['shiprocket_email'] ?? '';
-        $password = $settings['shiprocket_password'] ?? '';
+        return Cache::remember('shiprocket_jwt_token', 86400 * 9, function () {
+            $email = trim(Setting::get('shiprocket_email', config('services.shiprocket.email', '')));
+            $password = trim(Setting::get('shiprocket_password', config('services.shiprocket.password', '')));
 
-        if (empty($email) || empty($password)) {
-            throw new \Exception('Shiprocket email and password are not configured in settings.');
-        }
+            if (empty($email) || empty($password)) {
+                throw new \Exception('Shiprocket email or password is not configured in Admin Settings.');
+            }
 
-        $response = Http::post("{$this->baseUrl}/auth/login", [
-            'email' => $email,
-            'password' => $password,
-        ]);
+            $response = Http::post("{$this->baseUrl}/auth/login", [
+                'email'    => $email,
+                'password' => $password,
+            ]);
 
-        if ($response->successful()) {
-            return $response->json('token');
-        }
+            if ($response->successful() && $token = $response->json('token')) {
+                return $token;
+            }
 
-        Log::error('Shiprocket Authentication Failed: ' . $response->body());
-        throw new \Exception('Unable to authenticate with Shiprocket API: ' . ($response->json('message') ?? 'Unknown error'));
+            Log::error('Shiprocket Auth Error: ' . $response->body());
+            throw new \Exception('Shiprocket Authentication Failed: ' . ($response->json('message') ?? 'Invalid Credentials'));
+        });
     }
 
     /**
-     * Estimate packed weight of a product variant in kilograms.
+     * Create an order/shipment in Shiprocket (Manual trigger by Admin).
      */
-    public function estimateWeight($productName)
-    {
-        $name = strtolower($productName);
-        if (str_contains($name, 'sticks') && str_contains($name, 'pet')) {
-            return 0.161; // 161 grams
-        } elseif (str_contains($name, 'cones') && str_contains($name, 'pet')) {
-            return 0.165; // 165 grams
-        } elseif (str_contains($name, 'sticks') && str_contains($name, 'corrugated')) {
-            return 0.147; // 147 grams
-        } elseif (str_contains($name, 'cones') && str_contains($name, 'corrugated')) {
-            return 0.141; // 141 grams
-        }
-        return 0.200; // default 200 grams
-    }
-
-    /**
-     * Create shipment order in Shiprocket.
-     */
-    public function createShipment(Order $order)
+    public function createShipment(Order $order): array
     {
         $token = $this->getToken();
-        $settings = Setting::pluck('value', 'key')->all();
-        
-        $pickupLocation = $settings['shiprocket_pickup_location'] ?? 'Primary';
-        
+        $pickupLocation = trim(Setting::get('shiprocket_pickup_location', 'Primary'));
+
         $orderItems = [];
         $totalWeight = 0;
-        $maxLength = 0; $maxWidth = 0; $maxHeight = 0;
+        $maxLength = 0; 
+        $maxWidth = 0; 
+        $maxHeight = 0;
 
         foreach ($order->items as $item) {
-            // Use actual product weight from DB; fall back to 200g if not found
             $product = $item->product;
-            $unitWeight = $product ? (float) $product->weight : 0.200;
+            $unitWeight = $product && $product->weight > 0 ? (float) $product->weight : 0.500; // default 500g for tractor parts
             $itemWeight = $unitWeight * $item->quantity;
             $totalWeight += $itemWeight;
 
-            // Track largest box dimensions across all items
             if ($product) {
-                $maxLength = max($maxLength, (int) $product->length);
-                $maxWidth  = max($maxWidth,  (int) $product->width);
-                $maxHeight = max($maxHeight, (int) $product->height);
+                $maxLength = max($maxLength, (int) ($product->length ?? 10));
+                $maxWidth  = max($maxWidth,  (int) ($product->width ?? 10));
+                $maxHeight = max($maxHeight, (int) ($product->height ?? 10));
             }
 
-            $sku = $product ? $product->sku : 'VB-DHOOP-STICK';
+            $sku = $product && !empty($product->sku) ? $product->sku : 'MTM-PROD-' . $item->product_id;
 
             $orderItems[] = [
-                'name' => $item->product_name,
-                'sku' => $sku,
-                'units' => (int) $item->quantity,
+                'name'          => $item->product_name,
+                'sku'           => $sku,
+                'units'         => (int) $item->quantity,
                 'selling_price' => (float) $item->unit_price,
             ];
         }
 
-        // Split name into first and last name for Shiprocket requirements
+        // Customer name formatting
         $nameParts = explode(' ', trim($order->shipping_name), 2);
         $firstName = $nameParts[0];
-        $lastName = $nameParts[1] ?? 'StoreCustomer';
+        $lastName  = $nameParts[1] ?? 'Customer';
+
+        // Clean phone number to 10 digits
+        $cleanPhone = preg_replace('/[^0-9]/', '', $order->shipping_phone);
+        if (strlen($cleanPhone) > 10) {
+            $cleanPhone = substr($cleanPhone, -10);
+        }
 
         // Payment method mapping
         $isCod = strtolower($order->payment_method) === 'cod';
         $paymentMethod = $isCod ? 'COD' : 'Prepaid';
 
         $payload = [
-            'order_id' => $order->order_number,
-            'order_date' => $order->created_at->format('Y-m-d H:i'),
-            'pickup_location' => $pickupLocation,
+            'order_id'              => $order->order_number,
+            'order_date'            => $order->created_at->format('Y-m-d H:i'),
+            'pickup_location'       => $pickupLocation,
             'billing_customer_name' => $firstName,
-            'billing_last_name' => $lastName,
-            'billing_address' => $order->shipping_address,
-            'billing_city' => $order->shipping_city,
-            'billing_pincode' => $order->shipping_zip,
-            'billing_state' => $order->shipping_state,
-            'billing_country' => 'India',
-            'billing_email' => $order->shipping_email,
-            'billing_phone' => $order->shipping_phone,
-            'shipping_is_billing' => true,
-            'order_items' => $orderItems,
-            'payment_method' => $paymentMethod,
-            'sub_total' => (float) $order->total_amount,
-            'length' => max(10, $maxLength), // actual box length in cm
-            'width' => max(5, $maxWidth),
-            'height' => max(5, $maxHeight),
-            'weight' => max(0.1, $totalWeight), // total weight in kg (minimum 100g)
+            'billing_last_name'     => $lastName,
+            'billing_address'       => $order->shipping_address,
+            'billing_city'          => $order->shipping_city,
+            'billing_pincode'       => $order->shipping_zip,
+            'billing_state'         => $order->shipping_state,
+            'billing_country'       => 'India',
+            'billing_email'         => $order->shipping_email,
+            'billing_phone'         => $cleanPhone,
+            'shipping_is_billing'   => true,
+            'order_items'           => $orderItems,
+            'payment_method'        => $paymentMethod,
+            'sub_total'             => (float) $order->total_amount,
+            'length'                => max(10, $maxLength),
+            'width'                 => max(10, $maxWidth),
+            'height'                => max(5, $maxHeight),
+            'weight'                => max(0.2, round($totalWeight, 3)),
         ];
 
-        Log::info('Shiprocket Order Creation Payload: ' . json_encode($payload));
+        Log::info('Shiprocket: Creating shipment order #' . $order->order_number, ['payload' => $payload]);
 
         $response = Http::withToken($token)->post("{$this->baseUrl}/orders/create/adhoc", $payload);
 
-        if ($response->successful()) {
-            $data = $response->json();
-            
+        if (!$response->successful()) {
+            Log::error('Shiprocket Create Order Failed: ' . $response->body());
+            $errorMsg = $response->json('message') ?? 'Failed to create order on Shiprocket.';
+            if (is_array($response->json('errors'))) {
+                $errorMsg .= ' - ' . json_encode($response->json('errors'));
+            }
+            throw new \Exception($errorMsg);
+        }
+
+        $data = $response->json();
+
+        $shiprocketOrderId    = $data['order_id'] ?? null;
+        $shiprocketShipmentId = $data['shipment_id'] ?? null;
+        $awbCode              = $data['awb_code'] ?? null;
+        $courierName          = $data['courier_name'] ?? null;
+
+        $order->update([
+            'shiprocket_order_id'     => $shiprocketOrderId,
+            'shiprocket_shipment_id'  => $shiprocketShipmentId,
+            'shiprocket_awb_code'     => $awbCode,
+            'shiprocket_status'       => 'PROCESSING',
+            'shiprocket_courier_name' => $courierName,
+            'status'                  => $order->status === 'pending' ? 'processing' : $order->status,
+        ]);
+
+        return [
+            'success'     => true,
+            'order_id'    => $shiprocketOrderId,
+            'shipment_id' => $shiprocketShipmentId,
+            'awb_code'    => $awbCode,
+        ];
+    }
+
+    /**
+     * Generate AWB (Air Waybill) Code for an existing shipment.
+     */
+    public function generateAwb(Order $order): array
+    {
+        if (!$order->shiprocket_shipment_id) {
+            throw new \Exception('Shipment ID is missing. Please create the shipment first.');
+        }
+
+        $token = $this->getToken();
+
+        $response = Http::withToken($token)->post("{$this->baseUrl}/courier/assign/awb", [
+            'shipment_id' => $order->shiprocket_shipment_id,
+        ]);
+
+        if (!$response->successful()) {
+            Log::error('Shiprocket Generate AWB Error: ' . $response->body());
+            throw new \Exception($response->json('message') ?? 'Failed to generate AWB.');
+        }
+
+        $data = $response->json('response.data') ?? [];
+        $awbCode = $data['awb_code'] ?? null;
+        $courierName = $data['courier_name'] ?? null;
+
+        if ($awbCode) {
             $order->update([
-                'shiprocket_order_id' => $data['order_id'] ?? null,
-                'shiprocket_shipment_id' => $data['shipment_id'] ?? null,
-                'shiprocket_status' => 'NEW',
-                'shiprocket_awb_code' => $data['awb_code'] ?? null,
+                'shiprocket_awb_code'     => $awbCode,
+                'shiprocket_courier_name' => $courierName,
+                'shiprocket_status'       => 'AWB_ASSIGNED',
+                'status'                  => 'shipped',
             ]);
+        }
+
+        return [
+            'success'      => true,
+            'awb_code'     => $awbCode,
+            'courier_name' => $courierName,
+        ];
+    }
+
+    /**
+     * Request Courier Pickup for ready packages.
+     */
+    public function requestPickup(Order $order): array
+    {
+        if (!$order->shiprocket_shipment_id) {
+            throw new \Exception('Shipment ID missing for pickup request.');
+        }
+
+        $token = $this->getToken();
+
+        $response = Http::withToken($token)->post("{$this->baseUrl}/courier/generate/pickup", [
+            'shipment_id' => [$order->shiprocket_shipment_id],
+        ]);
+
+        if (!$response->successful()) {
+            throw new \Exception($response->json('message') ?? 'Pickup request failed.');
+        }
+
+        $order->update([
+            'shiprocket_status' => 'PICKUP_SCHEDULED',
+        ]);
+
+        return $response->json();
+    }
+
+    /**
+     * Track Order / AWB live location & status.
+     */
+    public function trackShipment(Order $order): array
+    {
+        $token = $this->getToken();
+
+        $url = $order->shiprocket_awb_code 
+            ? "{$this->baseUrl}/courier/track/awb/{$order->shiprocket_awb_code}"
+            : "{$this->baseUrl}/courier/track/shipment/{$order->shiprocket_shipment_id}";
+
+        $response = Http::withToken($token)->get($url);
+
+        if ($response->successful()) {
+            $trackData = $response->json('tracking_data') ?? [];
+            $currentStatus = $trackData['track_status'] ?? ($trackData['shipment_track'][0]['current_status'] ?? null);
+
+            if ($currentStatus) {
+                $order->update(['shiprocket_status' => strtoupper($currentStatus)]);
+            }
 
             return [
                 'success' => true,
-                'order_id' => $data['order_id'] ?? null,
-                'shipment_id' => $data['shipment_id'] ?? null,
+                'status'  => $currentStatus ?? $order->shiprocket_status,
+                'data'    => $trackData,
             ];
         }
 
-        Log::error('Shiprocket Order Creation Failed: ' . $response->body());
-        $message = $response->json('message') ?? 'Unknown Shiprocket Error';
-        if (is_array($response->json('errors'))) {
-            $message .= ' - ' . json_encode($response->json('errors'));
+        throw new \Exception('Unable to fetch live tracking details.');
+    }
+
+    /**
+     * Generate & Download Shipping Label URL.
+     */
+    public function printLabel(Order $order): ?string
+    {
+        if (!$order->shiprocket_shipment_id) {
+            throw new \Exception('Shipment ID is missing.');
         }
-        
-        throw new \Exception($message);
+
+        $token = $this->getToken();
+
+        $response = Http::withToken($token)->post("{$this->baseUrl}/courier/generate/label", [
+            'shipment_id' => [$order->shiprocket_shipment_id],
+        ]);
+
+        if ($response->successful()) {
+            return $response->json('label_url');
+        }
+
+        throw new \Exception($response->json('message') ?? 'Could not generate label.');
+    }
+
+    /**
+     * Cancel Shipment in Shiprocket.
+     */
+    public function cancelShipment(Order $order): array
+    {
+        if (!$order->shiprocket_order_id) {
+            return ['success' => false, 'message' => 'Order not synced with Shiprocket.'];
+        }
+
+        $token = $this->getToken();
+
+        $response = Http::withToken($token)->post("{$this->baseUrl}/orders/cancel", [
+            'ids' => [$order->shiprocket_order_id],
+        ]);
+
+        if ($response->successful()) {
+            $order->update([
+                'shiprocket_status' => 'CANCELLED',
+            ]);
+            return ['success' => true];
+        }
+
+        throw new \Exception($response->json('message') ?? 'Shipment cancellation failed on Shiprocket.');
     }
 }
+

@@ -78,11 +78,11 @@ class CheckoutController extends Controller
         $salesTaxPermitPath = null;
 
         if ($validated['delivery_type'] === 'self_pickup') {
-            $shippingAddress  = \App\Models\Setting::get('ups_ship_from_address', '12800 Northborough Dr');
-            $shippingAddress2 = '';
-            $shippingCity     = \App\Models\Setting::get('ups_ship_from_city', 'Houston');
-            $shippingState    = \App\Models\Setting::get('ups_ship_from_state', 'TX');
-            $shippingZip      = \App\Models\Setting::get('ups_ship_from_zip', '77067');
+            $shippingAddress  = \App\Models\Setting::get('site_address', 'Mahadev Tractor Workshop & Store');
+            $shippingAddress2 = 'Self Pickup';
+            $shippingCity     = \App\Models\Setting::get('site_city', 'Store City');
+            $shippingState    = \App\Models\Setting::get('site_state', 'Store State');
+            $shippingZip      = \App\Models\Setting::get('site_zip', '000000');
         } else {
             // Check if user selected a saved address
             if (auth()->check() && $selectedAddressId && $selectedAddressId !== 'new') {

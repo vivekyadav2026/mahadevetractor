@@ -52,10 +52,11 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status'              => 'required|string|in:pending,processing,shipped,completed,cancelled,failed,returned,return_rejected',
-            'payment_status'      => 'required|string|in:pending,completed,failed',
-            'ups_tracking_number' => 'nullable|string|max:100',
-            'return_status'       => 'nullable|string|in:pending,approved,rejected',
+            'status'                  => 'required|string|in:pending,processing,shipped,completed,cancelled,failed,returned,return_rejected',
+            'payment_status'          => 'required|string|in:pending,completed,failed',
+            'shiprocket_awb_code'     => 'nullable|string|max:100',
+            'shiprocket_courier_name' => 'nullable|string|max:100',
+            'return_status'           => 'nullable|string|in:pending,approved,rejected',
         ]);
 
         $status = $request->status;
@@ -71,12 +72,68 @@ class OrderController extends Controller
         }
 
         $order->update([
-            'status'              => $status,
-            'payment_status'      => $request->payment_status,
-            'ups_tracking_number' => $request->ups_tracking_number,
-            'return_status'       => $returnStatus,
+            'status'                  => $status,
+            'payment_status'          => $request->payment_status,
+            'shiprocket_awb_code'     => $request->shiprocket_awb_code,
+            'shiprocket_courier_name' => $request->shiprocket_courier_name,
+            'return_status'           => $returnStatus,
         ]);
 
         return redirect()->back()->with('success', 'Order updated successfully.');
+    }
+
+    /**
+     * Admin Action: Create Shipment on Shiprocket manually
+     */
+    public function createShiprocketShipment(Order $order, \App\Services\ShiprocketService $shiprocket)
+    {
+        try {
+            $result = $shiprocket->createShipment($order);
+            return redirect()->back()->with('success', 'Shiprocket shipment created successfully! Shipment ID: ' . ($result['shipment_id'] ?? 'N/A'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Shiprocket Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Admin Action: Generate AWB on Shiprocket manually
+     */
+    public function generateShiprocketAwb(Order $order, \App\Services\ShiprocketService $shiprocket)
+    {
+        try {
+            $result = $shiprocket->generateAwb($order);
+            return redirect()->back()->with('success', 'AWB Assigned! Courier: ' . ($result['courier_name'] ?? '') . ' | AWB: ' . ($result['awb_code'] ?? ''));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Shiprocket AWB Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Admin Action: Track Live Shipment on Shiprocket
+     */
+    public function trackShiprocketShipment(Order $order, \App\Services\ShiprocketService $shiprocket)
+    {
+        try {
+            $result = $shiprocket->trackShipment($order);
+            return redirect()->back()->with('info', 'Live Status: ' . ($result['status'] ?? 'Active'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Shiprocket Tracking Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Admin Action: Print Shipping Label
+     */
+    public function printShiprocketLabel(Order $order, \App\Services\ShiprocketService $shiprocket)
+    {
+        try {
+            $labelUrl = $shiprocket->printLabel($order);
+            if ($labelUrl) {
+                return redirect()->away($labelUrl);
+            }
+            return redirect()->back()->with('error', 'Label URL not found.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Shiprocket Label Error: ' . $e->getMessage());
+        }
     }
 }

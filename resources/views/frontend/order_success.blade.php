@@ -215,14 +215,21 @@
                             </div>
                         @endif
 
-                        @if($order->delivery_type === 'online_delivery' && $order->ups_tracking_number)
+                        @if($order->delivery_type === 'online_delivery' && ($order->shiprocket_awb_code || $order->shiprocket_shipment_id))
                             <div class="pt-3 border-t border-gray-100 space-y-2">
-                                <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">UPS Tracking Number</span>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Shipment Tracking</span>
+                                    @if($order->shiprocket_courier_name)
+                                        <span class="text-[10px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">{{ $order->shiprocket_courier_name }}</span>
+                                    @endif
+                                </div>
                                 <div class="bg-gray-50 border border-gray-200 rounded-xl p-3 flex items-center justify-between">
-                                    <span class="font-mono text-xs font-bold text-gray-800 select-all">{{ $order->ups_tracking_number }}</span>
-                                    <a href="https://www.ups.com/track?tracknum={{ $order->ups_tracking_number }}" target="_blank" class="text-[10px] bg-primary text-white font-extrabold px-2.5 py-1.5 rounded-lg hover:bg-primary-dark transition cursor-pointer">
-                                        Track
-                                    </a>
+                                    <span class="font-mono text-xs font-bold text-gray-800 select-all">{{ $order->shiprocket_awb_code ?: 'Shipment ID: ' . $order->shiprocket_shipment_id }}</span>
+                                    @if($order->shiprocket_awb_code)
+                                        <a href="https://shiprocket.co/tracking/{{ $order->shiprocket_awb_code }}" target="_blank" class="text-[10px] bg-primary text-white font-extrabold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition cursor-pointer flex items-center gap-1">
+                                            <i class="fa-solid fa-location-arrow"></i> Track
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @endif
