@@ -209,9 +209,11 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                             <div>
                                 <label class="co-label">Mobile Number <span class="text-red-500">*</span></label>
-                                <div class="relative">
-                                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs font-bold">+91</span>
-                                    <input type="tel" name="shipping_phone" value="{{ old('shipping_phone', auth()->check() ? auth()->user()->phone : '') }}" required class="co-input w-full pl-11" placeholder="9876543210" maxlength="15">
+                                <div class="flex items-center rounded-xl bg-[#fafafa] border border-[#e2e8f0] overflow-hidden focus-within:border-[#f08038] focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                                    <span class="px-3.5 py-2 text-xs font-bold text-gray-700 bg-gray-100 border-r border-gray-200 select-none">
+                                        +91
+                                    </span>
+                                    <input type="tel" name="shipping_phone" value="{{ old('shipping_phone', auth()->check() ? auth()->user()->phone : '') }}" required class="w-full bg-transparent px-3 py-2 text-[13px] text-gray-900 border-none outline-none focus:ring-0 focus:outline-none" placeholder="9876543210" maxlength="15">
                                 </div>
                             </div>
                             <div x-show="deliveryType === 'online_delivery'">

@@ -134,6 +134,31 @@ Route::get('/sitemap.xml', [FrontendController::class, 'sitemap'])->name('sitema
 
 
 // --- Shared Hosting Deployment Routes ---
+Route::get('/run-migrations', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return "Database migrations executed successfully!<br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+    } catch (\Exception $e) {
+        return "Migration Error: " . $e->getMessage();
+    }
+});
+
+Route::get('/fix-cashfree-db', function() {
+    try {
+        if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_order_id')) {
+            \Illuminate\Support\Facades\Schema::table('orders', function (\Illuminate\Database\Schema\Blueprint $table) {
+                $table->string('cashfree_order_id')->nullable()->after('payment_method');
+                $table->string('cashfree_payment_id')->nullable()->after('cashfree_order_id');
+                $table->text('cashfree_payment_session_id')->nullable()->after('cashfree_payment_id');
+            });
+            return "Cashfree columns (cashfree_order_id, cashfree_payment_id, cashfree_payment_session_id) added to orders table successfully!";
+        }
+        return "Cashfree columns already exist in orders table!";
+    } catch (\Exception $e) {
+        return "Error updating database: " . $e->getMessage();
+    }
+});
+
 Route::get('/optimize-clear', function() {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     \Illuminate\Support\Facades\Artisan::call('view:clear');
