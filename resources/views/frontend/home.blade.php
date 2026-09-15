@@ -7,11 +7,17 @@
 <meta name="description" content="India's most trusted vehicle accessories store. Buy fiber hoods, music systems, and tractor accessories.">
 <link rel="icon" href="{{ asset('images/mahadev_logo.jpg') }}">
 
-<!-- Bootstrap -->
+<!-- Preconnect for Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+<!-- CSS & Fonts -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=Montserrat:wght@800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/style.css?v=' . filemtime(public_path('css/style.css'))) }}">
 <style>
   /* Premium E-commerce Overrides */
@@ -117,25 +123,25 @@
         <!-- Slide 1: Designed Brand Banner -->
         <div class="carousel-item active">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img" style="object-fit: fill;">
+            <img src="{{ asset('images/hero_banner_new_v2.jpg') }}" alt="Tractor & Pickup Accessories Banner" class="pl-hero-slider-img" style="object-fit: fill;" fetchpriority="high" decoding="async">
           </a>
         </div>
         <!-- Slide 2: Modified Bolero Pickup -->
         <div class="carousel-item">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/pickup_slider.jpg') }}" alt="Modified Pickup Truck" class="pl-hero-slider-img">
+            <img src="{{ asset('images/pickup_slider.jpg') }}" alt="Modified Pickup Truck" class="pl-hero-slider-img" loading="lazy" decoding="async">
           </a>
         </div>
         <!-- Slide 3: Generated Tractor Modifications -->
         <div class="carousel-item">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/generated_banner_1.jpg') }}" alt="Tractor Modifications Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0b0d11;">
+            <img src="{{ asset('images/generated_banner_1.jpg') }}" alt="Tractor Modifications Banner" class="pl-hero-slider-img" loading="lazy" decoding="async" style="object-fit: contain; background: #0b0d11;">
           </a>
         </div>
         <!-- Slide 4: Generated Pickup Modifications -->
         <div class="carousel-item">
           <a href="{{ url('/shop') }}" class="d-block w-100 overflow-hidden">
-            <img src="{{ asset('images/generated_banner_2.jpg') }}" alt="Pickup Modifications Banner" class="pl-hero-slider-img" style="object-fit: contain; background: #0c0f13;">
+            <img src="{{ asset('images/generated_banner_2.jpg') }}" alt="Pickup Modifications Banner" class="pl-hero-slider-img" loading="lazy" decoding="async" style="object-fit: contain; background: #0c0f13;">
           </a>
         </div>
       </div>

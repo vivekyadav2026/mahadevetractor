@@ -9,6 +9,23 @@ class Product extends Model
 {
     protected $guarded = [];
 
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_bestsellers');
+            \Illuminate\Support\Facades\Cache::forget('home_featured');
+            \Illuminate\Support\Facades\Cache::forget('home_deal_of_week');
+            \Illuminate\Support\Facades\Cache::forget('home_category_sections');
+        });
+
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('home_bestsellers');
+            \Illuminate\Support\Facades\Cache::forget('home_featured');
+            \Illuminate\Support\Facades\Cache::forget('home_deal_of_week');
+            \Illuminate\Support\Facades\Cache::forget('home_category_sections');
+        });
+    }
+
     public static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
     {
         $slug = Str::slug($name);

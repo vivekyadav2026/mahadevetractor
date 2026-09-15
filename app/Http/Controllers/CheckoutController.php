@@ -474,9 +474,22 @@ class CheckoutController extends Controller
     // Cashfree Webhook — asynchronous payment notification
     public function cashfreeWebhook(Request $request)
     {
+        // Respond 200 OK immediately for GET/head ping or testing checks
+        if ($request->isMethod('get') || $request->isMethod('head')) {
+            return response()->json(['status' => 'ok', 'message' => 'Cashfree webhook endpoint is active and listening.'], 200);
+        }
+
         $rawPayload = $request->getContent();
         $signature  = $request->header('x-webhook-signature');
         $timestamp  = $request->header('x-webhook-timestamp');
+
+        $data = $request->json()->all();
+        $eventType = $data['type'] ?? '';
+
+        // Cashfree dashboard test ping
+        if ($eventType === 'TEST_NOTIFICATION') {
+            return response()->json(['status' => 'ok', 'message' => 'Test notification received successfully.'], 200);
+        }
 
         $cashfree = new CashfreeService();
 
@@ -486,9 +499,6 @@ class CheckoutController extends Controller
                 return response()->json(['error' => 'Invalid signature'], 400);
             }
         }
-
-        $data = $request->json()->all();
-        $eventType = $data['type'] ?? '';
 
         Log::info('Cashfree Webhook received: ' . $eventType, ['data' => $data]);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Banner;
@@ -12,30 +13,50 @@ class FrontendController extends Controller
 {
     public function home(Request $request)
     {
-        $banners = Banner::where('is_active', true)->get();
-        $testimonials = Testimonial::where('is_active', true)->get();
-        $bestSellers = Product::with('category')->where('is_active', true)->where('is_bestseller', true)->latest()->take(8)->get();
-        $featuredProducts = Product::with('category')->where('is_active', true)->where('is_featured', true)->latest()->take(8)->get();
-        $dealOfWeek = Product::with('category')->where('is_active', true)->where('deal_of_week', true)->first();
-        $categories = Category::where('is_active', true)->get();
+        // Cache static elements for high performance (1 hour TTL)
+        $banners = Cache::remember('home_banners', 3600, function() {
+            return Banner::where('is_active', true)->get();
+        });
 
-        // Fallbacks if database has no flagged products
-        if ($bestSellers->isEmpty()) {
-            $bestSellers = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
-        }
-        if ($featuredProducts->isEmpty()) {
-            $featuredProducts = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
-        }
+        $testimonials = Cache::remember('home_testimonials', 3600, function() {
+            return Testimonial::where('is_active', true)->get();
+        });
+
+        $categories = Cache::remember('active_categories', 3600, function() {
+            return Category::where('is_active', true)->get();
+        });
+
+        $bestSellers = Cache::remember('home_bestsellers', 1800, function() {
+            $items = Product::with('category')->where('is_active', true)->where('is_bestseller', true)->latest()->take(8)->get();
+            if ($items->isEmpty()) {
+                $items = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
+            }
+            return $items;
+        });
+
+        $featuredProducts = Cache::remember('home_featured', 1800, function() {
+            $items = Product::with('category')->where('is_active', true)->where('is_featured', true)->latest()->take(8)->get();
+            if ($items->isEmpty()) {
+                $items = Product::with('category')->where('is_active', true)->latest()->take(8)->get();
+            }
+            return $items;
+        });
+
+        $dealOfWeek = Cache::remember('home_deal_of_week', 1800, function() {
+            return Product::with('category')->where('is_active', true)->where('deal_of_week', true)->first();
+        });
+
+        // Eager loaded category sections for homepage
+        $categorySections = Cache::remember('home_category_sections', 1800, function() {
+            return Category::with(['products' => function($query) {
+                $query->where('is_active', true)->take(5);
+            }])->whereHas('products', function($query) {
+                $query->where('is_active', true);
+            })->where('is_active', true)->take(6)->get();
+        });
 
         // Paginated "All Products" grid for the infinite scroll section
         $allProducts = Product::with('category')->where('is_active', true)->latest()->paginate(12)->withQueryString();
-
-        // Eager loaded category sections for homepage (eliminating N+1 queries in view)
-        $categorySections = Category::with(['products' => function($query) {
-            $query->where('is_active', true)->take(5);
-        }])->whereHas('products', function($query) {
-            $query->where('is_active', true);
-        })->where('is_active', true)->take(6)->get();
 
         return view('frontend.home', compact('banners', 'testimonials', 'bestSellers', 'featuredProducts', 'dealOfWeek', 'categories', 'allProducts', 'categorySections'));
     }
@@ -117,7 +138,9 @@ class FrontendController extends Controller
         }
 
         $products = $query->paginate(12)->withQueryString();
-        $categories = Category::where('is_active', true)->get();
+        $categories = Cache::remember('active_categories', 3600, function() {
+            return Category::where('is_active', true)->get();
+        });
 
         return view('frontend.shop', compact('products', 'categories', 'selectedCategories'));
     }

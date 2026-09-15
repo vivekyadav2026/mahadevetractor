@@ -9,6 +9,19 @@ class Category extends Model
 {
     protected $guarded = [];
 
+    protected static function booted(): void
+    {
+        static::saved(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_categories');
+            \Illuminate\Support\Facades\Cache::forget('home_category_sections');
+        });
+
+        static::deleted(function () {
+            \Illuminate\Support\Facades\Cache::forget('active_categories');
+            \Illuminate\Support\Facades\Cache::forget('home_category_sections');
+        });
+    }
+
     public static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
     {
         $slug = Str::slug($name);

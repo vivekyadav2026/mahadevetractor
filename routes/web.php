@@ -128,10 +128,7 @@ Route::post(
 )->name('webhook.stripe');
 
 // Cashfree Webhook
-Route::post(
-    '/webhook/cashfree',
-    [CheckoutController::class, 'cashfreeWebhook']
-)->name('webhook.cashfree');
+Route::match(['get', 'post'], '/webhook/cashfree', [CheckoutController::class, 'cashfreeWebhook'])->name('webhook.cashfree');
 
 Route::get('/sitemap.xml', [FrontendController::class, 'sitemap'])->name('sitemap');
 
@@ -142,7 +139,14 @@ Route::get('/optimize-clear', function() {
     \Illuminate\Support\Facades\Artisan::call('view:clear');
     \Illuminate\Support\Facades\Artisan::call('config:clear');
     \Illuminate\Support\Facades\Artisan::call('cache:clear');
-    return "Application optimized and caches cleared for live server!";
+    return "Application caches cleared successfully!";
+});
+
+Route::get('/optimize-app', function() {
+    \Illuminate\Support\Facades\Artisan::call('config:cache');
+    \Illuminate\Support\Facades\Artisan::call('route:cache');
+    \Illuminate\Support\Facades\Artisan::call('view:cache');
+    return "Application optimized (Config, Route, and Views cached for high performance)!";
 });
 
 Route::get('/create-storage-link', function() {
