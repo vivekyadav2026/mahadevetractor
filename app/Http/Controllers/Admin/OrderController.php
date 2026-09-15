@@ -10,6 +10,8 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        $this->ensureOrderColumnsExist();
+
         $query = Order::with('user');
 
         if ($request->filled('status')) {
@@ -45,6 +47,7 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        $this->ensureOrderColumnsExist();
         $order->load(['user', 'items.product']);
         return view('admin.orders.show', compact('order'));
     }
@@ -134,6 +137,48 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Label URL not found.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Shiprocket Label Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Ensure all newly added order columns exist in database table dynamically
+     */
+    protected function ensureOrderColumnsExist(): void
+    {
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('orders')) {
+                \Illuminate\Support\Facades\Schema::table('orders', function (\Illuminate\Database\Schema\Blueprint $table) {
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'delivery_charge')) {
+                        $table->decimal('delivery_charge', 10, 2)->default(0)->after('total_amount');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_order_id')) {
+                        $table->string('cashfree_order_id')->nullable()->after('payment_method');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_payment_id')) {
+                        $table->string('cashfree_payment_id')->nullable()->after('cashfree_order_id');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'cashfree_payment_session_id')) {
+                        $table->text('cashfree_payment_session_id')->nullable()->after('cashfree_payment_id');
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_order_id')) {
+                        $table->string('shiprocket_order_id')->nullable();
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_shipment_id')) {
+                        $table->string('shiprocket_shipment_id')->nullable();
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_awb_code')) {
+                        $table->string('shiprocket_awb_code')->nullable();
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_courier_name')) {
+                        $table->string('shiprocket_courier_name')->nullable();
+                    }
+                    if (!\Illuminate\Support\Facades\Schema::hasColumn('orders', 'shiprocket_status')) {
+                        $table->string('shiprocket_status')->nullable();
+                    }
+                });
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Order column auto-ensure exception: ' . $e->getMessage());
         }
     }
 }

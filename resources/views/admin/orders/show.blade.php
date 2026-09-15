@@ -257,10 +257,12 @@
                         <!-- Action Buttons -->
                         <div class="space-y-2 pt-1">
                             @if(!$order->shiprocket_awb_code)
-                                <!-- Step 2: Assign AWB Code -->
+                                 <!-- Step 2: Assign AWB Code -->
                                 <form action="{{ route('admin.orders.shiprocket.awb', $order->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full bg-[#f08038] hover:bg-[#cc5500] text-white font-bold text-xs py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm">
+                                    <button type="submit" 
+                                            style="background: #f08038; color: #ffffff;"
+                                            class="w-full text-white font-bold text-xs py-2.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm hover:opacity-95">
                                         <i class="fa-solid fa-barcode"></i> Assign Courier & Generate AWB
                                     </button>
                                 </form>
@@ -282,7 +284,9 @@
                             <p class="text-xs text-slate-500 m-0">This order is ready to be sent to Shiprocket. Click below to generate the shipment.</p>
                             <form action="{{ route('admin.orders.shiprocket.create', $order->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="w-full bg-[#f08038] hover:bg-[#cc5500] text-white font-bold text-xs py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-primary/20">
+                                <button type="submit" 
+                                        style="background: #f08038; color: #ffffff;"
+                                        class="w-full text-white font-bold text-xs py-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md hover:opacity-95">
                                     <i class="fa-solid fa-truck-fast"></i>
                                     <span>Send Order to Shiprocket</span>
                                 </button>
