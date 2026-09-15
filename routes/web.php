@@ -172,6 +172,18 @@ Route::get('/fix-database', function() {
             }
         });
 
+        if (!\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            \Illuminate\Support\Facades\Schema::create('settings', function (\Illuminate\Database\Schema\Blueprint $table) {
+                $table->id();
+                $table->string('key')->unique();
+                $table->text('value')->nullable();
+                $table->timestamps();
+            });
+            $messages[] = "Created missing 'settings' table.";
+        } else {
+            $messages[] = "'settings' table already exists.";
+        }
+
         return "Database check completed:<br><ul><li>" . implode("</li><li>", $messages) . "</li></ul>";
     } catch (\Exception $e) {
         return "Error updating database: " . $e->getMessage();

@@ -35,21 +35,48 @@ class AdminController extends Controller
 
     public function settings()
     {
-        $settings = Setting::pluck('value', 'key')->all();
+        try {
+            if (!\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                \Illuminate\Support\Facades\Schema::create('settings', function (\Illuminate\Database\Schema\Blueprint $table) {
+                    $table->id();
+                    $table->string('key')->unique();
+                    $table->text('value')->nullable();
+                    $table->timestamps();
+                });
+            }
+            $settings = Setting::pluck('value', 'key')->all();
+        } catch (\Throwable $e) {
+            $settings = [];
+        }
         return view('admin.settings.edit', compact('settings'));
     }
 
     public function updateSettings(Request $request)
     {
-        $data = $request->except('_token');
+        try {
+            if (!\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+                \Illuminate\Support\Facades\Schema::create('settings', function (\Illuminate\Database\Schema\Blueprint $table) {
+                    $table->id();
+                    $table->string('key')->unique();
+                    $table->text('value')->nullable();
+                    $table->timestamps();
+                });
+            }
 
-        foreach ($data as $key => $value) {
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value]
-            );
+            $data = $request->except('_token');
+
+            foreach ($data as $key => $value) {
+                Setting::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $value]
+                );
+            }
+
+            Setting::clearCache();
+
+            return redirect()->back()->with('success', 'Settings updated successfully.');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Error updating settings: ' . $e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Settings updated successfully.');
     }
 }

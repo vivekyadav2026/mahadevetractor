@@ -9,6 +9,20 @@
         <h3 class="font-serif font-bold text-slate-800 text-lg">System Settings</h3>
     </div>
 
+    @if(session('success'))
+        <div class="mb-4 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-bold flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="mb-4 p-3.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-2">
+            <i class="fa-solid fa-circle-xmark text-rose-600 text-sm"></i>
+            <span>{{ session('error') }}</span>
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('admin.settings.update') }}" class="space-y-6">
         @csrf
 
