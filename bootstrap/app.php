@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\CheckUserActive::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'webhook/stripe',
+            'webhook/cashfree',
+        ]);
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);

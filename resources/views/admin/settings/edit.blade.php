@@ -45,25 +45,42 @@
             </div>
         </div>
 
-        <!-- Stripe Payment Settings -->
+        <!-- Cashfree Payment Gateway Settings -->
         <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-4">
-            <h4 class="font-serif font-bold text-slate-800 text-sm pb-1.5 border-b border-slate-200">Stripe Payment</h4>
+            <div class="flex items-center justify-between pb-1.5 border-b border-slate-200">
+                <h4 class="font-serif font-bold text-slate-800 text-sm">Cashfree Payment Gateway (India - UPI / Cards / NetBanking)</h4>
+                <span class="text-[10px] uppercase font-extrabold bg-primary/10 text-primary px-2 py-0.5 rounded-full">Recommended</span>
+            </div>
 
             <div class="space-y-1.5">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Stripe Publishable Key</label>
-                <input type="text" name="stripe_key" value="{{ $settings['stripe_key'] ?? config('services.stripe.key') }}" placeholder="pk_live_..."
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Environment / Mode</label>
+                <select name="cashfree_mode" class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
+                    <option value="sandbox" {{ ($settings['cashfree_mode'] ?? config('services.cashfree.mode', 'sandbox')) === 'sandbox' ? 'selected' : '' }}>Sandbox (Testing)</option>
+                    <option value="production" {{ ($settings['cashfree_mode'] ?? config('services.cashfree.mode')) === 'production' ? 'selected' : '' }}>Production (Live)</option>
+                </select>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Cashfree App ID (Client ID)</label>
+                <input type="text" name="cashfree_app_id" value="{{ $settings['cashfree_app_id'] ?? config('services.cashfree.app_id', '') }}" placeholder="e.g. TEST1038593..."
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
             </div>
 
             <div class="space-y-1.5" x-data="{ showSecret: false }">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Stripe Secret Key</label>
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Cashfree Secret Key</label>
                 <div class="relative">
-                    <input :type="showSecret ? 'text' : 'password'" name="stripe_secret" value="{{ $settings['stripe_secret'] ?? config('services.stripe.secret') }}" placeholder="sk_live_..."
+                    <input :type="showSecret ? 'text' : 'password'" name="cashfree_secret_key" value="{{ $settings['cashfree_secret_key'] ?? config('services.cashfree.secret_key', '') }}" placeholder="e.g. cfsk_ma_test_..."
                            class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm pl-4 pr-10 py-2.5 bg-white">
                     <button type="button" @click="showSecret = !showSecret" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#C49A6C] focus:outline-none cursor-pointer">
                         <i class="fa-solid text-sm" :class="showSecret ? 'fa-eye-slash' : 'fa-eye'"></i>
                     </button>
                 </div>
+            </div>
+
+            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200/60 text-xs text-amber-800 space-y-1">
+                <p class="font-bold"><i class="fa-solid fa-circle-info me-1"></i> Cashfree Webhook URL:</p>
+                <code class="block bg-white p-2 rounded border border-amber-200 font-mono text-[11px] select-all break-all">{{ url('/webhook/cashfree') }}</code>
+                <p class="text-[10px] text-amber-700">Add this URL in your Cashfree Merchant Dashboard under <em>Developers > Webhooks</em>.</p>
             </div>
         </div>
 

@@ -12,6 +12,7 @@ use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
+use App\Services\CashfreeService;
 
 class CheckoutController extends Controller
 {
@@ -68,7 +69,7 @@ class CheckoutController extends Controller
             'shipping_email'   => 'required|email|max:255',
             'shipping_phone'   => 'required|string|max:20',
             'delivery_type'    => 'required|string|in:online_delivery,self_pickup',
-            'payment_method'   => 'required|string|in:cod,stripe',
+            'payment_method'   => 'required|string|in:cod,stripe,cashfree',
             'notes'            => 'nullable|string',
         ]);
 
@@ -250,6 +251,52 @@ class CheckoutController extends Controller
             }
         }
 
+        // --- CASHFREE PAYMENT ---
+        if ($validated['payment_method'] === 'cashfree') {
+            $cashfree = new CashfreeService();
+
+            if (!$cashfree->isConfigured()) {
+                return redirect()->route('checkout.index')
+                    ->with('error', 'Cashfree payment gateway is not configured yet. Please contact support or select another payment method.');
+            }
+
+            try {
+                $cfOrder = $cashfree->createOrder([
+                    'order_id'         => $order->order_number,
+                    'order_amount'     => $order->total_amount,
+                    'customer_id'      => auth()->check() ? 'CUST_' . auth()->id() : 'GUEST_' . substr(md5($order->shipping_email . time()), 0, 10),
+                    'customer_name'    => $order->shipping_name,
+                    'customer_email'   => $order->shipping_email,
+                    'customer_phone'   => $order->shipping_phone,
+                    'return_url'       => route('checkout.cashfree.callback') . '?order_id={order_id}',
+                    'notify_url'       => route('webhook.cashfree'),
+                    'order_note'       => 'Mahadev Tractor Order #' . $order->order_number,
+                ]);
+
+                $paymentSessionId = $cfOrder['payment_session_id'] ?? null;
+                $cfOrderId        = $cfOrder['cf_order_id'] ?? ($cfOrder['order_id'] ?? null);
+
+                $order->update([
+                    'cashfree_order_id'           => $cfOrderId,
+                    'cashfree_payment_session_id' => $paymentSessionId,
+                ]);
+
+                return view('frontend.cashfree_payment', [
+                    'order'            => $order,
+                    'paymentSessionId' => $paymentSessionId,
+                    'cashfreeMode'     => $cashfree->getMode(),
+                ]);
+
+            } catch (\Exception $e) {
+                Log::error('Cashfree order initiation exception: ' . $e->getMessage());
+                $order->update([
+                    'status' => 'failed',
+                    'notes'  => 'Cashfree Order creation failed: ' . $e->getMessage(),
+                ]);
+                return redirect()->route('checkout.index')->with('error', 'Unable to initiate Cashfree payment: ' . $e->getMessage());
+            }
+        }
+
         // --- COD FLOW ---
         session()->forget('cart');
         return redirect()->route('checkout.success', ['order_number' => $order->order_number])
@@ -344,6 +391,135 @@ class CheckoutController extends Controller
                     'status'         => 'failed',
                     'notes'          => 'Stripe payment failed via webhook.',
                 ]);
+            }
+        }
+
+        return response()->json(['status' => 'ok'], 200);
+    }
+
+    // Handle Cashfree payment success/failure callback (return_url)
+    public function handleCashfreeCallback(Request $request)
+    {
+        $orderNumber = $request->query('order_id');
+
+        if (!$orderNumber) {
+            return redirect()->route('checkout.index')->with('error', 'Invalid payment response from Cashfree.');
+        }
+
+        $order = Order::where('order_number', $orderNumber)->first();
+
+        if (!$order) {
+            return redirect()->route('checkout.index')->with('error', 'Order not found.');
+        }
+
+        // If already marked completed by webhook, redirect directly to success
+        if ($order->payment_status === 'completed') {
+            session()->forget('cart');
+            return redirect()->route('checkout.success', ['order_number' => $order->order_number])
+                ->with('success', 'Payment successful! Your order has been placed.');
+        }
+
+        try {
+            $cashfree = new CashfreeService();
+            $cfOrder = $cashfree->getOrder($orderNumber);
+            $orderStatus = strtoupper($cfOrder['order_status'] ?? '');
+
+            // Fetch payment details to store payment ID
+            $payments = $cashfree->getOrderPayments($orderNumber);
+            $latestPayment = !empty($payments) ? end($payments) : null;
+            $paymentId = $latestPayment['cf_payment_id'] ?? null;
+
+            if ($orderStatus === 'PAID') {
+                $order->update([
+                    'payment_status'      => 'completed',
+                    'status'              => 'processing',
+                    'cashfree_payment_id' => $paymentId ? (string) $paymentId : $order->cashfree_payment_id,
+                ]);
+
+                session()->forget('cart');
+
+                return redirect()->route('checkout.success', ['order_number' => $order->order_number])
+                    ->with('success', 'Payment successful! Your order has been placed.');
+            }
+
+            if (in_array($orderStatus, ['EXPIRED', 'FAILED', 'CANCELLED'])) {
+                $this->restoreCartAndCancelOrder($order, 'Cashfree payment status: ' . $orderStatus);
+                return redirect()->route('checkout.index')->with('error', 'Payment was not completed (' . $orderStatus . '). Your cart has been restored.');
+            }
+
+            // Still active or user returned early
+            return redirect()->route('checkout.index')
+                ->with('warning', 'Payment is currently in status: ' . $orderStatus . '. If amount was deducted, your order will update shortly.');
+
+        } catch (\Exception $e) {
+            Log::error('Cashfree callback verification error: ' . $e->getMessage());
+            return redirect()->route('checkout.index')->with('error', 'Failed to verify payment status: ' . $e->getMessage());
+        }
+    }
+
+    // Cancel Cashfree payment — restore cart
+    public function cancelCashfreePayment(Request $request)
+    {
+        $orderId = $request->query('order_id');
+        if ($orderId) {
+            $order = Order::where('id', $orderId)->where('payment_status', 'pending')->with('items.product')->first();
+            if ($order) {
+                $this->restoreCartAndCancelOrder($order, 'Cashfree payment cancelled by customer.');
+            }
+        }
+
+        return redirect()->route('checkout.index')->with('warning', 'Payment was cancelled. Your cart has been restored.');
+    }
+
+    // Cashfree Webhook — asynchronous payment notification
+    public function cashfreeWebhook(Request $request)
+    {
+        $rawPayload = $request->getContent();
+        $signature  = $request->header('x-webhook-signature');
+        $timestamp  = $request->header('x-webhook-timestamp');
+
+        $cashfree = new CashfreeService();
+
+        if ($signature && $timestamp) {
+            if (!$cashfree->verifyWebhookSignature($rawPayload, $timestamp, $signature)) {
+                Log::warning('Cashfree Webhook: Invalid signature');
+                return response()->json(['error' => 'Invalid signature'], 400);
+            }
+        }
+
+        $data = $request->json()->all();
+        $eventType = $data['type'] ?? '';
+
+        Log::info('Cashfree Webhook received: ' . $eventType, ['data' => $data]);
+
+        $orderData = $data['data']['order'] ?? [];
+        $orderId = $orderData['order_id'] ?? null;
+        $paymentData = $data['data']['payment'] ?? [];
+        $paymentStatus = strtoupper($paymentData['payment_status'] ?? '');
+        $cfPaymentId = $paymentData['cf_payment_id'] ?? null;
+
+        if ($orderId) {
+            $order = Order::where('order_number', $orderId)->first();
+
+            if ($order) {
+                if ($eventType === 'PAYMENT_SUCCESS_WEBHOOK' || $paymentStatus === 'SUCCESS') {
+                    if ($order->payment_status !== 'completed') {
+                        $order->update([
+                            'payment_status'      => 'completed',
+                            'status'              => 'processing',
+                            'cashfree_payment_id' => $cfPaymentId ? (string) $cfPaymentId : $order->cashfree_payment_id,
+                        ]);
+                        Log::info('Cashfree Webhook: Order ' . $order->order_number . ' marked as completed.');
+                    }
+                } elseif ($eventType === 'PAYMENT_FAILED_WEBHOOK' || $paymentStatus === 'FAILED') {
+                    if ($order->payment_status === 'pending') {
+                        $order->update([
+                            'payment_status' => 'failed',
+                            'status'         => 'failed',
+                            'notes'          => 'Cashfree payment failed via webhook: ' . ($paymentData['payment_message'] ?? 'Failed'),
+                        ]);
+                    }
+                }
             }
         }
 

@@ -41,6 +41,13 @@ return [
         'webhook_secret' => env('STRIPE_WEBHOOK_SECRET', ''),
     ],
 
+    'cashfree' => [
+        'app_id'     => env('CASHFREE_APP_ID'),
+        'secret_key' => env('CASHFREE_SECRET_KEY'),
+        'mode'       => env('CASHFREE_MODE', 'sandbox'), // sandbox or production
+        'api_version'=> env('CASHFREE_API_VERSION', '2023-08-01'),
+    ],
+
     'ups' => [
         'client_id'      => env('UPS_CLIENT_ID'),
         'client_secret'  => env('UPS_CLIENT_SECRET'),

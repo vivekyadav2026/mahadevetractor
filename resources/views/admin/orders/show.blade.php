@@ -233,7 +233,18 @@
                     <span class="block font-semibold text-slate-800 mt-1 uppercase">{{ $order->payment_method }}</span>
                 </div>
 
-                @if($order->payment_method === 'stripe')
+                @if($order->payment_method === 'cashfree')
+                    <div>
+                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Cashfree Payment ID</span>
+                        <span class="block font-semibold text-slate-800 mt-1 font-mono text-xs select-all">{{ $order->cashfree_payment_id ?: 'Pending / Unpaid' }}</span>
+                    </div>
+                    @if($order->cashfree_order_id)
+                    <div class="mt-2">
+                        <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Cashfree Order ID</span>
+                        <span class="block font-semibold text-slate-800 mt-0.5 font-mono text-xs select-all">{{ $order->cashfree_order_id }}</span>
+                    </div>
+                    @endif
+                @elseif($order->payment_method === 'stripe')
                     <div>
                         <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider">Stripe Payment Intent</span>
                         <span class="block font-semibold text-slate-800 mt-1 font-mono text-xs select-all">{{ $order->stripe_payment_intent_id ?: 'N/A' }}</span>

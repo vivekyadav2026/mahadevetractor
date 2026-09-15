@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/stripe-callback', [CheckoutController::class, 'handleStripeCallback'])->name('checkout.stripe.callback');
     Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelStripePayment'])->name('checkout.stripe.cancel');
+    Route::get('/checkout/cashfree-callback', [CheckoutController::class, 'handleCashfreeCallback'])->name('checkout.cashfree.callback');
+    Route::get('/checkout/cashfree-cancel', [CheckoutController::class, 'cancelCashfreePayment'])->name('checkout.cashfree.cancel');
     Route::get('/order-success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
     
     // Customer Orders & Returns
@@ -119,11 +121,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 require __DIR__.'/auth.php';
 
-// Stripe Webhook â€” excluded from CSRF and auth middleware
-Route::withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class])->post(
+// Stripe Webhook
+Route::post(
     '/webhook/stripe',
     [CheckoutController::class, 'stripeWebhook']
 )->name('webhook.stripe');
+
+// Cashfree Webhook
+Route::post(
+    '/webhook/cashfree',
+    [CheckoutController::class, 'cashfreeWebhook']
+)->name('webhook.cashfree');
 
 Route::get('/sitemap.xml', [FrontendController::class, 'sitemap'])->name('sitemap');
 
