@@ -42,8 +42,8 @@
                                         <span class="text-[9px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full" style="background: #f08038; color: #fff; letter-spacing: 0.08em;">Welcome Back</span>
                                         <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full" style="background: rgba(255,107,0,0.08); color: #f08038; border: 1px solid rgba(255,107,0,0.15);">Member Since {{ Auth::user()->created_at ? Auth::user()->created_at->format('M Y') : 'Aug 2026' }}</span>
                                     </div>
-                                    <h2 class="text-base sm:text-lg font-bold tracking-tight leading-tight" style="font-family: 'Outfit', sans-serif; color: #0f1f1c;">Hello, {{ Auth::user()->name }}! Ã°Å¸â€˜â€¹</h2>
-                                    <p class="text-[11px] mt-1 max-w-sm leading-relaxed font-medium" style="color: #4b7a6e;">Manage your orders, wishlist, and profile Ã¢â‚¬â€ all in one place.</p>
+                                    <h2 class="text-base sm:text-lg font-bold tracking-tight leading-tight" style="font-family: 'Outfit', sans-serif; color: #0f1f1c;">Hello, {{ Auth::user()->name }}! 👋</h2>
+                                    <p class="text-[11px] mt-1 max-w-sm leading-relaxed font-medium" style="color: #4b7a6e;">Manage your orders, wishlist, and profile — all in one place.</p>
                                 </div>
                             </div>
 

@@ -11,7 +11,7 @@
             <div>
                 <h4 class="font-extrabold text-slate-900 text-xs tracking-tight">{{ Auth::user()->name }}</h4>
                 <span class="text-[8px] text-slate-400 font-extrabold uppercase tracking-wider mt-0.5 block flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-check text-primary text-[9px]"></i> Verified B2B Client
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-[9px]"></i> Verified Customer
                 </span>
             </div>
         </div>

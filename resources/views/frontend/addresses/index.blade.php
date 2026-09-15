@@ -55,19 +55,6 @@
                                             <i class="fa-solid fa-phone text-slate-400 mr-1 text-[9px]"></i> {{ $addr->phone }}
                                         </p>
 
-                                        <!-- Document Badges -->
-                                        <div class="mt-3.5 pt-3.5 border-t border-slate-100 flex flex-wrap gap-2">
-                                            @if($addr->driving_license)
-                                                <a href="{{ asset($addr->driving_license) }}" target="_blank" class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-lg tracking-wider transition">
-                                                    <i class="fa-solid fa-id-card text-slate-500 text-[10px]"></i> Driving License
-                                                </a>
-                                            @endif
-                                            @if($addr->sales_tax_permit)
-                                                <a href="{{ asset($addr->sales_tax_permit) }}" target="_blank" class="inline-flex items-center gap-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-lg tracking-wider transition">
-                                                    <i class="fa-solid fa-file-invoice-dollar text-slate-500 text-[10px]"></i> Sales Tax Permit
-                                                </a>
-                                            @endif
-                                        </div>
                                     </div>
 
                                     <div class="mt-4 pt-3.5 border-t border-slate-100/70 flex items-center justify-between">
@@ -166,48 +153,6 @@
                                            class="w-full bg-slate-50/50 border border-slate-200 focus:bg-white rounded-xl px-2 py-2.5 text-xs font-bold text-slate-800 shadow-2xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200 uppercase">
                                     <input type="text" name="zip" value="{{ old('zip') }}" required placeholder="77067" 
                                            class="w-full bg-slate-50/50 border border-slate-200 focus:bg-white rounded-xl px-2 py-2.5 text-xs font-bold text-slate-800 shadow-2xs focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition duration-200">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Document Uploads -->
-                        <div class="bg-slate-50 p-4 border border-slate-100 rounded-xl space-y-3.5">
-                            <h4 class="font-extrabold text-slate-800 text-[10px] uppercase tracking-wider pb-1.5 border-b border-slate-200/75 flex items-center gap-1">
-                                <i class="fa-solid fa-shield-halved text-primary"></i> Verification Documents (Optional)
-                            </h4>
-                            <p class="text-[10px] text-slate-455 leading-relaxed font-semibold">
-                                As a registered B2B platform, you can upload commercial validation documents if available.
-                            </p>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                                <!-- Driving License -->
-                                <div class="space-y-1">
-                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Driving License (Image or PDF) (Optional)</label>
-                                    <div class="relative flex flex-col items-center justify-center border border-dashed border-slate-300 rounded-xl bg-white p-3.5 hover:bg-slate-50/50 transition cursor-pointer">
-                                        <input type="file" name="driving_license" accept=".pdf,.jpg,.jpeg,.png"
-                                               class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                                               onchange="document.getElementById('dash-dl-file-name').innerText = this.files[0] ? this.files[0].name : 'Upload File'; document.getElementById('dash-dl-icon').className = this.files[0] ? 'fa-solid fa-circle-check text-emerald-500 text-base mb-1' : 'fa-solid fa-cloud-arrow-up text-primary text-base mb-1';">
-                                        <div class="text-center pointer-events-none">
-                                            <i class="fa-solid fa-cloud-arrow-up text-primary text-base mb-1" id="dash-dl-icon"></i>
-                                            <p class="text-[11px] font-bold text-slate-700 uppercase" id="dash-dl-file-name">Upload File</p>
-                                            <span class="text-[9px] text-slate-400 block mt-0.5">PDF, JPG, PNG up to 5MB</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Sales Tax Permit -->
-                                <div class="space-y-1">
-                                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Sales Tax Permit (Image or PDF) (Optional)</label>
-                                    <div class="relative flex flex-col items-center justify-center border border-dashed border-slate-300 rounded-xl bg-white p-3.5 hover:bg-slate-50/50 transition cursor-pointer">
-                                        <input type="file" name="sales_tax_permit" accept=".pdf,.jpg,.jpeg,.png"
-                                               class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                                               onchange="document.getElementById('dash-st-file-name').innerText = this.files[0] ? this.files[0].name : 'Upload File'; document.getElementById('dash-st-icon').className = this.files[0] ? 'fa-solid fa-circle-check text-emerald-500 text-base mb-1' : 'fa-solid fa-cloud-arrow-up text-primary text-base mb-1';">
-                                        <div class="text-center pointer-events-none">
-                                            <i class="fa-solid fa-cloud-arrow-up text-primary text-base mb-1" id="dash-st-icon"></i>
-                                            <p class="text-[11px] font-bold text-slate-700 uppercase" id="dash-st-file-name">Upload File</p>
-                                            <span class="text-[9px] text-slate-400 block mt-0.5">PDF, JPG, PNG up to 5MB</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

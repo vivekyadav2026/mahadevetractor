@@ -17,14 +17,23 @@ class CashfreeService
     public function __construct()
     {
         // Settings table takes precedence if configured by admin, otherwise config/env
-        $this->appId = Setting::get('cashfree_app_id', config('services.cashfree.app_id', ''));
-        $this->secretKey = Setting::get('cashfree_secret_key', config('services.cashfree.secret_key', ''));
-        $this->mode = Setting::get('cashfree_mode', config('services.cashfree.mode', 'sandbox'));
+        $this->appId = trim(Setting::get('cashfree_app_id', config('services.cashfree.app_id', '')));
+        $this->secretKey = trim(Setting::get('cashfree_secret_key', config('services.cashfree.secret_key', '')));
+        $this->mode = strtolower(trim(Setting::get('cashfree_mode', config('services.cashfree.mode', 'sandbox'))));
         $this->apiVersion = config('services.cashfree.api_version', '2023-08-01');
 
-        $this->baseUrl = ($this->mode === 'production')
-            ? 'https://api.cashfree.com/pg'
-            : 'https://sandbox.cashfree.com/pg';
+        if ($this->mode === 'production' || $this->mode === 'live') {
+            $this->baseUrl = 'https://api.cashfree.com/pg';
+        } elseif (str_starts_with($this->appId, 'TEST') || str_starts_with($this->secretKey, 'cfsk_ma_test_')) {
+            $this->baseUrl = 'https://sandbox.cashfree.com/pg';
+            $this->mode = 'sandbox';
+        } elseif (!empty($this->appId) && !str_starts_with($this->appId, 'TEST')) {
+            // Live keys start with numeric merchant ID or prod prefix
+            $this->baseUrl = 'https://api.cashfree.com/pg';
+            $this->mode = 'production';
+        } else {
+            $this->baseUrl = 'https://sandbox.cashfree.com/pg';
+        }
     }
 
     public function isConfigured(): bool
