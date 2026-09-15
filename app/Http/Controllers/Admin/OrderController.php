@@ -90,6 +90,7 @@ class OrderController extends Controller
      */
     public function createShiprocketShipment(Order $order, \App\Services\ShiprocketService $shiprocket)
     {
+        $this->ensureOrderColumnsExist();
         try {
             $result = $shiprocket->createShipment($order);
             $shipmentId = !empty($result['shipment_id']) ? $result['shipment_id'] : ($result['order_id'] ?? 'Success');
@@ -104,6 +105,7 @@ class OrderController extends Controller
      */
     public function generateShiprocketAwb(Order $order, \App\Services\ShiprocketService $shiprocket)
     {
+        $this->ensureOrderColumnsExist();
         try {
             $result = $shiprocket->generateAwb($order);
             return redirect()->back()->with('success', 'AWB Assigned! Courier: ' . ($result['courier_name'] ?? '') . ' | AWB: ' . ($result['awb_code'] ?? ''));
@@ -117,6 +119,7 @@ class OrderController extends Controller
      */
     public function trackShiprocketShipment(Order $order, \App\Services\ShiprocketService $shiprocket)
     {
+        $this->ensureOrderColumnsExist();
         try {
             $result = $shiprocket->trackShipment($order);
             return redirect()->back()->with('info', 'Live Status: ' . ($result['status'] ?? 'Active'));
@@ -130,6 +133,7 @@ class OrderController extends Controller
      */
     public function printShiprocketLabel(Order $order, \App\Services\ShiprocketService $shiprocket)
     {
+        $this->ensureOrderColumnsExist();
         try {
             $labelUrl = $shiprocket->printLabel($order);
             if ($labelUrl) {

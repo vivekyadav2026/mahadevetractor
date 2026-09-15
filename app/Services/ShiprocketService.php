@@ -139,19 +139,37 @@ class ShiprocketService
 
         $data = $response->json();
 
-        $shiprocketOrderId    = $data['order_id'] ?? ($data['data']['order_id'] ?? null);
-        $shiprocketShipmentId = $data['shipment_id'] ?? ($data['data']['shipment_id'] ?? $shiprocketOrderId);
-        $awbCode              = $data['awb_code'] ?? ($data['data']['awb_code'] ?? null);
-        $courierName          = $data['courier_name'] ?? ($data['data']['courier_name'] ?? null);
+        Log::info('Shiprocket Create Order Response for #' . $order->order_number . ': ' . $response->body());
 
-        $order->update([
-            'shiprocket_order_id'     => $shiprocketOrderId,
-            'shiprocket_shipment_id'  => $shiprocketShipmentId,
-            'shiprocket_awb_code'     => $awbCode,
+        if (!is_array($data)) {
+            throw new \Exception('Invalid response from Shiprocket: ' . $response->body());
+        }
+
+        $shiprocketOrderId = $data['order_id'] 
+            ?? ($data['data']['order_id'] 
+            ?? ($data['id'] 
+            ?? null));
+
+        $shiprocketShipmentId = $data['shipment_id'] 
+            ?? ($data['data']['shipment_id'] 
+            ?? ($data['shipment_orders'][0]['id'] 
+            ?? $shiprocketOrderId));
+
+        $awbCode     = $data['awb_code'] ?? ($data['data']['awb_code'] ?? null);
+        $courierName = $data['courier_name'] ?? ($data['data']['courier_name'] ?? null);
+
+        if (!$shiprocketOrderId && !$shiprocketShipmentId) {
+            throw new \Exception('Shiprocket response did not contain an order_id or shipment_id: ' . $response->body());
+        }
+
+        $order->forceFill([
+            'shiprocket_order_id'     => (string) $shiprocketOrderId,
+            'shiprocket_shipment_id'  => (string) $shiprocketShipmentId,
+            'shiprocket_awb_code'     => $awbCode ? (string) $awbCode : $order->shiprocket_awb_code,
             'shiprocket_status'       => 'PROCESSING',
-            'shiprocket_courier_name' => $courierName,
+            'shiprocket_courier_name' => $courierName ? (string) $courierName : $order->shiprocket_courier_name,
             'status'                  => $order->status === 'pending' ? 'processing' : $order->status,
-        ]);
+        ])->save();
 
         return [
             'success'     => true,
@@ -179,20 +197,20 @@ class ShiprocketService
 
         if (!$response->successful()) {
             Log::error('Shiprocket Generate AWB Error: ' . $response->body());
-            throw new \Exception($response->json('message') ?? 'Failed to generate AWB.');
+            throw new \Exception($response->json('message') ?? 'Failed to generate AWB: ' . $response->body());
         }
 
-        $data = $response->json('response.data') ?? [];
-        $awbCode = $data['awb_code'] ?? null;
-        $courierName = $data['courier_name'] ?? null;
+        $data = $response->json('response.data') ?? $response->json('data') ?? $response->json();
+        $awbCode = $data['awb_code'] ?? ($data['response']['data']['awb_code'] ?? null);
+        $courierName = $data['courier_name'] ?? ($data['response']['data']['courier_name'] ?? null);
 
         if ($awbCode) {
-            $order->update([
-                'shiprocket_awb_code'     => $awbCode,
-                'shiprocket_courier_name' => $courierName,
+            $order->forceFill([
+                'shiprocket_awb_code'     => (string) $awbCode,
+                'shiprocket_courier_name' => $courierName ? (string) $courierName : $order->shiprocket_courier_name,
                 'shiprocket_status'       => 'AWB_ASSIGNED',
                 'status'                  => 'shipped',
-            ]);
+            ])->save();
         }
 
         return [
