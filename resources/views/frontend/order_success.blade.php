@@ -138,7 +138,17 @@
                         </div>
                         <div>
                             <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Payment Method</span>
-                            <span class="font-bold text-gray-700 text-xs sm:text-sm uppercase">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : 'Online Payment' }}</span>
+                            <span class="font-bold text-gray-700 text-xs sm:text-sm uppercase">{{ $order->payment_method === 'cod' ? 'Cash on Delivery' : ($order->payment_method === 'cashfree' ? 'Cashfree (Online)' : 'Online Payment') }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Delivery Charge</span>
+                            <span class="font-bold text-xs sm:text-sm {{ ($order->delivery_charge ?? 0) > 0 ? 'text-gray-900' : 'text-emerald-600 font-extrabold' }}">
+                                @if(($order->delivery_charge ?? 0) > 0)
+                                    &#8377;{{ number_format($order->delivery_charge, 2) }}
+                                @else
+                                    FREE
+                                @endif
+                            </span>
                         </div>
                         <div>
                             <span class="text-[10px] text-gray-400 uppercase tracking-widest block font-bold">Total Amount</span>

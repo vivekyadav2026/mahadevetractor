@@ -189,7 +189,64 @@
             $defaultAddress = auth()->check() ? auth()->user()->addresses()->where('is_default', true)->first() : null;
             $defaultAddressId = $defaultAddress ? $defaultAddress->id : 'new';
         @endphp
-        <form action="{{ route('checkout.store') }}" method="POST" x-data="{ deliveryType: 'online_delivery', selectedAddressId: '{{ $defaultAddressId }}' }">
+        <form action="{{ route('checkout.store') }}" method="POST" 
+              x-data="{ 
+                  deliveryType: 'online_delivery', 
+                  selectedAddressId: '{{ $defaultAddressId }}',
+                  pincode: '{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}',
+                  paymentMethod: 'cashfree',
+                  subtotal: {{ (float) $subtotal }},
+                  deliveryCharge: {{ (float) ($initialDeliveryCharge ?? 0) }},
+                  formattedCharge: '{{ !empty($shippingData['is_free']) ? 'FREE' : '₹' . number_format($initialDeliveryCharge ?? 0, 2) }}',
+                  isFreeDelivery: {{ !empty($shippingData['is_free']) ? 'true' : 'false' }},
+                  grandTotal: {{ (float) ($initialGrandTotal ?? $subtotal) }},
+                  formattedTotal: '₹{{ number_format($initialGrandTotal ?? $subtotal, 2) }}',
+                  courierNote: '{{ addslashes($shippingData['message'] ?? '') }}',
+                  isLoadingShipping: false,
+
+                  fetchShipping() {
+                      if (this.deliveryType === 'self_pickup') {
+                          this.deliveryCharge = 0;
+                          this.formattedCharge = 'FREE';
+                          this.isFreeDelivery = true;
+                          this.grandTotal = this.subtotal;
+                          this.formattedTotal = '₹' + Number(this.subtotal).toFixed(2);
+                          this.courierNote = 'Self Pickup from store (No delivery charge)';
+                          return;
+                      }
+
+                      this.isLoadingShipping = true;
+                      fetch('{{ route('checkout.calculate_shipping') }}', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                              'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                              'Accept': 'application/json'
+                          },
+                          body: JSON.stringify({
+                              pincode: this.pincode,
+                              delivery_type: this.deliveryType,
+                              payment_method: this.paymentMethod
+                          })
+                      })
+                      .then(res => res.json())
+                      .then(data => {
+                          this.isLoadingShipping = false;
+                          if (data.success) {
+                              this.deliveryCharge = Number(data.delivery_charge);
+                              this.formattedCharge = data.formatted_charge;
+                              this.isFreeDelivery = Boolean(data.is_free);
+                              this.grandTotal = Number(data.grand_total);
+                              this.formattedTotal = data.formatted_total;
+                              this.courierNote = data.message || '';
+                          }
+                      })
+                      .catch(err => {
+                          this.isLoadingShipping = false;
+                          console.error('Shipping calculation error:', err);
+                      });
+                  }
+              }">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -207,7 +264,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer transition relative"
                                    :class="deliveryType === 'online_delivery' ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-gray-200 bg-white hover:border-gray-300'">
-                                <input type="radio" name="delivery_type" value="online_delivery" x-model="deliveryType" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                                <input type="radio" name="delivery_type" value="online_delivery" x-model="deliveryType" @change="fetchShipping()" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
                                 <div class="ml-3">
                                     <span class="font-bold text-gray-900 text-xs block">Online Delivery</span>
                                     <span class="text-[11px] text-gray-500">Express delivery to your doorstep</span>
@@ -217,7 +274,7 @@
 
                             <label class="flex items-center p-3 border rounded-xl cursor-pointer transition relative"
                                    :class="deliveryType === 'self_pickup' ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-gray-200 bg-white hover:border-gray-300'">
-                                <input type="radio" name="delivery_type" value="self_pickup" x-model="deliveryType" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                                <input type="radio" name="delivery_type" value="self_pickup" x-model="deliveryType" @change="fetchShipping()" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
                                 <div class="ml-3">
                                     <span class="font-bold text-gray-900 text-xs block">Self Pickup</span>
                                     <span class="text-[11px] text-gray-500">Collect from our warehouse</span>
@@ -257,8 +314,20 @@
                                 </div>
                             </div>
                             <div x-show="deliveryType === 'online_delivery'">
-                                <label class="co-label">PIN Code <span class="text-red-500">*</span></label>
-                                <input type="text" name="shipping_zip" value="{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}" :required="deliveryType === 'online_delivery'" class="co-input w-full" placeholder="e.g. 110001" maxlength="10">
+                                <div class="flex items-center justify-between mb-1">
+                                    <label class="co-label mb-0">PIN Code <span class="text-red-500">*</span></label>
+                                    <span x-show="isLoadingShipping" class="text-[10px] text-[#f08038] font-bold flex items-center gap-1" style="display: none;">
+                                        <i class="fa-solid fa-circle-notch fa-spin"></i> Checking rate...
+                                    </span>
+                                </div>
+                                <input type="text" name="shipping_zip" 
+                                       x-model="pincode" 
+                                       @input.debounce.400ms="fetchShipping()"
+                                       value="{{ old('shipping_zip', auth()->check() ? auth()->user()->zip : '') }}" 
+                                       :required="deliveryType === 'online_delivery'" 
+                                       class="co-input w-full font-mono tracking-wider font-semibold" 
+                                       placeholder="e.g. 110001 (6 digits for delivery charge)" 
+                                       maxlength="6">
                             </div>
                         </div>
 
@@ -285,7 +354,7 @@
                                             @foreach($userAddresses as $addr)
                                                 <label class="flex items-start p-2.5 border {{ $addr->is_default ? 'border-primary bg-primary/5' : 'border-slate-200 bg-white' }} rounded-lg cursor-pointer transition text-xs">
                                                     <input type="radio" name="selected_address_id" value="{{ $addr->id }}" {{ $addr->is_default ? 'checked' : '' }}
-                                                           @click="selectedAddressId = '{{ $addr->id }}';"
+                                                           @click="selectedAddressId = '{{ $addr->id }}'; pincode = '{{ $addr->zip }}'; $nextTick(() => fetchShipping());"
                                                            class="mt-0.5 h-3.5 w-3.5 text-primary border-gray-300">
                                                     <div class="ml-2.5">
                                                         <span class="font-bold text-gray-900 block">{{ $addr->address }}@if($addr->address2), {{ $addr->address2 }}@endif</span>
@@ -355,8 +424,9 @@
                         </h2>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="flex items-center p-3.5 border-2 border-primary bg-primary/5 rounded-xl cursor-pointer transition shadow-2xs relative">
-                                <input type="radio" name="payment_method" value="cashfree" checked class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                            <label class="flex items-center p-3.5 rounded-xl cursor-pointer transition shadow-2xs relative"
+                                   :class="paymentMethod === 'cashfree' ? 'border-2 border-primary bg-primary/5' : 'border border-gray-200 bg-white hover:border-gray-300'">
+                                <input type="radio" name="payment_method" value="cashfree" x-model="paymentMethod" @change="fetchShipping()" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
                                 <div class="ml-3 flex-1">
                                     <div class="flex items-center gap-1.5">
                                         <span class="font-bold text-gray-900 text-xs block">Online Payment</span>
@@ -367,8 +437,9 @@
                                 <i class="fa-solid fa-bolt text-primary text-sm ml-auto"></i>
                             </label>
 
-                            <label class="flex items-center p-3.5 border border-gray-200 bg-white rounded-xl cursor-pointer hover:border-gray-300 transition relative">
-                                <input type="radio" name="payment_method" value="cod" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
+                            <label class="flex items-center p-3.5 rounded-xl cursor-pointer transition relative"
+                                   :class="paymentMethod === 'cod' ? 'border-2 border-primary bg-primary/5' : 'border border-gray-200 bg-white hover:border-gray-300'">
+                                <input type="radio" name="payment_method" value="cod" x-model="paymentMethod" @change="fetchShipping()" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 cursor-pointer">
                                 <div class="ml-3">
                                     <span class="font-bold text-gray-900 text-xs block">Cash on Delivery</span>
                                     <span class="text-[11px] text-gray-500 block mt-0.5">Pay in cash upon delivery</span>
@@ -439,27 +510,43 @@
                                 <span>Subtotal ({{ count($cart) }} {{ count($cart) === 1 ? 'item' : 'items' }})</span>
                                 <span class="font-bold text-slate-700 font-sans">&#8377;{{ number_format($subtotal, 2) }}</span>
                             </div>
-                            <div class="flex justify-between text-[10px] text-slate-500 font-normal">
+
+                            <div class="flex justify-between text-[10px] text-slate-500 font-normal items-center">
                                 <span class="flex items-center gap-1">
-                                    <i class="fa-solid fa-truck-fast text-[9px] text-emerald-600"></i> Delivery Charges
+                                    <i class="fa-solid fa-truck-fast text-[9px] text-[#f08038]"></i> Delivery Charges
+                                    <span x-show="isLoadingShipping" class="inline-block text-[9px] text-[#f08038]" style="display: none;">
+                                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                    </span>
                                 </span>
-                                <span class="inline-flex items-center gap-0.5 text-[8.5px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-1 py-0.2 rounded uppercase">
-                                    <i class="fa-solid fa-check text-[7.5px]"></i> Free
-                                </span>
+                                <div>
+                                    <span x-show="!isFreeDelivery && deliveryCharge > 0" class="font-bold text-slate-800 font-sans" x-text="formattedCharge">
+                                        &#8377;{{ number_format($initialDeliveryCharge ?? 0, 2) }}
+                                    </span>
+                                    <span x-show="isFreeDelivery || deliveryCharge <= 0" class="inline-flex items-center gap-0.5 text-[8.5px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-1 py-0.2 rounded uppercase" style="{{ ($initialDeliveryCharge ?? 0) <= 0 ? '' : 'display: none;' }}">
+                                        <i class="fa-solid fa-check text-[7.5px]"></i> Free
+                                    </span>
+                                </div>
                             </div>
+
+                            <!-- Live Courier Estimation / Delivery Note -->
+                            <div x-show="courierNote" class="text-[8.5px] text-slate-500 flex items-center gap-1 pt-0.5" style="{{ empty($shippingData['message']) ? 'display: none;' : '' }}">
+                                <i class="fa-solid fa-circle-info text-[#f08038] text-[8px]"></i>
+                                <span x-text="courierNote">{{ $shippingData['message'] ?? '' }}</span>
+                            </div>
+
                             <div class="border-t border-dashed border-slate-200 pt-2 flex justify-between items-center">
                                 <div>
                                     <span class="text-[10.5px] font-bold text-slate-800 block leading-tight">Total Amount</span>
-                                    <span class="text-[8.5px] text-slate-400 font-normal">Inclusive of all taxes</span>
+                                    <span class="text-[8.5px] text-slate-400 font-normal">Inclusive of all taxes & delivery</span>
                                 </div>
-                                <span class="text-[14px] font-extrabold text-[#f08038] font-sans tracking-tight leading-none">&#8377;{{ number_format($subtotal, 2) }}</span>
+                                <span class="text-[14px] font-extrabold text-[#f08038] font-sans tracking-tight leading-none" x-text="formattedTotal">&#8377;{{ number_format($initialGrandTotal ?? $subtotal, 2) }}</span>
                             </div>
                         </div>
 
                         <!-- Place Order Button -->
                         <button type="submit" class="w-full bg-gradient-to-r from-[#f08038] to-[#e06b20] hover:from-[#e06b20] hover:to-[#c85610] text-white font-bold py-2.5 px-3 rounded-lg text-[11px] uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow shadow-orange-500/20 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99]">
                             <i class="fa-solid fa-lock text-[9.5px]"></i>
-                            <span>Place Order &middot; &#8377;{{ number_format($subtotal, 2) }}</span>
+                            <span>Place Order &middot; <span x-text="formattedTotal">&#8377;{{ number_format($initialGrandTotal ?? $subtotal, 2) }}</span></span>
                             <i class="fa-solid fa-arrow-right text-[9.5px] ml-0.5"></i>
                         </button>
 
@@ -500,7 +587,11 @@
                     if (data && data.city) {
                         document.querySelector('input[name="shipping_city"]').value = data.city || '';
                         document.querySelector('input[name="shipping_state"]').value = data.region || data.region_code || '';
-                        document.querySelector('input[name="shipping_zip"]').value = data.postal || '';
+                        const zipInput = document.querySelector('input[name="shipping_zip"]');
+                        if (zipInput) {
+                            zipInput.value = data.postal || '';
+                            zipInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
                         
                         alert('Location resolved via IP address successfully. Please enter your street address details manually.');
                     } else {
@@ -551,7 +642,11 @@
                         document.querySelector('input[name="shipping_address2"]').value = line2;
                         document.querySelector('input[name="shipping_city"]').value = addr.city || addr.town || addr.village || addr.county || '';
                         document.querySelector('input[name="shipping_state"]').value = addr.state || '';
-                        document.querySelector('input[name="shipping_zip"]').value = addr.postcode || '';
+                        const zipInput = document.querySelector('input[name="shipping_zip"]');
+                        if (zipInput) {
+                            zipInput.value = addr.postcode || '';
+                            zipInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        }
                     } else {
                         runIpFallback();
                     }

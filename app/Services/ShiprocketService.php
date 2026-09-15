@@ -13,6 +13,16 @@ class ShiprocketService
     protected string $baseUrl = 'https://apiv2.shiprocket.in/v1/external';
 
     /**
+     * Check whether Shiprocket credentials are configured.
+     */
+    public function isConfigured(): bool
+    {
+        $email = trim(Setting::get('shiprocket_email', config('services.shiprocket.email', '')));
+        $password = trim(Setting::get('shiprocket_password', config('services.shiprocket.password', '')));
+        return !empty($email) && !empty($password);
+    }
+
+    /**
      * Authenticate and retrieve cached JWT token from Shiprocket.
      */
     public function getToken(): string
@@ -292,6 +302,85 @@ class ShiprocketService
         }
 
         throw new \Exception($response->json('message') ?? 'Shipment cancellation failed on Shiprocket.');
+    }
+
+    /**
+     * Check Courier Serviceability and get lowest estimated shipping rate for a destination pincode.
+     */
+    public function checkServiceabilityAndRate(string $deliveryPincode, float $weight = 0.5, bool $isCod = false): array
+    {
+        if (!$this->isConfigured()) {
+            return [
+                'success' => false,
+                'message' => 'Shiprocket credentials are not configured.',
+                'rate'    => null,
+            ];
+        }
+
+        $pickupPincode = trim(Setting::get('shiprocket_pickup_pincode', ''));
+        
+        if (empty($pickupPincode)) {
+            return [
+                'success' => false,
+                'message' => 'Pickup pincode is not configured in Admin Settings.',
+                'rate'    => null,
+            ];
+        }
+
+        try {
+            $token = $this->getToken();
+
+            $response = Http::withToken($token)->get("{$this->baseUrl}/courier/serviceability/", [
+                'pickup_postcode'   => $pickupPincode,
+                'delivery_postcode' => $deliveryPincode,
+                'weight'            => max(0.1, round($weight, 3)),
+                'cod'               => $isCod ? 1 : 0,
+            ]);
+
+            if ($response->status() === 401) {
+                Cache::forget('shiprocket_jwt_token');
+            }
+
+            if ($response->successful()) {
+                $couriers = $response->json('data.available_courier_companies') ?? [];
+                
+                if (!empty($couriers)) {
+                    // Sort couriers by rate ascending to find the best available rate
+                    usort($couriers, function ($a, $b) {
+                        return ($a['rate'] ?? 0) <=> ($b['rate'] ?? 0);
+                    });
+
+                    $cheapest = $couriers[0];
+                    return [
+                        'success'                 => true,
+                        'rate'                    => round((float) ($cheapest['rate'] ?? 0), 2),
+                        'courier_name'            => $cheapest['courier_name'] ?? 'Shiprocket Express',
+                        'estimated_delivery_days' => $cheapest['estimated_delivery_days'] ?? null,
+                        'etd'                     => $cheapest['etd'] ?? null,
+                    ];
+                }
+
+                return [
+                    'success' => false,
+                    'message' => 'No courier service available for this pincode.',
+                    'rate'    => null,
+                ];
+            }
+
+            Log::warning('Shiprocket Serviceability check failed: ' . $response->body());
+            return [
+                'success' => false,
+                'message' => $response->json('message') ?? 'Serviceability check failed.',
+                'rate'    => null,
+            ];
+        } catch (\Exception $e) {
+            Log::warning('Shiprocket Serviceability Exception: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'rate'    => null,
+            ];
+        }
     }
 }
 

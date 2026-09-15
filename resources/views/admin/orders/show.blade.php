@@ -43,9 +43,25 @@
                     @endforeach
                 </div>
                 
-                <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center">
-                    <span class="text-sm font-semibold text-slate-500">Order Total</span>
-                    <span class="text-lg font-bold text-slate-950">&#8377;{{ number_format($order->total_amount, 2) }}</span>
+                <div class="mt-6 pt-4 border-t border-slate-100 space-y-2">
+                    @php
+                        $subtotal = $order->items->sum('total_price');
+                        $deliveryCharge = $order->delivery_charge ?? max(0, $order->total_amount - $subtotal);
+                    @endphp
+                    <div class="flex justify-between items-center text-xs text-slate-500 font-medium">
+                        <span>Items Subtotal</span>
+                        <span class="font-semibold text-slate-800">&#8377;{{ number_format($subtotal, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs text-slate-500 font-medium">
+                        <span>Delivery Charge</span>
+                        <span class="font-semibold {{ $deliveryCharge > 0 ? 'text-slate-800' : 'text-emerald-600 font-bold' }}">
+                            {{ $deliveryCharge > 0 ? '₹' . number_format($deliveryCharge, 2) : 'FREE' }}
+                        </span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-sm font-bold text-slate-700">Order Total</span>
+                        <span class="text-lg font-bold text-slate-950">&#8377;{{ number_format($order->total_amount, 2) }}</span>
+                    </div>
                 </div>
             </div>
 

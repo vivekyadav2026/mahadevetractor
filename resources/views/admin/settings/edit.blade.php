@@ -166,7 +166,30 @@
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pickup Location Nickname</label>
                 <input type="text" name="shiprocket_pickup_location" value="{{ $settings['shiprocket_pickup_location'] ?? 'Primary' }}" placeholder="Primary"
                        class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white">
-                <span class="text-[10px] text-slate-400 block">Must match the exact 'Pickup Location' nickname created in your Shiprocket panel under <em>Settings &gt; Pickup Addresses</em>.</span>
+                <span class="text-[10px] text-slate-400 block">Must match the exact 'Pickup Location' nickname created in your Shiprocket panel under <em>Settings &gt; Pickup Addresses</em> (e.g. Primary, Warehouse).</span>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Pickup / Origin Pincode (6-digit)</label>
+                <input type="text" name="shiprocket_pickup_pincode" value="{{ $settings['shiprocket_pickup_pincode'] ?? '' }}" placeholder="e.g. 124001" maxlength="6"
+                       class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white font-mono">
+                <span class="text-[10px] text-slate-400 block">Pincode of your shop/warehouse location where Shiprocket courier will come to pick up parcels.</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200/80">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Default Delivery Charge (&#8377;)</label>
+                    <input type="number" step="0.01" min="0" name="default_delivery_charge" value="{{ $settings['default_delivery_charge'] ?? '99' }}" placeholder="99"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white font-mono">
+                    <span class="text-[10px] text-slate-400 block">Fixed delivery charge if live rate is unavailable or before pincode is entered (0 for Free).</span>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Free Delivery on Orders Above (&#8377;)</label>
+                    <input type="number" step="0.01" min="0" name="free_shipping_threshold" value="{{ $settings['free_shipping_threshold'] ?? '' }}" placeholder="e.g. 1999 (Leave empty for no free delivery)"
+                           class="w-full border border-slate-200 focus:ring-1 focus:ring-[#C49A6C] focus:border-[#C49A6C] rounded-xl text-sm px-4 py-2.5 bg-white font-mono">
+                    <span class="text-[10px] text-slate-400 block">Orders with cart value above this amount will automatically get Free Delivery.</span>
+                </div>
             </div>
         </div>
 

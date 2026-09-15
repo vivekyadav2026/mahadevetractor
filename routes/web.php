@@ -47,6 +47,7 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 // Checkout & Payment Routes (Supports both Guests & Logged-in Customers)
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/checkout/calculate-shipping', [CheckoutController::class, 'calculateShipping'])->name('checkout.calculate_shipping');
 Route::get('/checkout/stripe-callback', [CheckoutController::class, 'handleStripeCallback'])->name('checkout.stripe.callback');
 Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelStripePayment'])->name('checkout.stripe.cancel');
 Route::get('/checkout/cashfree-callback', [CheckoutController::class, 'handleCashfreeCallback'])->name('checkout.cashfree.callback');

@@ -13,6 +13,8 @@ use Stripe\PaymentIntent;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
 use App\Services\CashfreeService;
+use App\Services\ShiprocketService;
+use App\Models\Setting;
 
 class CheckoutController extends Controller
 {
@@ -34,7 +36,129 @@ class CheckoutController extends Controller
             $subtotal += $item['price'] * $item['quantity'];
         }
 
-        return view('frontend.checkout', compact('cart', 'subtotal'));
+        // Determine default or saved pincode if available
+        $defaultPincode = null;
+        if (auth()->check()) {
+            $defaultAddr = auth()->user()->addresses()->where('is_default', true)->first() 
+                ?? auth()->user()->addresses()->first();
+            $defaultPincode = $defaultAddr ? $defaultAddr->zip : auth()->user()->zip;
+        }
+
+        $shippingData = $this->computeDeliveryCharge('online_delivery', $defaultPincode);
+        $initialDeliveryCharge = $shippingData['charge'];
+        $initialGrandTotal = $subtotal + $initialDeliveryCharge;
+
+        return view('frontend.checkout', compact(
+            'cart', 
+            'subtotal', 
+            'initialDeliveryCharge', 
+            'initialGrandTotal', 
+            'shippingData'
+        ));
+    }
+
+    /**
+     * Compute delivery charge based on delivery type, pincode, subtotal, and cart items.
+     */
+    public function computeDeliveryCharge(string $deliveryType, ?string $pincode = null, bool $isCod = false): array
+    {
+        if ($deliveryType === 'self_pickup') {
+            return [
+                'charge'       => 0.00,
+                'is_free'      => true,
+                'courier_name' => 'Self Pickup',
+                'message'      => 'Self Pickup from store (No delivery charge)',
+                'etd'          => null,
+            ];
+        }
+
+        $cart = session()->get('cart', []);
+        $subtotal = 0;
+        $totalWeight = 0;
+        foreach ($cart as $productId => $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+            $product = Product::find($productId);
+            $weight = $product && $product->weight > 0 ? (float) $product->weight : 0.500;
+            $totalWeight += $weight * $item['quantity'];
+        }
+
+        // Check for Free Shipping threshold
+        $freeThreshold = (float) Setting::get('free_shipping_threshold', 0);
+        if ($freeThreshold > 0 && $subtotal >= $freeThreshold) {
+            return [
+                'charge'       => 0.00,
+                'is_free'      => true,
+                'courier_name' => 'Free Delivery',
+                'message'      => 'Free Delivery on orders above ₹' . number_format($freeThreshold, 0),
+                'etd'          => null,
+            ];
+        }
+
+        // Check Shiprocket if delivery pincode is a valid 6-digit Indian pincode
+        $cleanPincode = preg_replace('/[^0-9]/', '', (string) $pincode);
+        if (strlen($cleanPincode) === 6) {
+            try {
+                $shiprocket = new ShiprocketService();
+                $srResult = $shiprocket->checkServiceabilityAndRate($cleanPincode, $totalWeight, $isCod);
+
+                if (!empty($srResult['success']) && isset($srResult['rate']) && $srResult['rate'] > 0) {
+                    $daysText = !empty($srResult['estimated_delivery_days']) ? " ({$srResult['estimated_delivery_days']} days)" : '';
+                    return [
+                        'charge'       => (float) $srResult['rate'],
+                        'is_free'      => false,
+                        'courier_name' => $srResult['courier_name'] ?? 'Shiprocket Express',
+                        'message'      => 'Delivered via ' . ($srResult['courier_name'] ?? 'Shiprocket') . $daysText,
+                        'etd'          => $srResult['etd'] ?? null,
+                    ];
+                }
+            } catch (\Exception $e) {
+                Log::info('Shipping calculation falling back to default: ' . $e->getMessage());
+            }
+        }
+
+        // Fallback to default delivery charge configured in Admin Settings
+        $defaultCharge = (float) Setting::get('default_delivery_charge', 99);
+        return [
+            'charge'       => $defaultCharge,
+            'is_free'      => $defaultCharge <= 0,
+            'courier_name' => 'Standard Courier',
+            'message'      => $defaultCharge <= 0 ? 'Free Standard Delivery' : 'Standard Delivery Charge',
+            'etd'          => null,
+        ];
+    }
+
+    /**
+     * AJAX endpoint to calculate and return dynamic shipping charge for checkout
+     */
+    public function calculateShipping(Request $request)
+    {
+        $pincode       = $request->input('pincode');
+        $deliveryType  = $request->input('delivery_type', 'online_delivery');
+        $paymentMethod = $request->input('payment_method', 'cashfree');
+        $isCod         = strtolower((string) $paymentMethod) === 'cod';
+
+        $cart = session()->get('cart', []);
+        $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+
+        $shippingData = $this->computeDeliveryCharge($deliveryType, $pincode, $isCod);
+        $deliveryCharge = (float) $shippingData['charge'];
+        $grandTotal = $subtotal + $deliveryCharge;
+
+        return response()->json([
+            'success'          => true,
+            'subtotal'         => $subtotal,
+            'delivery_charge'  => $deliveryCharge,
+            'formatted_charge' => $shippingData['is_free'] ? 'FREE' : '₹' . number_format($deliveryCharge, 2),
+            'is_free'          => $shippingData['is_free'],
+            'grand_total'      => $grandTotal,
+            'formatted_total'  => '₹' . number_format($grandTotal, 2),
+            'courier_name'     => $shippingData['courier_name'],
+            'message'          => $shippingData['message'],
+            'etd'              => $shippingData['etd'],
+        ]);
     }
 
     // Place Order
@@ -176,13 +300,19 @@ class CheckoutController extends Controller
             $subtotal += $item['price'] * $item['quantity'];
         }
 
+        // Compute delivery charge
+        $shippingCalc   = $this->computeDeliveryCharge($validated['delivery_type'], $shippingZip, $validated['payment_method'] === 'cod');
+        $deliveryCharge = (float) $shippingCalc['charge'];
+        $grandTotal     = $subtotal + $deliveryCharge;
+
         $orderNumber = 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(4));
 
         // Create Order
         $order = Order::create([
             'user_id'          => auth()->id(),
             'order_number'     => $orderNumber,
-            'total_amount'     => $subtotal,
+            'total_amount'     => $grandTotal,
+            'delivery_charge'  => $deliveryCharge,
             'status'           => 'pending',
             'payment_status'   => 'pending',
             'payment_method'   => $validated['payment_method'],
@@ -221,9 +351,9 @@ class CheckoutController extends Controller
                 Stripe::setApiKey(config('services.stripe.secret'));
 
                 $paymentIntent = PaymentIntent::create([
-                    'amount'      => (int) round($subtotal * 100), // cents
+                    'amount'      => (int) round($order->total_amount * 100), // cents
                     'currency'    => 'usd',
-                    'description' => 'Pepperlemon Order #' . $order->order_number,
+                    'description' => 'Mahadev Tractor Order #' . $order->order_number,
                     'metadata'    => [
                         'order_id'     => $order->id,
                         'order_number' => $order->order_number,

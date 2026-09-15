@@ -73,6 +73,7 @@ class AdminController extends Controller
             }
 
             Setting::clearCache();
+            \Illuminate\Support\Facades\Cache::forget('shiprocket_jwt_token');
 
             return redirect()->back()->with('success', 'Settings updated successfully.');
         } catch (\Throwable $e) {
