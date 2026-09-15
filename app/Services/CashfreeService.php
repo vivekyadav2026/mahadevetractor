@@ -58,6 +58,22 @@ class CashfreeService
     {
         $url = $this->baseUrl . '/orders';
 
+        $returnUrl = $orderData['return_url'] ?? route('checkout.cashfree.callback') . '?order_id={order_id}';
+        $notifyUrl = $orderData['notify_url'] ?? route('webhook.cashfree');
+
+        // Cashfree API strictly enforces https:// protocol on all webhook and callback endpoints
+        if (str_starts_with($returnUrl, 'http://127.0.0.1') || str_starts_with($returnUrl, 'http://localhost')) {
+            $returnUrl = 'https://mahadevtractor.com/checkout/cashfree-callback?order_id={order_id}';
+        } elseif (str_starts_with($returnUrl, 'http://')) {
+            $returnUrl = 'https://' . substr($returnUrl, 7);
+        }
+
+        if (str_starts_with($notifyUrl, 'http://127.0.0.1') || str_starts_with($notifyUrl, 'http://localhost')) {
+            $notifyUrl = 'https://mahadevtractor.com/webhook/cashfree';
+        } elseif (str_starts_with($notifyUrl, 'http://')) {
+            $notifyUrl = 'https://' . substr($notifyUrl, 7);
+        }
+
         $payload = [
             'order_id' => (string) $orderData['order_id'],
             'order_amount' => (float) $orderData['order_amount'],
@@ -69,8 +85,8 @@ class CashfreeService
                 'customer_phone' => $this->sanitizePhone($orderData['customer_phone'] ?? '9999999999'),
             ],
             'order_meta' => [
-                'return_url' => $orderData['return_url'] ?? route('checkout.cashfree.callback') . '?order_id={order_id}',
-                'notify_url' => $orderData['notify_url'] ?? route('checkout.cashfree.webhook'),
+                'return_url' => $returnUrl,
+                'notify_url' => $notifyUrl,
             ],
             'order_note' => $orderData['order_note'] ?? 'Order #' . $orderData['order_id'],
         ];

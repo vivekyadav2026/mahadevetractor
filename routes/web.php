@@ -44,17 +44,17 @@ Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remov
 Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 
-// Checkout Routes (require login)
+// Checkout & Payment Routes (Supports both Guests & Logged-in Customers)
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/stripe-callback', [CheckoutController::class, 'handleStripeCallback'])->name('checkout.stripe.callback');
+Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelStripePayment'])->name('checkout.stripe.cancel');
+Route::get('/checkout/cashfree-callback', [CheckoutController::class, 'handleCashfreeCallback'])->name('checkout.cashfree.callback');
+Route::get('/checkout/cashfree-cancel', [CheckoutController::class, 'cancelCashfreePayment'])->name('checkout.cashfree.cancel');
+Route::get('/order-success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
+
+// Customer Orders & Returns (Requires Login)
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-    Route::get('/checkout/stripe-callback', [CheckoutController::class, 'handleStripeCallback'])->name('checkout.stripe.callback');
-    Route::get('/checkout/cancel-payment', [CheckoutController::class, 'cancelStripePayment'])->name('checkout.stripe.cancel');
-    Route::get('/checkout/cashfree-callback', [CheckoutController::class, 'handleCashfreeCallback'])->name('checkout.cashfree.callback');
-    Route::get('/checkout/cashfree-cancel', [CheckoutController::class, 'cancelCashfreePayment'])->name('checkout.cashfree.cancel');
-    Route::get('/order-success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
-    
-    // Customer Orders & Returns
     Route::get('/orders', [CustomerOrderController::class, 'index'])->name('orders.index');
     Route::post('/orders/{order}/return', [CustomerOrderController::class, 'requestReturn'])->name('orders.return');
     Route::post('/orders/{order}/cancel', [CustomerOrderController::class, 'cancelOrder'])->name('orders.cancel');
