@@ -118,6 +118,7 @@ class ShiprocketService
             'payment_method'        => $paymentMethod,
             'sub_total'             => (float) $order->total_amount,
             'length'                => max(10, $maxLength),
+            'breadth'               => max(10, $maxWidth),
             'width'                 => max(10, $maxWidth),
             'height'                => max(5, $maxHeight),
             'weight'                => max(0.2, round($totalWeight, 3)),
@@ -344,9 +345,12 @@ class ShiprocketService
                 'cod'               => $isCod ? 1 : 0,
             ];
 
-            if ($length > 0) $queryParams['length'] = max(1, $length);
-            if ($width > 0)  $queryParams['width']  = max(1, $width);
-            if ($height > 0) $queryParams['height'] = max(1, $height);
+            if ($length > 0) $queryParams['length']  = max(1, $length);
+            if ($width > 0) {
+                $queryParams['breadth'] = max(1, $width);
+                $queryParams['width']   = max(1, $width);
+            }
+            if ($height > 0) $queryParams['height']  = max(1, $height);
 
             $response = Http::withToken($token)->get("{$this->baseUrl}/courier/serviceability/", $queryParams);
 
