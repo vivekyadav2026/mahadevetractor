@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Shop Online - Mahadev Tractor Modification & Accessories</title>
 <meta name="description" content="Shop the finest selection of tractor accessories, fiber hoods, headlights, custom horns, steering wheels, and modification parts at Mahadev Tractor Modification. Fast shipping across India.">
 <meta name="keywords" content="tractor accessories, modification parts, fiber hoods, custom horns, steering accessories, Mahadev Tractor Modification">

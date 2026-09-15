@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>{{ $product->name }} | Mahadev Tractor</title>
 <meta name="description" content="{{ $product->short_description ?? \Illuminate\Support\Str::limit(strip_tags($product->description), 150) }}">
 <meta name="keywords" content="{{ $product->category->name ?? 'grocery' }}, {{ $product->name }}, buy {{ $product->name }} online, Mahadev Tractor">
@@ -220,19 +221,10 @@
                 <li class="mb-2"><strong class="text-dark">Case Weight:</strong> {{ $weightGrams }}g ({{ number_format($product->weight, 3) }} kg)</li>
               @endif
               @if($product->length && $product->width && $product->height)
-                <li class="mb-2"><strong class="text-dark">Dimensions (LÃ—WÃ—H):</strong> {{ $product->length }} cm Ã— {{ $product->width }} cm Ã— {{ $product->height }} cm</li>
+                <li class="mb-2"><strong class="text-dark">Dimensions (L × W × H):</strong> {{ $product->length }} cm × {{ $product->width }} cm × {{ $product->height }} cm</li>
               @endif
               <li class="mb-2"><strong class="text-dark">Stock Availability:</strong> {{ $product->quantity > 0 ? 'In Stock (' . $product->quantity . ' units available)' : 'Out of Stock' }}</li>
-              @if($catSlug === 'beverage' || $catSlug === 'water' || $catSlug === 'mexican')
-                <li class="mb-2"><strong class="text-dark">Storage:</strong> Serve chilled. Refrigerate after opening.</li>
-                <li class="mb-2"><strong class="text-dark">Shelf Life:</strong> 12 Months from packing</li>
-              @elseif($catSlug === 'chocolate' || $catSlug === 'candy')
-                <li class="mb-2"><strong class="text-dark">Storage:</strong> Keep in a cool, dry place (16-20Â°C).</li>
-                <li class="mb-2"><strong class="text-dark">Allergens:</strong> May contain traces of dairy, soy, or nuts.</li>
-              @else
-                <li class="mb-2"><strong class="text-dark">Storage:</strong> Store in a cool, dry environment.</li>
-                <li class="mb-2"><strong class="text-dark">Quality:</strong> 100% Quality Assured & Verified</li>
-              @endif
+              <li class="mb-2"><strong class="text-dark">Quality:</strong> 100% Quality Assured &amp; Verified</li>
             </ul>
           </div>
         </div>
@@ -324,7 +316,7 @@
       </button>
     @else
       <button class="btn w-100" style="height:42px;font-size:0.85rem;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;font-weight:700;border-radius:10px;cursor:not-allowed;" disabled>
-        <i class="bi bi-x-circle me-1"></i> Out of Stock â€” Check back soon
+        <i class="bi bi-x-circle me-1"></i> Out of Stock — Check back soon
       </button>
     @endif
   </div>
@@ -335,7 +327,7 @@
 <script>
   window.pl_csrf = '{{ csrf_token() }}';
 </script>
-<script src="{{ asset('js/script.js?v=10') }}"></script>
+<script src="{{ asset('js/script.js?v=' . filemtime(public_path('js/script.js'))) }}"></script>
 <script>
   // Sync both steppers together
   document.addEventListener('DOMContentLoaded', function() {

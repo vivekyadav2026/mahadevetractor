@@ -19,6 +19,7 @@ class CartController extends Controller
     {
         $productId = $request->input('product_id');
         $quantity = (int) $request->input('quantity', 1);
+        $isBuyNow = (bool) $request->input('is_buy_now', false);
 
         if ($quantity <= 0) {
             return response()->json(['success' => false, 'message' => 'Quantity must be at least 1.'], 400);
@@ -40,6 +41,33 @@ class CartController extends Controller
             ], 400);
         }
 
+        $price = $product->sale_price ?? $product->price;
+        $image = $product->primary_image_url;
+
+        // --- BUY NOW FLOW: Set exact quantity and redirect instantly ---
+        if ($isBuyNow) {
+            $finalQty = max(1, min($quantity, $product->quantity));
+            $cart[$productId] = [
+                'name' => $product->name,
+                'quantity' => $finalQty,
+                'price' => $price,
+                'image' => $image,
+                'slug' => $product->slug
+            ];
+
+            session()->put('cart', $cart);
+            $totalCount = array_sum(array_column($cart, 'quantity'));
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Proceeding to checkout...',
+                'cart_count' => $totalCount,
+                'redirect_url' => url('/cart'),
+                'cart' => $cart
+            ]);
+        }
+
+        // --- REGULAR ADD TO CART FLOW ---
         $currentQty = isset($cart[$productId]) ? $cart[$productId]['quantity'] : 0;
         $newQty = $currentQty + $quantity;
 
@@ -56,11 +84,6 @@ class CartController extends Controller
                 'message' => 'Cannot add ' . $quantity . ' items. Only ' . $available . ' more unit(s) available in stock.'
             ], 400);
         }
-
-        // Prepare image
-        $image = $product->primary_image_url;
-
-        $price = $product->sale_price ?? $product->price;
 
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity'] += $quantity;

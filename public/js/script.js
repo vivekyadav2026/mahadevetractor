@@ -17,13 +17,18 @@ const PL = {
     });
   },
 
+  getCsrfToken() {
+    return window.pl_csrf || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+  },
+
   async toggleWishlist(id) {
     try {
       const res = await fetch('/wishlist/toggle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': window.pl_csrf
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': this.getCsrfToken()
         },
         body: JSON.stringify({ product_id: id })
       });
@@ -70,17 +75,20 @@ const PL = {
       // Always read current qty from DOM if on product page
       var detailQty = document.getElementById('pl-detail-qty');
       var stickyQty = document.getElementById('pl-sticky-qty');
-      if (detailQty || stickyQty) {
-        qty = parseInt((detailQty || stickyQty).textContent, 10) || 1;
-      } else if (!qty || qty < 1) {
-        qty = 1;
+      if (!qty || qty < 1) {
+        if (detailQty || stickyQty) {
+          qty = parseInt((detailQty || stickyQty).textContent, 10) || 1;
+        } else {
+          qty = 1;
+        }
       }
 
       const res = await fetch('/cart/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': window.pl_csrf
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': this.getCsrfToken()
         },
         body: JSON.stringify({ product_id: id, quantity: qty })
       });
@@ -89,7 +97,7 @@ const PL = {
         this.updateCartBadges(data.cart_count);
         this.showToast(`<i class="bi bi-cart-check-fill me-2" style="color: #2ec4b6; font-size: 1.05rem; vertical-align: middle;"></i> ${data.message}`);
       } else {
-        this.showToast(data.message);
+        this.showToast(data.message || 'Failed to add to cart.');
       }
     } catch(e) {
       console.error(e);
@@ -97,30 +105,42 @@ const PL = {
     }
   },
 
-  async buyNow(id) {
+  async buyNow(id, qty) {
     try {
-      // Always read current qty from DOM
-      var detailQty = document.getElementById('pl-detail-qty');
-      var stickyQty = document.getElementById('pl-sticky-qty');
-      var qty = parseInt((detailQty || stickyQty || {textContent: '1'}).textContent, 10) || 1;
+      if (!qty || qty < 1) {
+        var detailQty = document.getElementById('pl-detail-qty');
+        var stickyQty = document.getElementById('pl-sticky-qty');
+        if (detailQty || stickyQty) {
+          qty = parseInt((detailQty || stickyQty).textContent, 10) || 1;
+        } else {
+          qty = 1;
+        }
+      }
 
       const res = await fetch('/cart/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': window.pl_csrf
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': this.getCsrfToken()
         },
-        body: JSON.stringify({ product_id: id, quantity: qty })
+        body: JSON.stringify({ product_id: id, quantity: qty, is_buy_now: true })
       });
       const data = await res.json();
-      if (data.success) {
-        window.location.href = '/cart';
+      if (data.success || data.redirect_url) {
+        window.location.href = data.redirect_url || '/cart';
       } else {
-        this.showToast(data.message);
+        if (data.message && data.message.toLowerCase().includes('stock')) {
+          window.location.href = '/cart';
+        } else {
+          this.showToast(data.message || 'Processing...');
+          setTimeout(() => { window.location.href = '/cart'; }, 600);
+        }
       }
     } catch(e) {
       console.error(e);
-      this.showToast("Failed to process. Try again.");
+      // Fallback redirect to cart
+      window.location.href = '/cart';
     }
   },
 

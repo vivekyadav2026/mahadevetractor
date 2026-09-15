@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Mahadev Tractor Modification & Accessories</title>
 <meta name="description" content="India's most trusted vehicle accessories store. Buy fiber hoods, music systems, and tractor accessories.">
 <link rel="icon" href="{{ asset('images/mahadev_logo.jpg') }}">
